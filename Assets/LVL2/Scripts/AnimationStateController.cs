@@ -15,7 +15,6 @@ public class AnimationStateController : MonoBehaviour
 
     void Start()
     {
-        //This gets the Animator, which should be attached to the GameObject you are intending to animate.
         animator = gameObject.GetComponent<Animator>();
 
         inputs = gameObject.GetComponent <StarterAssetsInputs>();
