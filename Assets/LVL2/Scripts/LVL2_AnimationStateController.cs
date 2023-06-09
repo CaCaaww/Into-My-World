@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class AnimationStateController : MonoBehaviour
+public class LVL2_AnimationStateController : MonoBehaviour
 {
     
 

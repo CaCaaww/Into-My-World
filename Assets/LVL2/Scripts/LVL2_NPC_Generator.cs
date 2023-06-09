@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class NPC_Generator : MonoBehaviour
+public class LVL2_NPC_Generator : MonoBehaviour
 {
     public GameObject npcPrefab; // Prefab of the NPC
     public int npcCount = 10; // Number of NPCs to generate

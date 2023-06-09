@@ -4,7 +4,7 @@ using UnityEngine;
 using DG.Tweening;
 
 
-public class DoorBehavior : MonoBehaviour{
+public class LVL2_DoorBehavior : MonoBehaviour{
 
     // Adjustable numbers to change how the door is interacted with
     public float doorOpenAngle = 90f;
