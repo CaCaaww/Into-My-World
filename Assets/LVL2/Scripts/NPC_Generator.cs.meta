@@ -3,7 +3,9 @@ guid: aa959de9b4ca4bc4a86addb19dbe7d43
 MonoImporter:
   externalObjects: {}
   serializedVersion: 2
-  defaultReferences: []
+  defaultReferences:
+  - npcPrefab: {fileID: 100000, guid: 0dae9a74e54f9304fbc832e355b23fd1, type: 3}
+  - spawnArea: {instanceID: 0}
   executionOrder: 0
   icon: {instanceID: 0}
   userData: 
