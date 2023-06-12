@@ -70,7 +70,7 @@ namespace StarterAssets
 #endif
 		private CharacterController _controller;
 		private StarterAssetsInputs _input;
-		private Transform _mainCamera;
+
 
 		private const float _threshold = 0.01f;
 
@@ -88,8 +88,6 @@ namespace StarterAssets
 
 		private void Awake()
 		{
-			// get a reference to our main camera
-			_mainCamera = Camera.main.transform;
 
 		}
 
@@ -110,8 +108,8 @@ namespace StarterAssets
 
 		private void Update()
 		{
-			JumpAndGravity();
-			GroundedCheck();
+            GroundedCheck();
+            JumpAndGravity();
 			Move();
 		}
 
