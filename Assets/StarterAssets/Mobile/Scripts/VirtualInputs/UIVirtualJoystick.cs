@@ -40,9 +40,8 @@ public class UIVirtualJoystick : MonoBehaviour, IPointerDownHandler, IDragHandle
 
     public void OnDrag(PointerEventData eventData)
     {
-
         RectTransformUtility.ScreenPointToLocalPointInRectangle(containerRect, eventData.position, eventData.pressEventCamera, out Vector2 position);
-        
+
         position = ApplySizeDelta(position);
         
         Vector2 clampedPosition = ClampValuesToMagnitude(position);
@@ -70,7 +69,11 @@ public class UIVirtualJoystick : MonoBehaviour, IPointerDownHandler, IDragHandle
 
     private void OutputPointerEventValue(Vector2 pointerPosition)
     {
-        joystickOutputEvent.Invoke(pointerPosition);
+        //so the location of the pointer doesn't scale the size
+        Vector2 ptrPosScaled = pointerPosition;
+        ptrPosScaled.Normalize();
+
+        joystickOutputEvent.Invoke(ptrPosScaled);
     }
 
     private void UpdateHandleRectPosition(Vector2 newPosition)
