@@ -5,7 +5,7 @@ using UnityEngine;
 public class LVL2_NPC_Generator : MonoBehaviour
 {
     public GameObject npcPrefab; // Prefab of the NPC
-    public int npcCount = 10; // Number of NPCs to generate
+    public int npcCount = 10; // Number of NPCs to generate can be changed
 
     private void Start()
     {
@@ -14,11 +14,12 @@ public class LVL2_NPC_Generator : MonoBehaviour
 
     private void GenerateNPCs()
     {
-
+        // Gets the colliders which is the spawn areas.
+        // Set to be box coliders that are above the player for x and z axis
         Collider[] childColliders = GetComponentsInChildren<Collider>();
         for (int i = 0; i < npcCount; i++)
         {
-
+            // Randomly select and place a npc in one of the children collider axis
             int randomArea = Random.Range(0, childColliders.Length);
             Bounds childBound = childColliders[randomArea].bounds;
             Vector3 randomPosition = GetRandomPositionWithinBounds(childBound);
@@ -28,11 +29,15 @@ public class LVL2_NPC_Generator : MonoBehaviour
 
     private Vector3 GetRandomPositionWithinBounds(Bounds bounds)
     {
+        // Position
         Vector3 randomPosition = Vector3.zero;
 
+        // Selecting position. Still goes "out of bounds" which is slightly above and below the max and min
+        // To avoid this issue simply make the box smaller
         randomPosition = new Vector3(
             Random.Range(bounds.min.x, bounds.max.x),
-            10.6f, // Set Y-position to ground level
+            10.6f, // Sets Y-position to ground level which is 10.
+                   // If you wish to change this to ground level then you must drag the entire game to y 0
             Random.Range(bounds.min.z, bounds.max.z)
         );
 
