@@ -33,6 +33,7 @@ public class LVL2_NPC_Wander : MonoBehaviour
 
     void Update()
     {
+        // A little heavy for a mobile game right now change to every 10th a second later
         if (isWandering)
         {
             Vector3 direction = (targetPosition - transform.position).normalized;
