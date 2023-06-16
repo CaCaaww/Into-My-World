@@ -69,11 +69,10 @@ public class UIVirtualJoystick : MonoBehaviour, IPointerDownHandler, IDragHandle
 
     private void OutputPointerEventValue(Vector2 pointerPosition)
     {
-        //so the location of the pointer doesn't scale the size
-        Vector2 ptrPosScaled = pointerPosition;
-        ptrPosScaled.Normalize();
+        /*//so the location of the pointer doesn't scale the size
+        pointerPosition.Normalized();*/
 
-        joystickOutputEvent.Invoke(ptrPosScaled);
+        joystickOutputEvent.Invoke(pointerPosition);
     }
 
     private void UpdateHandleRectPosition(Vector2 newPosition)
