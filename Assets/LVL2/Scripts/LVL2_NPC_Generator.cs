@@ -6,6 +6,7 @@ public class LVL2_NPC_Generator : MonoBehaviour
 {
     public GameObject npcPrefab; // Prefab of the NPC
     public int npcCount = 10; // Number of NPCs to generate can be changed
+    public Transform[] waypoints;
 
     private void Start()
     {
@@ -23,7 +24,18 @@ public class LVL2_NPC_Generator : MonoBehaviour
             int randomArea = Random.Range(0, childColliders.Length);
             Bounds childBound = childColliders[randomArea].bounds;
             Vector3 randomPosition = GetRandomPositionWithinBounds(childBound);
-            Instantiate(npcPrefab, randomPosition, Quaternion.identity);
+            GameObject npc = Instantiate(npcPrefab, randomPosition, Quaternion.identity);
+
+            // Attach NPCController script to the NPC
+            LVL2_NPC_Wander npcController = npc.GetComponent<LVL2_NPC_Wander>();
+            if (npcController == null)
+            {
+                npcController = npc.AddComponent<LVL2_NPC_Wander>();
+            }
+
+            // Assign waypoints to the NPCController
+            npcController.waypoints = waypoints;
+            npcController.currentLocation = randomArea;
         }
     }
 
