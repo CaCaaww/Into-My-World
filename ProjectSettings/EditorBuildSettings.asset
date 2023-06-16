@@ -21,7 +21,7 @@ EditorBuildSettings:
     path: 
     guid: 00000000000000000000000000000000
   - enabled: 0
-    path: Assets/LVL2/Scenes/LVL2 3.unity
+    path: Assets/LVL2/Scenes/LVL2_Test.unity
     guid: d09f09f1d1b432a43b9c0a9adeabf115
   - enabled: 0
     path: 
