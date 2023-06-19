@@ -1,3 +1,4 @@
+using Pinwheel.Jupiter;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -5,21 +6,41 @@ using UnityEngine;
 
 public class LVL2_LightManager : MonoBehaviour
 {
-    [Tooltip("SO for the Global Day Night")]
-    [SerializeField] private LVL2_DayNightSO dayNightSO;
+    [SerializeField]
+    private JDayNightCycle jDayNightCycle;
+
+    private bool day;
+    private bool prevDay;
 
     private GameObject[] LightsDay;
     private GameObject[] LightsNight;
+
+
 
     //get and set up the lights
     //was thinking of using an event system for each light, but instead decided to use an array
     private void Start()
     {
+        if (jDayNightCycle is null)
+        {
+            jDayNightCycle = gameObject.GetComponent<JDayNightCycle>();
+        }
+
        LightsDay = GameObject.FindGameObjectsWithTag("Day");
        LightsNight = GameObject.FindGameObjectsWithTag("Night");
 
+
+        if (jDayNightCycle.Time < 6 || jDayNightCycle.Time > 18)
+        {
+            day = false;
+        }
+        else
+        {
+            day = true;
+        }
+
         //set up the lights depending on the time of day
-        if (dayNightSO.day)
+        if (day)
         {
             for(int i = 0; i < LightsDay.Length; i++)
             {
@@ -45,9 +66,21 @@ public class LVL2_LightManager : MonoBehaviour
         }
     }
 
-    public void OnDayNightSwap()
+    private void Update()
     {
-        if(dayNightSO.day)
+
+        if(jDayNightCycle.Time < 6  || jDayNightCycle.Time > 18)
+        {
+            prevDay = day;
+            day = false;
+        }
+        else
+        {
+            prevDay = day;
+            day = true;      
+        }
+
+        if(day && !prevDay)
         {
             Debug.Log("day");
             for (int i = 0; i < LightsDay.Length; i++)
@@ -60,7 +93,7 @@ public class LVL2_LightManager : MonoBehaviour
                 LightsNight[i].SetActive(false);
             }
         }
-        else if(!dayNightSO.day)
+        else if(!day && prevDay)
         {
             Debug.Log("night");
             for (int i = 0; i < LightsDay.Length; i++)
