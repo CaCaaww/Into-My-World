@@ -12,11 +12,9 @@ public class LVL2_NPC_Wander : MonoBehaviour
     private Transform currentWaypoint;
 
     private bool isMoving = true;
-    private Rigidbody rb;
 
     private void Start()
     {
-        rb = GetComponent<Rigidbody>();
         SetNextWaypoint();
     }
 
@@ -35,8 +33,7 @@ public class LVL2_NPC_Wander : MonoBehaviour
 
         // Move towards the current waypoint
         Vector3 direction = (currentWaypoint.position - transform.position).normalized;
-        direction.y = 0;
-        rb.AddForce(direction * movementSpeed * Time.deltaTime, ForceMode.VelocityChange);
+        transform.position += direction * movementSpeed * Time.deltaTime;
 
         // Rotate towards the current waypoint
         Quaternion targetRotation = Quaternion.LookRotation(direction);
