@@ -5,7 +5,7 @@ using UnityEngine.Rendering;
 
 namespace Pinwheel.Jupiter
 {
-    [ExecuteInEditMode]
+   // [ExecuteInEditMode]
     public class JDayNightCycle : MonoBehaviour
     {
         [SerializeField]
