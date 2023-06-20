@@ -77,6 +77,16 @@ PrefabInstance:
       propertyPath: m_Name
       value: LV2_NPC_CaptainMale
       objectReference: {fileID: 0}
+    - target: {fileID: 3306427101971784742, guid: c91c12456d249ae44a9e39dd61eeaeab,
+        type: 3}
+      propertyPath: m_TagString
+      value: NPC
+      objectReference: {fileID: 0}
+    - target: {fileID: 8091057125101216998, guid: c91c12456d249ae44a9e39dd61eeaeab,
+        type: 3}
+      propertyPath: m_Controller
+      value: 
+      objectReference: {fileID: 9100000, guid: 1b6a47f6f6fa9bb4f9be2deb36fc120c, type: 2}
     - target: {fileID: 8689796124461712763, guid: c91c12456d249ae44a9e39dd61eeaeab,
         type: 3}
       propertyPath: m_IsActive
@@ -132,10 +142,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f59b255e77c24d24bb634f8a4f81a0a1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  movementSpeed: 2
+  movementSpeed: 4
   stoppingDistance: 1
-  detectionDistance: 2
-  avoidanceForce: 5
+  minSeparationDistance: 2
   waypoints:
   - {fileID: 0}
   currentLocation: 0

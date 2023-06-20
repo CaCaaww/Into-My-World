@@ -35,7 +35,6 @@ public class LVL2_NPC_Generator : MonoBehaviour
 
             // Assign waypoints to the NPCController
             npcController.waypoints = waypoints;
-            npcController.currentLocation = randomArea;
         }
     }
 

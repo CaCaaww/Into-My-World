@@ -783,6 +783,7 @@ PlayerSettings:
   webGLPowerPreference: 2
   scriptingDefineSymbols:
     Android: JUPITER
+    Standalone: JUPITER
   additionalCompilerArguments: {}
   platformArchitecture: {}
   scriptingBackend:

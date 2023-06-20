@@ -5,16 +5,20 @@ using UnityEngine;
 public class LVL2_NPC_Wander : MonoBehaviour
 {
     public float movementSpeed = 2f;
-    public float stoppingDistance = 1f; // Distance to stop before the waypoint
+    public float stoppingDistance = 4f; // Distance to stop before the waypoint
+
 
     public Transform[] waypoints;
     public int currentLocation = 0;
     private Transform currentWaypoint;
 
     private bool isMoving = true;
+    Animator animator;
 
     private void Start()
     {
+        animator = gameObject.GetComponent<Animator>();
+        GetStartPoint();
         SetNextWaypoint();
     }
 
@@ -31,12 +35,14 @@ public class LVL2_NPC_Wander : MonoBehaviour
             return;
         }
 
-        // Move towards the current waypoint
-        Vector3 direction = (currentWaypoint.position - transform.position).normalized;
-        transform.position += direction * movementSpeed * Time.deltaTime;
+        Vector3 moveDirection = (currentWaypoint.position - transform.position).normalized;
+        Vector3 desiredVelocity = moveDirection * movementSpeed;
+
+        // Apply movement
+        transform.position += desiredVelocity * Time.deltaTime;
 
         // Rotate towards the current waypoint
-        Quaternion targetRotation = Quaternion.LookRotation(direction);
+        Quaternion targetRotation = Quaternion.LookRotation(moveDirection);
         transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, 5f * Time.deltaTime);
 
         // Check if reached the current waypoint
@@ -45,18 +51,122 @@ public class LVL2_NPC_Wander : MonoBehaviour
             SetNextWaypoint();
         }
     }
+    private void GetStartPoint()
+        {
+            float closestDistance = Vector3.Distance(transform.position, waypoints[0].position);
+            float distance = 0;
+            int closestIndex = 0;
 
+            for (int i = 1; i < waypoints.Length; i++)
+            {
+                distance = Vector3.Distance(transform.position, waypoints[i].position);
+
+                if (distance < closestDistance)
+                {
+                    closestDistance = distance;
+                    closestIndex = i;
+                }
+            }
+
+            currentLocation = closestIndex;
+            currentWaypoint = waypoints[currentLocation];
+        }
     private void SetNextWaypoint()
     {
-        currentLocation = (currentLocation + 1) % waypoints.Length;
+        if (Vector3.Distance(transform.position, waypoints[currentLocation].position) <= 0)
+        {
+            StartCoroutine(StopAtWaypoint());
+        }
+
+        switch (currentLocation)
+        {
+            case 0:
+                int[] numbers = {1,3,6,7};
+                int selectedIndex = Random.Range(0, numbers.Length);
+                currentLocation = numbers[selectedIndex];
+                break;
+
+            case 1:
+                int[] numbers1 = {0,2, 4, 5};
+                int selectedIndex1 = Random.Range(0, numbers1.Length);
+                currentLocation = numbers1[selectedIndex1];
+                break;
+            case 2:
+                int[] numbers2 = {1, 3};
+                int selectedIndex2 = Random.Range(0, numbers2.Length);
+                currentLocation = numbers2[selectedIndex2];
+                break;
+            case 3:
+                int[] numbers3 = {0,3,11};
+                int selectedIndex3 = Random.Range(0, numbers3.Length);
+                currentLocation = numbers3[selectedIndex3];
+                break;
+            case 4:
+                int[] numbers4 = {1,5};
+                int selectedIndex4 = Random.Range(0, numbers4.Length);
+                currentLocation = numbers4[selectedIndex4];
+                break;
+            case 5:
+                int[] numbers5 = {1,4};
+                int selectedIndex5 = Random.Range(0, numbers5.Length);
+                currentLocation = numbers5[selectedIndex5];
+                break;
+            case 6:
+                int[] numbers6 = {0,7,8};
+                int selectedIndex6 = Random.Range(0, numbers6.Length);
+                currentLocation = numbers6[selectedIndex6];
+                break;
+            case 7:
+                int[] numbers7 = {6, 8, 10};
+                int selectedIndex7 = Random.Range(0, numbers7.Length);
+                currentLocation = numbers7[selectedIndex7];
+                break;
+            case 8:
+                int[] numbers8 = {6,9,10};
+                int selectedIndex8 = Random.Range(0, numbers8.Length);
+                currentLocation = numbers8[selectedIndex8];
+                break;
+            case 9:
+                int[] numbers9 = {8,10};
+                int selectedIndex9 = Random.Range(0, numbers9.Length);
+                currentLocation = numbers9[selectedIndex9];
+                break;
+            case 10:
+                int[] numbers10 = {7,9,13};
+                int selectedIndex10 = Random.Range(0, numbers10.Length);
+                currentLocation = numbers10[selectedIndex10];
+                break;
+            case 11:
+                int[] numbers11 = {2,12};
+                int selectedIndex11 = Random.Range(0, numbers11.Length);
+                currentLocation = numbers11[selectedIndex11];
+                break;
+            case 12:
+                int[] numbers12 = {11,13};
+                int selectedIndex12 = Random.Range(0, numbers12.Length);
+                currentLocation = numbers12[selectedIndex12];
+                break;
+            case 13:
+                int[] numbers13 = {10,12};
+                int selectedIndex13 = Random.Range(0, numbers13.Length);
+                currentLocation = numbers13[selectedIndex13];
+                break;
+            default:
+                Debug.LogWarning("No point was found for NPC");
+                break;
+        }
         currentWaypoint = waypoints[currentLocation];
         StartCoroutine(StopAtWaypoint());
     }
 
+    
+
     private IEnumerator StopAtWaypoint()
     {
         isMoving = false;
-        yield return new WaitForSeconds(Random.Range(1f, 3f));
+        animator.SetBool("isMoving", false);
+        yield return new WaitForSeconds(Random.Range(1f, 5f));
         isMoving = true;
+        animator.SetBool("isMoving", true);
     }
 }
