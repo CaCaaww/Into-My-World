@@ -116,8 +116,8 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 80
   m_CollisionDetection: 0
---- !u!136 &-4230104000471098043
-CapsuleCollider:
+--- !u!65 &318430602268688219
+BoxCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -126,10 +126,9 @@ CapsuleCollider:
   m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_Enabled: 1
-  m_Radius: 0.5
-  m_Height: 1
-  m_Direction: 0
-  m_Center: {x: 0, y: 0, z: 0}
+  serializedVersion: 2
+  m_Size: {x: 1, y: 1.8204489, z: 0.3697815}
+  m_Center: {x: 0, y: 0.88817644, z: -0.013496399}
 --- !u!114 &-1052162185258773394
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -142,7 +141,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f59b255e77c24d24bb634f8a4f81a0a1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  movementSpeed: 4
+  movementSpeed: 2
   stoppingDistance: 1
   minSeparationDistance: 2
   waypoints:
