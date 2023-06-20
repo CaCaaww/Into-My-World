@@ -48,7 +48,7 @@ public class LVL2_NPC_Generator : MonoBehaviour
         // To avoid this issue simply make the box smaller
         randomPosition = new Vector3(
             Random.Range(bounds.min.x, bounds.max.x),
-            3.5f, // Sets Y-position to ground level which is -3.5 when game is set to 0
+            -3.5f, // Sets Y-position to ground level which is -3.5 when game is set to 0
                    // If you wish to change this to ground level then you must drag the entire game to y 0
             Random.Range(bounds.min.z, bounds.max.z)
         );
