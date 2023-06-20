@@ -6,7 +6,7 @@ public class LVL2_NPC_Wander : MonoBehaviour
 {
     public float movementSpeed = 2f;
     public float stoppingDistance = 4f; // Distance to stop before the waypoint
-
+    public float minSeparationDistance = 2f; // Minimum separation distance between NPCs
 
     public Transform[] waypoints;
     public int currentLocation = 0;
@@ -37,6 +37,17 @@ public class LVL2_NPC_Wander : MonoBehaviour
 
         Vector3 moveDirection = (currentWaypoint.position - transform.position).normalized;
         Vector3 desiredVelocity = moveDirection * movementSpeed;
+
+        Collider[] nearbyColliders = Physics.OverlapSphere(transform.position, minSeparationDistance);
+        foreach (Collider collider in nearbyColliders)
+        {
+            if (collider.gameObject != gameObject && collider.CompareTag("NPC"))
+            {
+                // Calculate separation direction away from the other NPC
+                Vector3 separationDirection = transform.position - collider.transform.position;
+                desiredVelocity += separationDirection.normalized * (minSeparationDistance - separationDirection.magnitude);
+            }
+        }
 
         // Apply movement
         transform.position += desiredVelocity * Time.deltaTime;
