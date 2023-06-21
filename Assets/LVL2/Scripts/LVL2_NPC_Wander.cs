@@ -20,6 +20,8 @@ public class LVL2_NPC_Wander : MonoBehaviour
         animator = gameObject.GetComponent<Animator>();
         GetStartPoint();
         SetNextWaypoint();
+        Rigidbody rb = GetComponent<Rigidbody>();
+        rb.constraints = RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationZ | RigidbodyConstraints.FreezePositionY;
     }
 
     private void Update()
@@ -41,7 +43,7 @@ public class LVL2_NPC_Wander : MonoBehaviour
         Collider[] nearbyColliders = Physics.OverlapSphere(transform.position, minSeparationDistance);
         foreach (Collider collider in nearbyColliders)
         {
-            if (collider.gameObject != gameObject && collider.CompareTag("NPC"))
+            if (collider.gameObject != gameObject && collider.CompareTag("NPC") || collider.CompareTag("Building"))
             {
                 // Calculate separation direction away from the other NPC
                 Vector3 separationDirection = transform.position - collider.transform.position;
