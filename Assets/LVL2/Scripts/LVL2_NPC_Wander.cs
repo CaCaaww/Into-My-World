@@ -17,10 +17,9 @@ public class LVL2_NPC_Wander : MonoBehaviour
     private bool isMoving = true;
     Animator animator;
 
-    // 
+    // Collision detection
     Vector3 desiredVelocity = Vector3.zero;
     Vector3 moveDirection = Vector3.zero;
-
     bool colliding = false;
     float collisionBuffer = 0f;
 
@@ -34,8 +33,10 @@ public class LVL2_NPC_Wander : MonoBehaviour
         rb.constraints = RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationZ;
     }
 
+    // Collision Detection
     private void OnCollisionEnter(Collision collision)
     {
+        // Use tags to label things the NPC walks around 
         Vector3 separationDirection = Vector3.zero;
         if (collision.gameObject.CompareTag("NPC"))
         {
@@ -91,11 +92,13 @@ public class LVL2_NPC_Wander : MonoBehaviour
     private void Update()
     {
         collisionBuffer += Time.deltaTime;
+        // Reduces call time on update 
         if (!isMoving)
         {
             return;
         }
 
+        // Debug and warning 
         if (waypoints.Length == 0)
         {
             Debug.LogWarning("No waypoints assigned to LVL2_NPC_Wander on " + gameObject.name);
@@ -103,6 +106,7 @@ public class LVL2_NPC_Wander : MonoBehaviour
         }
 
 
+        // Collision Code
         if (!colliding)
         {
             moveDirection = (currentWaypoint.position - transform.position).normalized;
@@ -123,7 +127,7 @@ public class LVL2_NPC_Wander : MonoBehaviour
         Quaternion targetRotation = Quaternion.LookRotation(moveDirection);
         transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, 5f * Time.deltaTime);
 
-        float stoppingDistance = Random.RandomRange(1f, 5f);
+        float stoppingDistance = Random.Range(1, 5);
 
         // Check if reached the current waypoint
         if (Vector3.Distance(transform.position, currentWaypoint.position) < stoppingDistance)
@@ -133,6 +137,7 @@ public class LVL2_NPC_Wander : MonoBehaviour
 
         desiredVelocity = Vector3.zero;
     }
+    // On start to get current location since NPCS are randomly spawned
     private void GetStartPoint()
         {
             float closestDistance = Vector3.Distance(transform.position, waypoints[0].position);
@@ -153,6 +158,8 @@ public class LVL2_NPC_Wander : MonoBehaviour
             currentLocation = closestIndex;
             currentWaypoint = waypoints[currentLocation];
         }
+
+    // Gets next point to go HARDCODED. You will need to make a node map if you want to change the waypoints
     private void SetNextWaypoint()
     {
         if (Vector3.Distance(transform.position, waypoints[currentLocation].position) <= 0)
@@ -242,7 +249,7 @@ public class LVL2_NPC_Wander : MonoBehaviour
     }
 
     
-
+    // Move for animatior
     private IEnumerator StopAtWaypoint()
     {
         isMoving = false;
@@ -252,11 +259,11 @@ public class LVL2_NPC_Wander : MonoBehaviour
         animator.SetBool("isMoving", true);
     }
 
-    public void OnDrawGizmos()
+/*    public void OnDrawGizmos()
     {
         Gizmos.color = Color.yellow;
         Gizmos.DrawRay(transform.position, desiredVelocity);
         Gizmos.color = Color.red;
         Gizmos.DrawRay(transform.position, moveDirection);
-    }
+    }*/
 }
