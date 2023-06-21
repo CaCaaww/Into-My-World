@@ -30,7 +30,7 @@ public class LVL2_NPC_Wander : MonoBehaviour
         GetStartPoint();
         SetNextWaypoint();
         Rigidbody rb = GetComponent<Rigidbody>();
-        rb.constraints = RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationZ | RigidbodyConstraints.FreezePositionY;
+        rb.constraints = RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationZ;
     }
 
     private void OnCollisionEnter(Collision collision)
