@@ -491,6 +491,7 @@ GameObject:
   - component: {fileID: 7615909029787477756}
   - component: {fileID: 6428387471359081322}
   - component: {fileID: 8812480505261888451}
+  - component: {fileID: 3076838404145440003}
   m_Layer: 0
   m_Name: LVL2_NPC_Worker_Male
   m_TagString: NPC
@@ -565,7 +566,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   movementSpeed: 2
-  stoppingDistance: 1
   minSeparationDistance: 2
   waypoints:
   - {fileID: 0}
@@ -584,6 +584,22 @@ CapsuleCollider:
   m_Height: 1.8337972
   m_Direction: 1
   m_Center: {x: 0, y: 0.90423286, z: 0}
+--- !u!114 &3076838404145440003
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2983364571204109554}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f59b255e77c24d24bb634f8a4f81a0a1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  movementSpeed: 2
+  minSeparationDistance: 2
+  waypoints: []
+  currentLocation: 0
 --- !u!1 &3117825292961248096
 GameObject:
   m_ObjectHideFlags: 0

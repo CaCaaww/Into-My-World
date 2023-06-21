@@ -45,49 +45,49 @@ public class LVL2_NPC_Wander : MonoBehaviour
             desiredVelocity += separationDirection.normalized * (minSeparationDistance - separationDirection.magnitude);
             Debug.Log("NPC");
         }
-        if(collision.gameObject.CompareTag("Building"))
-        {
-            colliding = true;
-
-            Vector3 VTo0 = Vector3.zero;
-            float rightDot, forawrdDot;
-
-            VTo0 =  collision.transform.position - transform.position;
-            forawrdDot = Vector3.Dot(VTo0, moveDirection.normalized);
-            if (forawrdDot >= 0)
-            {
-                rightDot = Vector3.Dot(VTo0, transform.right);
+         if(collision.gameObject.CompareTag("Building"))
+         {
+             colliding = true;
+        
+             Vector3 VTo0 = Vector3.zero;
+             float rightDot, forawrdDot;
+        
+             VTo0 =  collision.transform.position - transform.position;
+             forawrdDot = Vector3.Dot(VTo0, moveDirection.normalized);
+             if (forawrdDot >= 0)
+             {
+                 rightDot = Vector3.Dot(VTo0, transform.right);
+                 
+                     if (rightDot < 0)
+                     {
+        
+                         //turn right, scale with forwardDot
+                         if (forawrdDot > 0)
+                             moveDirection = transform.right * movementSpeed * (1f / forawrdDot);
+                             
+                     }
+                     else
+                     {
+                         //turn left
+                         if (forawrdDot > 0)
+                             moveDirection = -transform.right * movementSpeed * (1f / forawrdDot);
+                     }
                 
-                    if (rightDot < 0)
-                    {
-
-                        //turn right, scale with forwardDot
-                        if (forawrdDot > 0)
-                            moveDirection = transform.right * movementSpeed * (1f / forawrdDot);
-                            
-                    }
-                    else
-                    {
-                        //turn left
-                        if (forawrdDot > 0)
-                            moveDirection = -transform.right * movementSpeed * (1f / forawrdDot);
-                    }
-               
-            }
-
-
-         /*   separationDirection = transform.position - collision.transform.position; ;
-            Debug.Log(separationDirection * (minSeparationDistance - separationDirection.magnitude));
-
-            separationDirection += Vector3.right;
-            desiredVelocity += separationDirection.normalized * (minSeparationDistance - separationDirection.magnitude);
-
-            //Quaternion targetRotation = Quaternion.LookRotation(separationDirection);
-           // transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, 5f * Time.deltaTime);
-
-            // Check if reached the current waypoint*/
-            Debug.Log("Building");
-        }
+             }
+        
+        
+          /*   separationDirection = transform.position - collision.transform.position; ;
+             Debug.Log(separationDirection * (minSeparationDistance - separationDirection.magnitude));
+        
+             separationDirection += Vector3.right;
+             desiredVelocity += separationDirection.normalized * (minSeparationDistance - separationDirection.magnitude);
+        
+             //Quaternion targetRotation = Quaternion.LookRotation(separationDirection);
+            // transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, 5f * Time.deltaTime);
+        
+             // Check if reached the current waypoint*/
+             Debug.Log("Building");
+         }
     }
     private void Update()
     {

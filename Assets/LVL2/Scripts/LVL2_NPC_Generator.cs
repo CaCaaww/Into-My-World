@@ -27,10 +27,12 @@ public class LVL2_NPC_Generator : MonoBehaviour
             GameObject npc = Instantiate(npcPrefab, randomPosition, Quaternion.identity);
 
             // Attach NPCController script to the NPC
-            LVL2_NPC_Wander npcController = npc.GetComponent<LVL2_NPC_Wander>();
+            //  LVL2_NPC_Wander npcController = npc.GetComponent<LVL2_NPC_Wander>();
+            LVL2_NPC_WanderNavMesh npcController = npc.GetComponent<LVL2_NPC_WanderNavMesh>();
             if (npcController == null)
             {
-                npcController = npc.AddComponent<LVL2_NPC_Wander>();
+                // npcController = npc.AddComponent<LVL2_NPC_Wander>();
+                npcController = npc.AddComponent<LVL2_NPC_WanderNavMesh>();
             }
 
             // Assign waypoints to the NPCController
