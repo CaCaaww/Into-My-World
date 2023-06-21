@@ -114,7 +114,7 @@ public class LVL2_NPC_Wander : MonoBehaviour
             collisionBuffer = 0;
             colliding = false;
         }
-
+        moveDirection.y = 0;
         desiredVelocity += moveDirection.normalized * movementSpeed;
 
 
