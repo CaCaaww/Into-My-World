@@ -45,8 +45,11 @@ public class LVL2_NPC_Generator : MonoBehaviour
         // Position
         Vector3 randomPosition = Vector3.zero;
 
-        // Selecting position. Still goes "out of bounds" which is slightly above and below the max and min
-        // To avoid this issue simply make the box smaller
+        // Selecting position.
+        // "out of bounds" which is slightly above and below the max and min
+        // To avoid this issue simply make the box smaller.
+        // This is because being on the edge of the bound does not calculate the model size
+  
         randomPosition = new Vector3(
             Random.Range(bounds.min.x, bounds.max.x),
             -3.5f, // Sets Y-position to ground level which is -3.5 when game is set to 0
