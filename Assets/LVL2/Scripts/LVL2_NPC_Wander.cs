@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 public class LVL2_NPC_Wander : MonoBehaviour
 {
@@ -15,6 +16,10 @@ public class LVL2_NPC_Wander : MonoBehaviour
     private bool isMoving = true;
     Animator animator;
 
+    Vector3 desiredVelocity = Vector3.zero;
+    Vector3 moveDirection = Vector3.zero;
+
+
     private void Start()
     {
         animator = gameObject.GetComponent<Animator>();
@@ -26,22 +31,24 @@ public class LVL2_NPC_Wander : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
+        Vector3 separationDirection = Vector3.zero;
         if (collision.gameObject.CompareTag("NPC"))
         {
             // Calculate separation direction away from the other NPC
-
-            Vector3 separationDirection = transform.position - collision.rigidbody.transform.position;
-            Vector3 desiredVelocity = Vector3.zero;
-            desiredVelocity += separationDirection * (minSeparationDistance - separationDirection.magnitude);
-            transform.position += desiredVelocity * Time.deltaTime;
+            separationDirection = transform.position - collision.rigidbody.transform.position;
+            desiredVelocity += separationDirection.normalized * (minSeparationDistance - separationDirection.magnitude);
             Debug.Log("NPC");
         }
         if(collision.gameObject.CompareTag("Building"))
         {
-            Vector3 separationDirection = transform.position - collision.transform.position;
-            Vector3 desiredVelocity = Vector3.zero;
-            desiredVelocity += separationDirection * (minSeparationDistance - separationDirection.magnitude);
-            transform.position += desiredVelocity * Time.deltaTime;
+
+            separationDirection = Quaternion.AngleAxis(90, Vector3.up)  * moveDirection;
+            desiredVelocity += separationDirection.normalized * (minSeparationDistance - separationDirection.magnitude);
+
+            //Quaternion targetRotation = Quaternion.LookRotation(separationDirection);
+           // transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, 5f * Time.deltaTime);
+
+            // Check if reached the current waypoint
             Debug.Log("Building");
         }
     }
@@ -58,8 +65,8 @@ public class LVL2_NPC_Wander : MonoBehaviour
             return;
         }
 
-        Vector3 moveDirection = (currentWaypoint.position - transform.position).normalized;
-        Vector3 desiredVelocity = moveDirection * movementSpeed;
+        moveDirection = (currentWaypoint.position - transform.position).normalized;
+        desiredVelocity += moveDirection * movementSpeed;
 
 
         // Apply movement
@@ -74,6 +81,8 @@ public class LVL2_NPC_Wander : MonoBehaviour
         {
             SetNextWaypoint();
         }
+
+        desiredVelocity = Vector3.zero;
     }
     private void GetStartPoint()
         {
