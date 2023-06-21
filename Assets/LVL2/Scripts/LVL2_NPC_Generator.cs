@@ -6,7 +6,7 @@ public class LVL2_NPC_Generator : MonoBehaviour
 {
     public GameObject npcPrefab; // Prefab of the NPC
     public int npcCount = 10; // Number of NPCs to generate can be changed
-    public Transform[] waypoints;
+    public Transform[] waypoints; // Gotten from the Spawner Object and given to children
 
     private void Start()
     {
