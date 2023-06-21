@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor.ShaderGraph.Internal;
 using UnityEngine;
 using UnityEngine.UIElements;
 
@@ -18,6 +19,9 @@ public class LVL2_NPC_Wander : MonoBehaviour
 
     Vector3 desiredVelocity = Vector3.zero;
     Vector3 moveDirection = Vector3.zero;
+
+    bool colliding = false;
+    float collisionBuffer = 0f;
 
 
     private void Start()
@@ -41,19 +45,51 @@ public class LVL2_NPC_Wander : MonoBehaviour
         }
         if(collision.gameObject.CompareTag("Building"))
         {
+            colliding = true;
 
-            separationDirection = Quaternion.AngleAxis(90, Vector3.up)  * moveDirection;
+            Vector3 VTo0 = Vector3.zero;
+            float rightDot, forawrdDot;
+
+            VTo0 =  collision.transform.position - transform.position;
+            forawrdDot = Vector3.Dot(VTo0, moveDirection.normalized);
+            if (forawrdDot >= 0)
+            {
+                rightDot = Vector3.Dot(VTo0, transform.right);
+                
+                    if (rightDot < 0)
+                    {
+
+                        //turn right, scale with forwardDot
+                        if (forawrdDot > 0)
+                            moveDirection = transform.right * movementSpeed * (1f / forawrdDot);
+                            
+                    }
+                    else
+                    {
+                        //turn left
+                        if (forawrdDot > 0)
+                            moveDirection = -transform.right * movementSpeed * (1f / forawrdDot);
+                    }
+               
+            }
+
+
+         /*   separationDirection = transform.position - collision.transform.position; ;
+            Debug.Log(separationDirection * (minSeparationDistance - separationDirection.magnitude));
+
+            separationDirection += Vector3.right;
             desiredVelocity += separationDirection.normalized * (minSeparationDistance - separationDirection.magnitude);
 
             //Quaternion targetRotation = Quaternion.LookRotation(separationDirection);
            // transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, 5f * Time.deltaTime);
 
-            // Check if reached the current waypoint
+            // Check if reached the current waypoint*/
             Debug.Log("Building");
         }
     }
     private void Update()
     {
+        collisionBuffer += Time.deltaTime;
         if (!isMoving)
         {
             return;
@@ -65,8 +101,18 @@ public class LVL2_NPC_Wander : MonoBehaviour
             return;
         }
 
-        moveDirection = (currentWaypoint.position - transform.position).normalized;
-        desiredVelocity += moveDirection * movementSpeed;
+
+        if (!colliding)
+        {
+            moveDirection = (currentWaypoint.position - transform.position).normalized;
+        }
+        if(collisionBuffer > 3)
+        {
+            collisionBuffer = 0;
+            colliding = false;
+        }
+
+        desiredVelocity += moveDirection.normalized * movementSpeed;
 
 
         // Apply movement
@@ -201,5 +247,13 @@ public class LVL2_NPC_Wander : MonoBehaviour
         yield return new WaitForSeconds(Random.Range(1f, 5f));
         isMoving = true;
         animator.SetBool("isMoving", true);
+    }
+
+    public void OnDrawGizmos()
+    {
+        Gizmos.color = Color.yellow;
+        Gizmos.DrawRay(transform.position, desiredVelocity);
+        Gizmos.color = Color.red;
+        Gizmos.DrawRay(transform.position, moveDirection);
     }
 }
