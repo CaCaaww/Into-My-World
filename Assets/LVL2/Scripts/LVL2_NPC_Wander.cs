@@ -24,6 +24,27 @@ public class LVL2_NPC_Wander : MonoBehaviour
         rb.constraints = RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationZ | RigidbodyConstraints.FreezePositionY;
     }
 
+    private void OnCollisionEnter(Collision collision)
+    {
+        if (collision.gameObject.CompareTag("NPC"))
+        {
+            // Calculate separation direction away from the other NPC
+
+            Vector3 separationDirection = transform.position - collision.rigidbody.transform.position;
+            Vector3 desiredVelocity = Vector3.zero;
+            desiredVelocity += separationDirection * (minSeparationDistance - separationDirection.magnitude);
+            transform.position += desiredVelocity * Time.deltaTime;
+            Debug.Log("NPC");
+        }
+        if(collision.gameObject.CompareTag("Building"))
+        {
+            Vector3 separationDirection = transform.position - collision.transform.position;
+            Vector3 desiredVelocity = Vector3.zero;
+            desiredVelocity += separationDirection * (minSeparationDistance - separationDirection.magnitude);
+            transform.position += desiredVelocity * Time.deltaTime;
+            Debug.Log("Building");
+        }
+    }
     private void Update()
     {
         if (!isMoving)
@@ -40,16 +61,6 @@ public class LVL2_NPC_Wander : MonoBehaviour
         Vector3 moveDirection = (currentWaypoint.position - transform.position).normalized;
         Vector3 desiredVelocity = moveDirection * movementSpeed;
 
-        Collider[] nearbyColliders = Physics.OverlapSphere(transform.position, minSeparationDistance);
-        foreach (Collider collider in nearbyColliders)
-        {
-            if (collider.gameObject != gameObject && collider.CompareTag("NPC") || collider.CompareTag("Building"))
-            {
-                // Calculate separation direction away from the other NPC
-                Vector3 separationDirection = transform.position - collider.transform.position;
-                desiredVelocity += separationDirection.normalized * (minSeparationDistance - separationDirection.magnitude);
-            }
-        }
 
         // Apply movement
         transform.position += desiredVelocity * Time.deltaTime;

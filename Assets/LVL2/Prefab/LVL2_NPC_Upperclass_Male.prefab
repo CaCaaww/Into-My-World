@@ -1334,7 +1334,7 @@ GameObject:
   - component: {fileID: 4602268284841568298}
   m_Layer: 0
   m_Name: LVL2_NPC_Upperclass_Male
-  m_TagString: Untagged
+  m_TagString: NPC
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
