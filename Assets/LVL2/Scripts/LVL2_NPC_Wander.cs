@@ -259,11 +259,11 @@ public class LVL2_NPC_Wander : MonoBehaviour
         animator.SetBool("isMoving", true);
     }
 
-/*    public void OnDrawGizmos()
+    public void OnDrawGizmos()
     {
         Gizmos.color = Color.yellow;
         Gizmos.DrawRay(transform.position, desiredVelocity);
         Gizmos.color = Color.red;
         Gizmos.DrawRay(transform.position, moveDirection);
-    }*/
+    }
 }

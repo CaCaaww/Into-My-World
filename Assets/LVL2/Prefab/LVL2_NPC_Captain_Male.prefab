@@ -779,6 +779,7 @@ GameObject:
   - component: {fileID: -7353647812309856242}
   - component: {fileID: -5223090769639228860}
   - component: {fileID: -8225738913626931856}
+  - component: {fileID: 9070206560119680339}
   m_Layer: 0
   m_Name: LVL2_NPC_Captain_Male
   m_TagString: NPC
@@ -853,7 +854,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   movementSpeed: 2
-  stoppingDistance: 1
   minSeparationDistance: 2
   waypoints:
   - {fileID: 0}
@@ -872,6 +872,28 @@ CapsuleCollider:
   m_Height: 1.8337972
   m_Direction: 1
   m_Center: {x: 0, y: 0.90423286, z: 0}
+--- !u!195 &9070206560119680339
+NavMeshAgent:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4360242050521103254}
+  m_Enabled: 1
+  m_AgentTypeID: 0
+  m_Radius: 0.5
+  m_Speed: 3.5
+  m_Acceleration: 8
+  avoidancePriority: 50
+  m_AngularSpeed: 120
+  m_StoppingDistance: 0
+  m_AutoTraverseOffMeshLink: 1
+  m_AutoBraking: 1
+  m_AutoRepath: 1
+  m_Height: 2
+  m_BaseOffset: 0
+  m_WalkableMask: 4294967295
+  m_ObstacleAvoidanceType: 4
 --- !u!1 &4512895841428720644
 GameObject:
   m_ObjectHideFlags: 0
