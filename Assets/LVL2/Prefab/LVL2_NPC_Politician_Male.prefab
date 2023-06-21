@@ -818,8 +818,8 @@ GameObject:
   - component: {fileID: 4563617088551854322}
   - component: {fileID: 7617017729177156232}
   - component: {fileID: -2542854479459487211}
-  - component: {fileID: 1065881427304714030}
   - component: {fileID: -4511422113659284493}
+  - component: {fileID: -3121153827132654470}
   m_Layer: 0
   m_Name: LVL2_NPC_Politician_Male
   m_TagString: Untagged
@@ -879,21 +879,8 @@ Rigidbody:
   m_UseGravity: 1
   m_IsKinematic: 0
   m_Interpolate: 0
-  m_Constraints: 80
+  m_Constraints: 116
   m_CollisionDetection: 0
---- !u!65 &1065881427304714030
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3755695585407629896}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 1, y: 1.820449, z: 0.5}
-  m_Center: {x: 0, y: 0.8881764, z: 0}
 --- !u!114 &-4511422113659284493
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -912,6 +899,20 @@ MonoBehaviour:
   waypoints:
   - {fileID: 0}
   currentLocation: 0
+--- !u!136 &-3121153827132654470
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3755695585407629896}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  m_Radius: 0.5
+  m_Height: 1.8337972
+  m_Direction: 1
+  m_Center: {x: 0, y: 0.90423286, z: 0}
 --- !u!1 &3908384419736243674
 GameObject:
   m_ObjectHideFlags: 0
