@@ -4,17 +4,20 @@ using UnityEngine.UIElements;
 
 public class LVL2_NPC_Wander : MonoBehaviour
 {
+    // Changable Variables
     public float movementSpeed = 2f;
-    public float stoppingDistance = 4f; // Distance to stop before the waypoint
     public float minSeparationDistance = 2f; // Minimum separation distance between NPCs
 
+    // Gotten from parent and calcuted on start up
     public Transform[] waypoints;
     public int currentLocation = 0;
     private Transform currentWaypoint;
 
+    // Animation
     private bool isMoving = true;
     Animator animator;
 
+    // 
     Vector3 desiredVelocity = Vector3.zero;
     Vector3 moveDirection = Vector3.zero;
 
@@ -119,6 +122,8 @@ public class LVL2_NPC_Wander : MonoBehaviour
         // Rotate towards the current waypoint
         Quaternion targetRotation = Quaternion.LookRotation(moveDirection);
         transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, 5f * Time.deltaTime);
+
+        float stoppingDistance = Random.RandomRange(1f, 5f);
 
         // Check if reached the current waypoint
         if (Vector3.Distance(transform.position, currentWaypoint.position) < stoppingDistance)
