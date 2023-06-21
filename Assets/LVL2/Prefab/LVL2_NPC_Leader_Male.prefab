@@ -1651,8 +1651,8 @@ GameObject:
   - component: {fileID: 9002054470848151494}
   - component: {fileID: 3030240904136041916}
   - component: {fileID: -1124684403946966451}
-  - component: {fileID: -4398297469487619834}
   - component: {fileID: -8874465064151172959}
+  - component: {fileID: -4113657395452567348}
   m_Layer: 0
   m_Name: LVL2_NPC_Leader_Male
   m_TagString: Untagged
@@ -1712,21 +1712,8 @@ Rigidbody:
   m_UseGravity: 1
   m_IsKinematic: 0
   m_Interpolate: 0
-  m_Constraints: 80
+  m_Constraints: 116
   m_CollisionDetection: 0
---- !u!65 &-4398297469487619834
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8621693385099355516}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 1, y: 1.820449, z: 0.5}
-  m_Center: {x: 0, y: 0.8881764, z: 0}
 --- !u!114 &-8874465064151172959
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1745,6 +1732,20 @@ MonoBehaviour:
   waypoints:
   - {fileID: 0}
   currentLocation: 0
+--- !u!136 &-4113657395452567348
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8621693385099355516}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  m_Radius: 0.5
+  m_Height: 1.8337972
+  m_Direction: 1
+  m_Center: {x: 0, y: 0.90423286, z: 0}
 --- !u!1 &8756711610232354440
 GameObject:
   m_ObjectHideFlags: 0

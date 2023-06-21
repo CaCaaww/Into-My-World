@@ -43,8 +43,9 @@ GameObject:
   - component: {fileID: 711328353881705582}
   - component: {fileID: 6863214849719375380}
   - component: {fileID: -6257911699772569055}
-  - component: {fileID: -3742328141746054966}
   - component: {fileID: 8274732697975675267}
+  - component: {fileID: 7711195135222077572}
+  - component: {fileID: 7529494815030577435}
   m_Layer: 0
   m_Name: LVL2_NPC_Worker_Female
   m_TagString: Untagged
@@ -104,21 +105,8 @@ Rigidbody:
   m_UseGravity: 1
   m_IsKinematic: 0
   m_Interpolate: 0
-  m_Constraints: 80
+  m_Constraints: 116
   m_CollisionDetection: 0
---- !u!65 &-3742328141746054966
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 186043908142667476}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 1, y: 1.820449, z: 0.5}
-  m_Center: {x: 0, y: 0.8881764, z: 0}
 --- !u!114 &8274732697975675267
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -137,6 +125,34 @@ MonoBehaviour:
   waypoints:
   - {fileID: 0}
   currentLocation: 0
+--- !u!136 &7711195135222077572
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 186043908142667476}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  m_Radius: 0.5
+  m_Height: 1.8337972
+  m_Direction: 1
+  m_Center: {x: 0, y: 0.90423286, z: 0}
+--- !u!136 &7529494815030577435
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 186043908142667476}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  m_Radius: 0.5
+  m_Height: 1.8337972
+  m_Direction: 1
+  m_Center: {x: 0, y: 0.90423286, z: 0}
 --- !u!1 &515068345260997822
 GameObject:
   m_ObjectHideFlags: 0

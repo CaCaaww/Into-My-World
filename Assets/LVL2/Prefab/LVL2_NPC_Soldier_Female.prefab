@@ -1713,8 +1713,8 @@ GameObject:
   - component: {fileID: 8600910913133336815}
   - component: {fileID: 2431027026995053205}
   - component: {fileID: -9070834326215780736}
-  - component: {fileID: -5973074197164947521}
   - component: {fileID: 2762971089752209911}
+  - component: {fileID: 2289586787704107695}
   m_Layer: 0
   m_Name: LVL2_NPC_Soldier_Female
   m_TagString: Untagged
@@ -1774,21 +1774,8 @@ Rigidbody:
   m_UseGravity: 1
   m_IsKinematic: 0
   m_Interpolate: 0
-  m_Constraints: 80
+  m_Constraints: 116
   m_CollisionDetection: 0
---- !u!65 &-5973074197164947521
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8941688476947415637}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 1, y: 1.820449, z: 0.5}
-  m_Center: {x: 0, y: 0.8881764, z: 0}
 --- !u!114 &2762971089752209911
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1807,6 +1794,20 @@ MonoBehaviour:
   waypoints:
   - {fileID: 0}
   currentLocation: 0
+--- !u!136 &2289586787704107695
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8941688476947415637}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  m_Radius: 0.5
+  m_Height: 1.8337972
+  m_Direction: 1
+  m_Center: {x: 0, y: 0.90423286, z: 0}
 --- !u!1 &9094163597597226439
 GameObject:
   m_ObjectHideFlags: 0
