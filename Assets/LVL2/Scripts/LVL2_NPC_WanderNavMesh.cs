@@ -7,7 +7,7 @@ using UnityEngine.UIElements;
 public class LVL2_NPC_WanderNavMesh : MonoBehaviour
 {
 
-
+    //serialized fields
     [SerializeField]
     private float collisionScalerFront = 1f;
     [SerializeField]
@@ -15,13 +15,17 @@ public class LVL2_NPC_WanderNavMesh : MonoBehaviour
     [SerializeField]
     private float collisionScalerRight = 1f;
 
+    //time for updating collisions
     float time = 0;
-
-    private NavMeshAgent agent;
-    private Rigidbody rigidBody;
-
     public float updateSpeed = 0f;
-    
+
+    //navmesh agent, and hits
+    private NavMeshAgent agent;
+    private NavMeshHit hitFront;
+    private NavMeshHit hitLeft;
+    private NavMeshHit hitRight;
+
+
 
 
     // Gotten from parent and calcuted on start up
@@ -29,6 +33,8 @@ public class LVL2_NPC_WanderNavMesh : MonoBehaviour
     public int currentLocation = 0;
     public Transform currentWaypoint;
 
+    //prevPos to stop player
+    Vector3 prevPos;
 
     // Animation
     Animator animator;
@@ -38,29 +44,26 @@ public class LVL2_NPC_WanderNavMesh : MonoBehaviour
     bool blockedRight;
     bool blockedLeft;
 
-    //transforms so they won't get reinitialized
+    //transforms so they won't get reinitialized every frame, same with additional vectors
     Vector3 transformForward;
     Vector3 transformRight;
     Vector3 transformLeft;
     Vector3 targetVector;
-
-    private NavMeshHit hitFront;
-    private NavMeshHit hitLeft;
-    private NavMeshHit hitRight;
+    Vector3 VTo0 = Vector3.zero;
+    float rightDot, forawrdDot;
 
 
     private void Awake()
     {
         agent = GetComponent<NavMeshAgent>();
     }
-    Vector3 prevPos;
+
     private void Start()
     {
         animator = gameObject.GetComponent<Animator>();
         GetStartPoint();
         SetNextWaypoint();
         agent.SetDestination(currentWaypoint.position);
-        rigidBody = GetComponent<Rigidbody>();
         prevPos = transform.position;
     }
 
@@ -72,42 +75,47 @@ public class LVL2_NPC_WanderNavMesh : MonoBehaviour
 
             time += Time.deltaTime;
 
-        // Debug and warning 
-        if (waypoints.Length == 0)
-        {
-            Debug.LogWarning("No waypoints assigned to LVL2_NPC_Wander on " + gameObject.name);
-            return;
-        }
+            // Debug and warning 
+            if (waypoints.Length == 0)
+            {
+                Debug.LogWarning("No waypoints assigned to LVL2_NPC_Wander on " + gameObject.name);
+                return;
+            }
+            
+            //if the npc hasn't moved, cancel the walking animation
+            if(Vector3.Distance(transform.position, prevPos) < 1 * Time.deltaTime)
+            {
+                animator.SetBool("isMoving", false);
+            }
+            else animator.SetBool("isMoving", true);
 
-        if(Vector3.Distance(transform.position, prevPos) < 1 * Time.deltaTime)
-        {
-            animator.SetBool("isMoving", false);
-        }
-        else animator.SetBool("isMoving", true);
-        prevPos = transform.position;
-
-        if (time > updateSpeed)
-         {
+            prevPos = transform.position;
+            
+            //check collisions and reupdate direction every update speed seconds
+            if (time > updateSpeed)
+            {
 
               time = 0;
-              transformForward = transform.position + transform.forward * collisionScalerFront;
+
+              //raycast points, can be scaled to detect collisions farther out
+              transformForward = transform.position + transform.forward * collisionScalerFront; 
               transformRight = transform.position + transform.right * collisionScalerRight;
               transformLeft = transform.position + -transform.right * collisionScalerLeft;
 
 
              targetVector = Vector3.zero;
 
+             //raycast in the forward direction
              blockedForward = NavMesh.Raycast(transform.position, transformForward, out hitFront, NavMesh.AllAreas);
             
-
              Debug.DrawLine(transform.position, transformForward, blockedForward ? Color.red : Color.green);
 
+            //if colliding in front, calculate a way around and add it to the new target vector
             if (blockedForward)
             {
                 Debug.DrawRay(hitFront.position, Vector3.up, Color.red);
 
-                Vector3 VTo0 = Vector3.zero;
-                float rightDot, forawrdDot;
+                VTo0 = Vector3.zero;
 
                 VTo0 = hitFront.position - transform.position;
                 forawrdDot = Vector3.Dot(VTo0, transform.forward);
@@ -117,11 +125,9 @@ public class LVL2_NPC_WanderNavMesh : MonoBehaviour
 
                     if (rightDot < 0)
                     {
-
                         //turn right, scale with forwardDot
                         if (forawrdDot > 0)
                             targetVector += transform.right * (1f / forawrdDot);
-
                     }
                     else
                     {
@@ -133,45 +139,47 @@ public class LVL2_NPC_WanderNavMesh : MonoBehaviour
             }
 
 
-
-                   blockedLeft = NavMesh.Raycast(transform.position, transformLeft, out hitLeft, NavMesh.AllAreas);
+              //raycast left
+             blockedLeft = NavMesh.Raycast(transform.position, transformLeft, out hitLeft, NavMesh.AllAreas);
             
-                   Debug.DrawLine(transform.position, transformLeft, blockedLeft ? Color.red : Color.green);
+             Debug.DrawLine(transform.position, transformLeft, blockedLeft ? Color.red : Color.green);
 
-                   if (blockedLeft)
-                   {
-                      Debug.DrawRay(hitLeft.position, Vector3.up, Color.red);
-                      targetVector += hitLeft.position - transformLeft;
-                   }
+            //if blocked add to the target vector
+            if (blockedLeft)
+            {
+               Debug.DrawRay(hitLeft.position, Vector3.up, Color.red);
+               targetVector += hitLeft.position - transformLeft;
+            }
 
            
 
-
+            //raycast right
             blockedRight = NavMesh.Raycast(transform.position, transformRight, out hitRight, NavMesh.AllAreas);
 
-                   Debug.DrawLine(transform.position, transformRight, blockedRight ? Color.red : Color.green);
+            Debug.DrawLine(transform.position, transformRight, blockedRight ? Color.red : Color.green);
 
-                   if (blockedRight)
-                   {
-                       targetVector += hitRight.position - transformRight;
-                       Debug.DrawRay(hitRight.position, Vector3.up, Color.red);
-                   }
-
-
-                Debug.DrawLine(transform.position, transform.position + targetVector * 5f, Color.black);
-                if ((blockedLeft || blockedForward || blockedRight))
-                {              
-                        agent.SetDestination(transform.position + targetVector.normalized * 5f);                
-                }
-                else 
-                {
-                    agent.SetDestination(currentWaypoint.position);
-                }
+            //if blocked add to the vector
+            if (blockedRight)
+            {
+                targetVector += hitRight.position - transformRight;
+                Debug.DrawRay(hitRight.position, Vector3.up, Color.red);
+            }
 
 
-            
-         }
+            Debug.DrawLine(transform.position, transform.position + targetVector * 5f, Color.black);
+
+            //if blocked, redirect the agent
+            if ((blockedLeft || blockedForward || blockedRight))
+            {              
+                    agent.SetDestination(transform.position + targetVector.normalized * 5f);                
+            }
+            else //otherwise go back to the waypoint
+            {
+                agent.SetDestination(currentWaypoint.position);
+            }   
+        }
         
+
         float stoppingDistance = Random.Range(1, 5);
         // Check if reached the current waypoint
         if (Vector3.Distance(transform.position, currentWaypoint.position) < stoppingDistance)
@@ -182,8 +190,8 @@ public class LVL2_NPC_WanderNavMesh : MonoBehaviour
     }
 
 
-        // On start to get current location since NPCS are randomly spawned
-        private void GetStartPoint()
+    // On start to get current location since NPCS are randomly spawned
+    private void GetStartPoint()
         {
             float closestDistance = Vector3.Distance(transform.position, waypoints[0].position);
             float distance = 0;
