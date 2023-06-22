@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class LVL2_NPC_Generator : MonoBehaviour
 {
-    public GameObject npcPrefab; // Prefab of the NPC
+    public GameObject[] npcPrefabs; // Prefab of the NPC
     public int npcCount = 10; // Number of NPCs to generate can be changed
     public Transform[] waypoints; // Gotten from the Spawner Object and given to children
 
@@ -22,9 +22,10 @@ public class LVL2_NPC_Generator : MonoBehaviour
         {
             // Randomly select and place a npc in one of the children collider axis
             int randomArea = Random.Range(0, childColliders.Length);
+            int randomPrefab = Random.Range(0, npcPrefabs.Length);
             Bounds childBound = childColliders[randomArea].bounds;
             Vector3 randomPosition = GetRandomPositionWithinBounds(childBound);
-            GameObject npc = Instantiate(npcPrefab, randomPosition, Quaternion.identity);
+            GameObject npc = Instantiate(npcPrefabs[randomPrefab], randomPosition, Quaternion.identity);
 
             // Attach NPCController script to the NPC
             //  LVL2_NPC_Wander npcController = npc.GetComponent<LVL2_NPC_Wander>();

@@ -23,6 +23,8 @@ public class LVL2_NPC_Wander : MonoBehaviour
     bool colliding = false;
     float collisionBuffer = 0f;
 
+    public int IdleTimeMax = 10;
+
 
     private void Start()
     {
@@ -254,7 +256,7 @@ public class LVL2_NPC_Wander : MonoBehaviour
     {
         isMoving = false;
         animator.SetBool("isMoving", false);
-        yield return new WaitForSeconds(Random.Range(1f, 5f));
+        yield return new WaitForSeconds(Random.Range(1, IdleTimeMax));
         isMoving = true;
         animator.SetBool("isMoving", true);
     }
