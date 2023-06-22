@@ -155,18 +155,16 @@ public class LVL2_NPC_WanderNavMesh : MonoBehaviour
 
 
                 Debug.DrawLine(transform.position, transform.position + targetVector * 5f, Color.black);
-                if ((blockedLeft || blockedForward || blockedRight) && !blockedUp)
+                if ((blockedLeft || blockedForward || blockedRight))
                 {
                     
                         agent.SetDestination(transform.position + targetVector.normalized * 5f);
-                        blockedUp = true;
-                        timeObstacle = 0;
+
                     
                                     
                 }
-                else if(timeObstacle >= timeAroundObstatcles)
+                else 
                 {
-                    blockedUp = false;
                     agent.SetDestination(currentWaypoint.position);
                 }
 
