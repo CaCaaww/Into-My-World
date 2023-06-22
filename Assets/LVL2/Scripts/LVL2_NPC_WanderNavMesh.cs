@@ -18,6 +18,7 @@ public class LVL2_NPC_WanderNavMesh : MonoBehaviour
     float time = 0;
 
     private NavMeshAgent agent;
+    private Rigidbody rigidBody;
 
     public float updateSpeed = 0f;
     public float timeAroundObstatcles = 0f;
@@ -63,15 +64,16 @@ public class LVL2_NPC_WanderNavMesh : MonoBehaviour
         GetStartPoint();
         SetNextWaypoint();
         agent.SetDestination(currentWaypoint.position);
+        rigidBody = GetComponent<Rigidbody>();
     }
 
 
-    
-    private void Update()
+
+
+        private void Update()
     {
 
         time += Time.deltaTime;
-        timeObstacle += Time.deltaTime;
 
         // Debug and warning 
         if (waypoints.Length == 0)
@@ -80,7 +82,11 @@ public class LVL2_NPC_WanderNavMesh : MonoBehaviour
             return;
         }
 
-
+        if(Vector3.Magnitude(rigidBody.velocity) < .1 )
+        {
+            animator.SetBool("isMoving", false);
+        }
+        else animator.SetBool("isMoving", true);
 
 
         if (time > updateSpeed)
@@ -95,6 +101,7 @@ public class LVL2_NPC_WanderNavMesh : MonoBehaviour
              targetVector = Vector3.zero;
 
              blockedForward = NavMesh.Raycast(transform.position, transformForward, out hitFront, NavMesh.AllAreas);
+            
 
              Debug.DrawLine(transform.position, transformForward, blockedForward ? Color.red : Color.green);
 
@@ -131,7 +138,7 @@ public class LVL2_NPC_WanderNavMesh : MonoBehaviour
 
 
                    blockedLeft = NavMesh.Raycast(transform.position, transformLeft, out hitLeft, NavMesh.AllAreas);
-
+            
                    Debug.DrawLine(transform.position, transformLeft, blockedLeft ? Color.red : Color.green);
 
                    if (blockedLeft)
@@ -179,10 +186,6 @@ public class LVL2_NPC_WanderNavMesh : MonoBehaviour
             SetNextWaypoint();
             agent.SetDestination(currentWaypoint.position);
         }
-
-
-
-
     }
 
 
@@ -298,7 +301,7 @@ public class LVL2_NPC_WanderNavMesh : MonoBehaviour
     }
 
     
-    // Move for animatior
+    // Move for animatior, and stops the navAgent from moving
     private IEnumerator StopAtWaypoint()
     {
         agent.isStopped = true;
