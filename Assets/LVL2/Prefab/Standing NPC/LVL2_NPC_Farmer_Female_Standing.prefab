@@ -75,7 +75,6 @@ GameObject:
   - component: {fileID: 6571348385012728591}
   - component: {fileID: 4045939861260754854}
   - component: {fileID: 7206426195420911425}
-  - component: {fileID: 4533253322069797344}
   m_Layer: 0
   m_Name: LVL2_NPC_Farmer_Female_Standing
   m_TagString: NPC
@@ -151,20 +150,6 @@ CapsuleCollider:
   m_Height: 1.8337972
   m_Direction: 1
   m_Center: {x: 0, y: 0.90423286, z: 0}
---- !u!114 &4533253322069797344
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 475660765610165199}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e9d58fbd521735c45aab572e6ff352d6, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  npcPrefab: {fileID: 0}
-  detectionRadius: 3
 --- !u!1 &628705518501122107
 GameObject:
   m_ObjectHideFlags: 0
