@@ -1727,11 +1727,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   movementSpeed: 2
-  stoppingDistance: 1
   minSeparationDistance: 2
   waypoints:
   - {fileID: 0}
   currentLocation: 0
+  IdleTimeMax: 10
 --- !u!136 &-4113657395452567348
 CapsuleCollider:
   m_ObjectHideFlags: 0
