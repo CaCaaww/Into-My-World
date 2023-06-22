@@ -14,31 +14,38 @@ public class LVL2_NPC_WanderNavMesh : MonoBehaviour
     private float collisionScalerLeft = 1f;
     [SerializeField]
     private float collisionScalerRight = 1f;
+
     float time = 0;
 
     private NavMeshAgent agent;
 
-    public float updateSpeed = .1f;
+    public float updateSpeed = 0f;
+    public float timeAroundObstatcles = 0f;
+    private float timeObstacle = 0f;
+    
 
-    public float minSeparationDistance = 2f; // Minimum separation distance between NPCs
 
     // Gotten from parent and calcuted on start up
     public Transform[] waypoints;
     public int currentLocation = 0;
     public Transform currentWaypoint;
 
+
     // Animation
     Animator animator;
+    bool isMoving = false;
 
     //bools for directions
     bool blockedForward;
     bool blockedRight;
     bool blockedLeft;
+    bool blockedUp = false;
 
     //transforms so they won't get reinitialized
     Vector3 transformForward;
     Vector3 transformRight;
     Vector3 transformLeft;
+    Vector3 targetVector;
 
     private NavMeshHit hitFront;
     private NavMeshHit hitLeft;
@@ -56,7 +63,6 @@ public class LVL2_NPC_WanderNavMesh : MonoBehaviour
         GetStartPoint();
         SetNextWaypoint();
         agent.SetDestination(currentWaypoint.position);
-        Rigidbody rb = GetComponent<Rigidbody>();
     }
 
 
@@ -65,6 +71,7 @@ public class LVL2_NPC_WanderNavMesh : MonoBehaviour
     {
 
         time += Time.deltaTime;
+        timeObstacle += Time.deltaTime;
 
         // Debug and warning 
         if (waypoints.Length == 0)
@@ -74,6 +81,97 @@ public class LVL2_NPC_WanderNavMesh : MonoBehaviour
         }
 
 
+
+
+        if (time > updateSpeed)
+         {
+
+              time = 0;
+              transformForward = transform.position + transform.forward * collisionScalerFront;
+              transformRight = transform.position + transform.right * collisionScalerRight;
+              transformLeft = transform.position + -transform.right * collisionScalerLeft;
+
+
+             targetVector = Vector3.zero;
+
+             blockedForward = NavMesh.Raycast(transform.position, transformForward, out hitFront, NavMesh.AllAreas);
+
+             Debug.DrawLine(transform.position, transformForward, blockedForward ? Color.red : Color.green);
+
+            if (blockedForward)
+            {
+                Debug.DrawRay(hitFront.position, Vector3.up, Color.red);
+
+                Vector3 VTo0 = Vector3.zero;
+                float rightDot, forawrdDot;
+
+                VTo0 = hitFront.position - transform.position;
+                forawrdDot = Vector3.Dot(VTo0, transform.forward);
+                if (forawrdDot >= 0)
+                {
+                    rightDot = Vector3.Dot(VTo0, transform.right);
+
+                    if (rightDot < 0)
+                    {
+
+                        //turn right, scale with forwardDot
+                        if (forawrdDot > 0)
+                            targetVector += transform.right * (1f / forawrdDot);
+
+                    }
+                    else
+                    {
+                        //turn left
+                        if (forawrdDot > 0)
+                            targetVector += -transform.right * (1f / forawrdDot);
+                    }
+                }
+            }
+
+
+
+                   blockedLeft = NavMesh.Raycast(transform.position, transformLeft, out hitLeft, NavMesh.AllAreas);
+
+                   Debug.DrawLine(transform.position, transformLeft, blockedLeft ? Color.red : Color.green);
+
+                   if (blockedLeft)
+                   {
+                      Debug.DrawRay(hitLeft.position, Vector3.up, Color.red);
+                      targetVector += hitLeft.position - transformLeft;
+                   }
+
+           
+
+
+            blockedRight = NavMesh.Raycast(transform.position, transformRight, out hitRight, NavMesh.AllAreas);
+
+                   Debug.DrawLine(transform.position, transformRight, blockedRight ? Color.red : Color.green);
+
+                   if (blockedRight)
+                   {
+                       targetVector += hitRight.position - transformRight;
+                       Debug.DrawRay(hitRight.position, Vector3.up, Color.red);
+                   }
+
+
+                Debug.DrawLine(transform.position, transform.position + targetVector * 5f, Color.black);
+                if ((blockedLeft || blockedForward || blockedRight))
+                {
+                    
+                        agent.SetDestination(transform.position + targetVector.normalized * 5f);
+
+                    
+                                    
+                }
+                else 
+                {
+                    agent.SetDestination(currentWaypoint.position);
+                }
+
+
+            
+         }
+        
         float stoppingDistance = Random.Range(1, 5);
         // Check if reached the current waypoint
         if (Vector3.Distance(transform.position, currentWaypoint.position) < stoppingDistance)
@@ -83,66 +181,13 @@ public class LVL2_NPC_WanderNavMesh : MonoBehaviour
         }
 
 
-        if(time > 0)
-        {
-             time = 0;
-             transformForward = transform.position + transform.forward * collisionScalerFront;
-             transformRight = transform.position + transform.right * collisionScalerRight;
-             transformLeft = transform.position + -transform.right * collisionScalerLeft;
 
-            Vector3 targetVector = Vector3.zero;
-
-            blockedForward = NavMesh.Raycast(transform.position, transformForward, out hitFront, NavMesh.AllAreas);
-
-            Debug.DrawLine(transform.position, transformForward, blockedForward ? Color.red : Color.green);
-
-            if (blockedForward)
-            {
-                Debug.DrawRay(hitFront.position, Vector3.up, Color.red);
-                targetVector += hitFront.position - transformForward;
-            }
-                
-
-
-            blockedLeft = NavMesh.Raycast(transform.position, transformLeft, out hitLeft, NavMesh.AllAreas);
-
-            Debug.DrawLine(transform.position, transformLeft, blockedLeft ? Color.red : Color.green);
-
-            if (blockedLeft)
-            {
-                Debug.DrawRay(hitLeft.position, Vector3.up, Color.red);
-                targetVector += hitLeft.position - transformLeft;
-            }
-
-
-            blockedRight = NavMesh.Raycast(transform.position, transformRight, out hitRight, NavMesh.AllAreas);
-
-            Debug.DrawLine(transform.position, transformRight, blockedRight ? Color.red : Color.green);
-
-            if (blockedRight)
-            {
-                targetVector += hitRight.position - transformRight;
-                Debug.DrawRay(hitRight.position, Vector3.up, Color.red);
-            }
-
-
-            Debug.DrawLine(transform.position, transform.position + targetVector);
-            if(blockedLeft || blockedForward || blockedRight)
-            {
-                agent.SetDestination(transform.position + targetVector.normalized * 5f);
-            }
-            else
-                agent.SetDestination(currentWaypoint.position);
-
-
-        }
-        
-
-        
 
     }
-    // On start to get current location since NPCS are randomly spawned
-    private void GetStartPoint()
+
+
+        // On start to get current location since NPCS are randomly spawned
+        private void GetStartPoint()
         {
             float closestDistance = Vector3.Distance(transform.position, waypoints[0].position);
             float distance = 0;
