@@ -818,8 +818,9 @@ GameObject:
   - component: {fileID: 4563617088551854322}
   - component: {fileID: 7617017729177156232}
   - component: {fileID: -2542854479459487211}
-  - component: {fileID: -4511422113659284493}
   - component: {fileID: -3121153827132654470}
+  - component: {fileID: -1040580063728627763}
+  - component: {fileID: -2241290543343098186}
   m_Layer: 0
   m_Name: LVL2_NPC_Politician_Male
   m_TagString: NPC
@@ -881,24 +882,6 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 116
   m_CollisionDetection: 0
---- !u!114 &-4511422113659284493
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3755695585407629896}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f59b255e77c24d24bb634f8a4f81a0a1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  movementSpeed: 2
-  minSeparationDistance: 2
-  waypoints:
-  - {fileID: 0}
-  currentLocation: 0
-  IdleTimeMax: 10
 --- !u!136 &-3121153827132654470
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -913,6 +896,47 @@ CapsuleCollider:
   m_Height: 1.8337972
   m_Direction: 1
   m_Center: {x: 0, y: 0.90423286, z: 0}
+--- !u!195 &-1040580063728627763
+NavMeshAgent:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3755695585407629896}
+  m_Enabled: 1
+  m_AgentTypeID: 0
+  m_Radius: 3
+  m_Speed: 2
+  m_Acceleration: 8
+  avoidancePriority: 50
+  m_AngularSpeed: 120
+  m_StoppingDistance: 4
+  m_AutoTraverseOffMeshLink: 1
+  m_AutoBraking: 1
+  m_AutoRepath: 1
+  m_Height: 2
+  m_BaseOffset: 0
+  m_WalkableMask: 1
+  m_ObstacleAvoidanceType: 0
+--- !u!114 &-2241290543343098186
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3755695585407629896}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 71dd2c0e62311a145b7acceead0a4eb8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  collisionScalerFront: 5
+  collisionScalerLeft: 1
+  collisionScalerRight: 1
+  updateSpeed: 2
+  waypoints: []
+  currentLocation: 0
+  currentWaypoint: {fileID: 0}
 --- !u!1 &3908384419736243674
 GameObject:
   m_ObjectHideFlags: 0
