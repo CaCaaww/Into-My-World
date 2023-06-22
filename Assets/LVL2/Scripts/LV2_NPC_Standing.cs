@@ -46,5 +46,7 @@ public class LV2_NPC_Standing : MonoBehaviour
         waypoint = gameObject.GetComponent<Transform>();
         spawnedNPC = Instantiate(npcPrefab, waypoint.position, waypoint.rotation);
         npcAnimator = spawnedNPC.GetComponent<Animator>();
+        Rigidbody rb = spawnedNPC.GetComponent<Rigidbody>();
+        rb.constraints = RigidbodyConstraints.FreezePositionY | RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationZ;
     }
 }
