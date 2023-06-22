@@ -21,8 +21,6 @@ public class LVL2_NPC_WanderNavMesh : MonoBehaviour
     private Rigidbody rigidBody;
 
     public float updateSpeed = 0f;
-    public float timeAroundObstatcles = 0f;
-    private float timeObstacle = 0f;
     
 
 
@@ -40,7 +38,6 @@ public class LVL2_NPC_WanderNavMesh : MonoBehaviour
     bool blockedForward;
     bool blockedRight;
     bool blockedLeft;
-    bool blockedUp = false;
 
     //transforms so they won't get reinitialized
     Vector3 transformForward;
@@ -57,7 +54,7 @@ public class LVL2_NPC_WanderNavMesh : MonoBehaviour
     {
         agent = GetComponent<NavMeshAgent>();
     }
-
+    Vector3 prevPos;
     private void Start()
     {
         animator = gameObject.GetComponent<Animator>();
@@ -65,13 +62,14 @@ public class LVL2_NPC_WanderNavMesh : MonoBehaviour
         SetNextWaypoint();
         agent.SetDestination(currentWaypoint.position);
         rigidBody = GetComponent<Rigidbody>();
+        prevPos = transform.position;
     }
 
 
 
-
+        
         private void Update()
-    {
+        {
 
         time += Time.deltaTime;
 
@@ -82,12 +80,12 @@ public class LVL2_NPC_WanderNavMesh : MonoBehaviour
             return;
         }
 
-        if(Vector3.Magnitude(rigidBody.velocity) < .1 )
+        if(Vector3.Distance(transform.position, prevPos) < 1 * Time.deltaTime)
         {
             animator.SetBool("isMoving", false);
         }
         else animator.SetBool("isMoving", true);
-
+        prevPos = transform.position;
 
         if (time > updateSpeed)
          {
