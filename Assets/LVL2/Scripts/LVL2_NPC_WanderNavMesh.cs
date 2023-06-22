@@ -32,7 +32,6 @@ public class LVL2_NPC_WanderNavMesh : MonoBehaviour
 
     // Animation
     Animator animator;
-    bool isMoving = false;
 
     //bools for directions
     bool blockedForward;
@@ -71,7 +70,7 @@ public class LVL2_NPC_WanderNavMesh : MonoBehaviour
         private void Update()
         {
 
-        time += Time.deltaTime;
+            time += Time.deltaTime;
 
         // Debug and warning 
         if (waypoints.Length == 0)
@@ -161,12 +160,8 @@ public class LVL2_NPC_WanderNavMesh : MonoBehaviour
 
                 Debug.DrawLine(transform.position, transform.position + targetVector * 5f, Color.black);
                 if ((blockedLeft || blockedForward || blockedRight))
-                {
-                    
-                        agent.SetDestination(transform.position + targetVector.normalized * 5f);
-
-                    
-                                    
+                {              
+                        agent.SetDestination(transform.position + targetVector.normalized * 5f);                
                 }
                 else 
                 {
