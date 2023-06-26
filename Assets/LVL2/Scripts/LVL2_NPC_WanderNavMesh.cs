@@ -83,7 +83,7 @@ public class LVL2_NPC_WanderNavMesh : MonoBehaviour
             }
             
             //if the npc hasn't moved, cancel the walking animation
-            if(Vector3.Distance(transform.position, prevPos) < 1 * Time.deltaTime)
+            if(Vector3.Distance(transform.position, prevPos) < .5 * Time.deltaTime)
             {
                 animator.SetBool("isMoving", false);
             }
