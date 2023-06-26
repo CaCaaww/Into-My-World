@@ -186,7 +186,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 71dd2c0e62311a145b7acceead0a4eb8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  collisionScalarFront: 3
+  collisionScalarFront: 4
   collisionScalarLeft: 1
   collisionScalarRight: 1
   updateSpeed: 2
