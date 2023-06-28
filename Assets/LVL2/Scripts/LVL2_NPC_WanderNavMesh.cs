@@ -184,19 +184,16 @@ public class LVL2_NPC_WanderNavMesh : MonoBehaviour
             //conditionals to override dot product
             if (blockedLeft && blockedForward)
             {
-                Debug.Log("Blah");
                 targetVector = transform.position + transform.right;
                 targetVector += transform.position + -transform.forward; 
             }
             else if (blockedRight && blockedForward)
             {
-                Debug.Log("BlahBlah");
                 targetVector = transform.position - transform.right;
                 targetVector += transform.position - transform.forward;
             }
             else if (blockedLeft && blockedForward && blockedRight)
             {
-                Debug.Log("BlahBlahBlah");
                 targetVector = transform.position - transform.forward;
             }
 
