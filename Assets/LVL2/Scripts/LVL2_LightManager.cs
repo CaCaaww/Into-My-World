@@ -12,7 +12,9 @@ public class LVL2_LightManager : MonoBehaviour
     private bool day;
     private bool prevDay;
 
+    [SerializeField]
     private GameObject[] LightsDay;
+    [SerializeField]
     private GameObject[] LightsNight;
 
 
