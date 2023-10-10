@@ -9,6 +9,7 @@ TagManager:
   - Night
   - NPC
   - Building
+  - PuzzleButton
   layers:
   - Default
   - TransparentFX
