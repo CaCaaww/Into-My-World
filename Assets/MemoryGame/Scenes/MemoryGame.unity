@@ -369,7 +369,7 @@ GameObject:
   - component: {fileID: 498069494}
   - component: {fileID: 498069493}
   m_Layer: 5
-  m_Name: Puzzle Field
+  m_Name: PuzzleField
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -604,7 +604,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1035996300}
-  - component: {fileID: 1035996302}
   - component: {fileID: 1035996301}
   m_Layer: 0
   m_Name: MemoryGame
@@ -641,24 +640,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2285ed5acb283024fb3d7fa02f33336f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  btns: []
-  bgImage: {fileID: 2104175589, guid: 0cd2899363322c346bc2d94ed109eb8a, type: 3}
-  puzzles: []
-  gamePuzzles: []
---- !u!114 &1035996302
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1035996299}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 89cf1b5228837e042a412a6fb7417a88, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
+  cardCover: {fileID: 2104175589, guid: cb3b4ff2b3ddf8742894b43900267995, type: 3}
+  puzzleSprites:
+  - {fileID: 798162721, guid: 0db30bb4edc1a7140abbbe1341ebb5c9, type: 3}
+  - {fileID: 1567148986, guid: 0db30bb4edc1a7140abbbe1341ebb5c9, type: 3}
+  - {fileID: -784816855, guid: 0db30bb4edc1a7140abbbe1341ebb5c9, type: 3}
+  - {fileID: 1635963825, guid: 0db30bb4edc1a7140abbbe1341ebb5c9, type: 3}
+  - {fileID: 1577770639, guid: 0db30bb4edc1a7140abbbe1341ebb5c9, type: 3}
+  - {fileID: -1910168321, guid: 0db30bb4edc1a7140abbbe1341ebb5c9, type: 3}
+  - {fileID: -1392951812, guid: 0db30bb4edc1a7140abbbe1341ebb5c9, type: 3}
+  - {fileID: 1927982243, guid: 0db30bb4edc1a7140abbbe1341ebb5c9, type: 3}
   puzzleField: {fileID: 498069492}
-  btn: {fileID: 1946958850226475946, guid: 1587011ea0356f14cb058d94080d8cde, type: 3}
+  buttonPrefab: {fileID: 1946958850226475946, guid: 1587011ea0356f14cb058d94080d8cde,
+    type: 3}
+  buttons: []
+  gamePuzzles: []
 --- !u!1 &2004428210
 GameObject:
   m_ObjectHideFlags: 0
