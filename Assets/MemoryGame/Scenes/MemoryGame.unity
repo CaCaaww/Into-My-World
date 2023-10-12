@@ -654,7 +654,12 @@ MonoBehaviour:
   buttonPrefab: {fileID: 1946958850226475946, guid: 1587011ea0356f14cb058d94080d8cde,
     type: 3}
   buttons: []
-  gamePuzzles: []
+  relatedSprites: []
+  thumbUpPrefab: {fileID: 1460846584609454709, guid: e7c9595d1ec35474cb827a7bd6eeac58,
+    type: 3}
+  thumbDownPrefab: {fileID: 1180951942622440678, guid: e9320925acbb6194288676a9d4d8fcb5,
+    type: 3}
+  canvas: {fileID: 2004428214}
 --- !u!1 &2004428210
 GameObject:
   m_ObjectHideFlags: 0

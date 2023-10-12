@@ -31,6 +31,15 @@ public class MemoryGameController : MonoBehaviour
     [Tooltip("The relation between sprites and cards")]
     [SerializeField]
     private List<Sprite> relatedSprites = new();
+    [Tooltip("Thumb up")]
+    [SerializeField]
+    private GameObject thumbUpPrefab;
+    [Tooltip("Thumb down")]
+    [SerializeField]
+    private GameObject thumbDownPrefab;
+    [Tooltip("The canvas")]
+    [SerializeField]
+    private Transform canvas;
     #endregion
 
     #region Private Variables
@@ -63,6 +72,7 @@ public class MemoryGameController : MonoBehaviour
     
     private void Start()
     {
+        
         AddButtons();
         AddListeners();
         AddGamePuzzles();
@@ -205,6 +215,14 @@ public class MemoryGameController : MonoBehaviour
             buttons[firstGuessIndex].image.enabled = false;
             buttons[secondGuessIndex].image.enabled = false;
 
+            //ADD THUMBS UP
+            GameObject thumbUp = Instantiate(thumbUpPrefab);
+            thumbUp.transform.SetParent(canvas, false);
+            yield return waitForHalfSecond;
+            yield return waitForHalfSecond;
+            Destroy(thumbUp);
+            
+
             CheckIfTheGameISFinished();
 
         }
@@ -214,6 +232,13 @@ public class MemoryGameController : MonoBehaviour
             yield return waitForHalfSecond;
             buttons[firstGuessIndex].image.sprite = cardCover;
             buttons[secondGuessIndex].image.sprite = cardCover;
+
+            //ADD THUMBS DOWN
+            GameObject thumbDown = Instantiate(thumbDownPrefab);
+            thumbDown.transform.SetParent(canvas, false);
+            yield return waitForHalfSecond;
+            yield return waitForHalfSecond;
+            Destroy(thumbDown);
         }
         yield return waitForHalfSecond;
 
