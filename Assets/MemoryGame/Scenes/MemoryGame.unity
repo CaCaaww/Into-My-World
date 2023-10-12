@@ -640,6 +640,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2285ed5acb283024fb3d7fa02f33336f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  thumbUpPrefab: {fileID: 1460846584609454709, guid: e7c9595d1ec35474cb827a7bd6eeac58,
+    type: 3}
+  thumbDownPrefab: {fileID: 1180951942622440678, guid: e9320925acbb6194288676a9d4d8fcb5,
+    type: 3}
+  GameCopletePrefab: {fileID: 8987640460194968958, guid: 5246ff37b7c783640ba3fc9605f64925,
+    type: 3}
+  buttonPrefab: {fileID: 1946958850226475946, guid: 1587011ea0356f14cb058d94080d8cde,
+    type: 3}
+  canvas: {fileID: 2004428214}
+  puzzleField: {fileID: 498069492}
   cardCover: {fileID: 2104175589, guid: cb3b4ff2b3ddf8742894b43900267995, type: 3}
   puzzleSprites:
   - {fileID: 798162721, guid: 0db30bb4edc1a7140abbbe1341ebb5c9, type: 3}
@@ -650,16 +660,8 @@ MonoBehaviour:
   - {fileID: -1910168321, guid: 0db30bb4edc1a7140abbbe1341ebb5c9, type: 3}
   - {fileID: -1392951812, guid: 0db30bb4edc1a7140abbbe1341ebb5c9, type: 3}
   - {fileID: 1927982243, guid: 0db30bb4edc1a7140abbbe1341ebb5c9, type: 3}
-  puzzleField: {fileID: 498069492}
-  buttonPrefab: {fileID: 1946958850226475946, guid: 1587011ea0356f14cb058d94080d8cde,
-    type: 3}
   buttons: []
   relatedSprites: []
-  thumbUpPrefab: {fileID: 1460846584609454709, guid: e7c9595d1ec35474cb827a7bd6eeac58,
-    type: 3}
-  thumbDownPrefab: {fileID: 1180951942622440678, guid: e9320925acbb6194288676a9d4d8fcb5,
-    type: 3}
-  canvas: {fileID: 2004428214}
 --- !u!1 &2004428210
 GameObject:
   m_ObjectHideFlags: 0

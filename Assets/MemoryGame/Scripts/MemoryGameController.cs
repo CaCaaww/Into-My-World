@@ -13,33 +13,40 @@ public class MemoryGameController : MonoBehaviour
     #region Inspector
     [Header("UI settings")]
 
-    [Tooltip("The back image of the card")]
-    [SerializeField]
-    private Sprite cardCover;
-    [Tooltip("The sprites of the cards")]
-    [SerializeField]
-    private Sprite[] puzzleSprites;
-    [Tooltip("The panel")]
-    [SerializeField]
-    private Transform puzzleField;
-    [Tooltip("The prefab of the button")]
-    [SerializeField]
-    private GameObject buttonPrefab;
-    [Tooltip("The button list")]
-    [SerializeField]
-    private List<Button> buttons = new();
-    [Tooltip("The relation between sprites and cards")]
-    [SerializeField]
-    private List<Sprite> relatedSprites = new();
+    [Header("Prefabs")]
     [Tooltip("Thumb up")]
     [SerializeField]
     private GameObject thumbUpPrefab;
     [Tooltip("Thumb down")]
     [SerializeField]
     private GameObject thumbDownPrefab;
+    [Tooltip("Game Completed Prefab")]
+    [SerializeField]
+    private GameObject GameCopletePrefab;
+    [Tooltip("The prefab of the button")]
+    [SerializeField]
+    private GameObject buttonPrefab;
+
+    [Header("UI References")]
     [Tooltip("The canvas")]
     [SerializeField]
     private Transform canvas;
+    [Tooltip("The panel")]
+    [SerializeField]
+    private Transform puzzleField;
+    [Header("Sprites")]
+    [Tooltip("The back image of the card")]
+    [SerializeField]
+    private Sprite cardCover;
+    [Tooltip("The sprites of the cards")]
+    [SerializeField]
+    private Sprite[] puzzleSprites;
+    [Tooltip("The button list")]
+    [SerializeField]
+    private List<Button> buttons = new();
+    [Tooltip("The relation between sprites and cards")]
+    [SerializeField]
+    private List<Sprite> relatedSprites = new();
     #endregion
 
     #region Private Variables
@@ -62,6 +69,8 @@ public class MemoryGameController : MonoBehaviour
     private string secondGuessPuzzle;
     //wait for half a second
     private WaitForSeconds waitForHalfSecond = new(.5f);
+    //wait for one second
+    private WaitForSeconds waitForOnefSecond = new(1f);
     #endregion
 
     #region Unity Methods
@@ -147,6 +156,8 @@ public class MemoryGameController : MonoBehaviour
 
         if (countCorrectGuesses == gameGuesses)
         {
+            GameObject GameCoplete = Instantiate(GameCopletePrefab);
+            GameCoplete.transform.SetParent(canvas, false);
             Debug.Log("Game Finished!");
             Debug.Log("It took you " + countGuesses + " many guesses to finish the game");
         }
@@ -218,8 +229,7 @@ public class MemoryGameController : MonoBehaviour
             //ADD THUMBS UP
             GameObject thumbUp = Instantiate(thumbUpPrefab);
             thumbUp.transform.SetParent(canvas, false);
-            yield return waitForHalfSecond;
-            yield return waitForHalfSecond;
+            yield return waitForOnefSecond;
             Destroy(thumbUp);
             
 
@@ -236,8 +246,7 @@ public class MemoryGameController : MonoBehaviour
             //ADD THUMBS DOWN
             GameObject thumbDown = Instantiate(thumbDownPrefab);
             thumbDown.transform.SetParent(canvas, false);
-            yield return waitForHalfSecond;
-            yield return waitForHalfSecond;
+            yield return waitForOnefSecond;
             Destroy(thumbDown);
         }
         yield return waitForHalfSecond;
