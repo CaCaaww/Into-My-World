@@ -12,34 +12,46 @@ public class MemoryGameController : MonoBehaviour
     #endregion
     #region Inspector
     [Header("UI settings")]
-    /// <summary>
-    /// the backgroud image
-    /// </summary>
-    [Tooltip("the backgroud image")]
+
+    [Tooltip("The back image of the card")]
     [SerializeField]
     private Sprite cardCover;
+    [Tooltip("The sprites of the cards")]
     [SerializeField]
     private Sprite[] puzzleSprites;
+    [Tooltip("The panel")]
     [SerializeField]
     private Transform puzzleField;
+    [Tooltip("The prefab of the button")]
     [SerializeField]
     private GameObject buttonPrefab;
+    [Tooltip("The button list")]
     [SerializeField]
     private List<Button> buttons = new();
+    [Tooltip("The relation between sprites and cards")]
     [SerializeField]
     private List<Sprite> relatedSprites = new();
     #endregion
 
     #region Private Variables
+    // firstGuess and secondGuess are needed to differentiate between the first and the second pick
     private bool firstGuess;
     private bool secondGuess;
+    // count the total guesses (corrects and incorrects)(the guess is added after 2 picks)
     private int countGuesses;
+    // count the correct guesses
     private int countCorrectGuesses;
+    // number of correct guesses needed to finish the game
     private int gameGuesses;
+    // name parsed to int of the selected game objects for the first pick
     private int firstGuessIndex;
+    // name parsed to int of the selected game objects for the second pick
     private int secondGuessIndex;
+    //the sprite of the first card picked
     private string firstGuessPuzzle;
+    //the sprite of the second card picked
     private string secondGuessPuzzle;
+    //wait for half a second
     private WaitForSeconds waitForHalfSecond = new(.5f);
     #endregion
 
@@ -60,34 +72,47 @@ public class MemoryGameController : MonoBehaviour
     #endregion
 
     #region Helper Methods
+
+    //Populate the panel whit the selected ammount of buttons 
     void AddButtons()
     {
         for (int i = 0; i < numberOfGamePuzzles; i++)
         {
             GameObject button = Instantiate(buttonPrefab);
+            //gives the button a numerical name
             button.name = "" + i;
+            //set the parent off the button
             button.transform.SetParent(puzzleField, false);
             buttons.Add(button.GetComponent<Button>());
+            //add the sprite of the cardCover
             buttons[i].image.sprite = cardCover;
         }
     }
 
+    //Add a sprite to 2 buttons
     void AddGamePuzzles()
     {
+        // Get the number of buttons in the list
         int looper = buttons.Count;
+        // Initialize the index for puzzle sprites
         int index = 0;
 
+        // Loop through all the buttons
         for (int i = 0; i < looper; i++)
         {
+            // Check if the index has reached half of the button count
             if (index == looper / 2)
             {
+                // If so, reset the index to 0 to start over with the first sprite
                 index = 0;
             }
+            // Add the current puzzle sprite to the list of related sprites and increment the index
             relatedSprites.Add(puzzleSprites[index]);
             index++;
         }
     }
 
+    //Add the listeners to the buttons
     void AddListeners()
     {
         foreach (Button btn in buttons)
@@ -95,6 +120,8 @@ public class MemoryGameController : MonoBehaviour
             btn.onClick.AddListener(() => PickAPuzzle());
         }
     }
+
+    //Remove the listeners from the buttons, probably will be called at a different time in the complete level 4
     void RemoveListeners()
     {
         foreach (Button btn in buttons)
@@ -103,6 +130,7 @@ public class MemoryGameController : MonoBehaviour
         }
     }
 
+    // Check if the game is finished checking if the number of guesses is equal to the number of guesses required
     void CheckIfTheGameISFinished()
     {
         countCorrectGuesses++;
@@ -114,6 +142,7 @@ public class MemoryGameController : MonoBehaviour
         }
     }
 
+    // Shuffle the sprites in a random order
     void Shuffle(List<Sprite> list)
     {
         for (int i = 0; i < list.Count; i++)
@@ -127,10 +156,13 @@ public class MemoryGameController : MonoBehaviour
     #endregion
 
     #region Callbacks
+
+    //Make a guess 
     public void PickAPuzzle()
     {
+        //The name of the current selected object
         string name = UnityEngine.EventSystems.EventSystem.current.currentSelectedGameObject.name;
-        //Debug.Log("premuto " + name);
+        //First pick
         if (!firstGuess)
         {
             firstGuess = true;
@@ -139,6 +171,7 @@ public class MemoryGameController : MonoBehaviour
             buttons[firstGuessIndex].image.sprite = relatedSprites[firstGuessIndex];
 
         }
+        //Second pick
         else if (!secondGuess)
         {
             secondGuess = true;
@@ -154,16 +187,21 @@ public class MemoryGameController : MonoBehaviour
     #endregion
 
     #region Coroutines
+
+    //Checks if the two pick match
     IEnumerator CheckIfThePuzzlesMatch()
     {
         yield return waitForHalfSecond;
+        //Checks if the first pick and the second match and that is not the same button pressed twice
         if (firstGuessPuzzle == secondGuessPuzzle && firstGuessIndex != secondGuessIndex)
         {
             yield return waitForHalfSecond;
 
+            //Set both the buttons as not interactable 
             buttons[firstGuessIndex].interactable = false;
             buttons[secondGuessIndex].interactable = false;
 
+            //Disable both images components
             buttons[firstGuessIndex].image.enabled = false;
             buttons[secondGuessIndex].image.enabled = false;
 
@@ -172,6 +210,7 @@ public class MemoryGameController : MonoBehaviour
         }
         else
         {
+            //Cover the cards back
             yield return waitForHalfSecond;
             buttons[firstGuessIndex].image.sprite = cardCover;
             buttons[secondGuessIndex].image.sprite = cardCover;
