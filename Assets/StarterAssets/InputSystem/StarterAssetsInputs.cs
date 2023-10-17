@@ -21,53 +21,32 @@ namespace StarterAssets
 		public bool cursorInputForLook = true;
 
 #if ENABLE_INPUT_SYSTEM
-		public void OnMove(InputAction.CallbackContext value)
+		public void OnMove(InputValue value)
 		{
-			MoveInput(value.ReadValue<Vector2>());
+			MoveInput(value.Get<Vector2>());
 		}
 
-		public void OnLook(InputAction.CallbackContext value)
-
-        {
+		public void OnLook(InputValue value)
+		{
 			if(cursorInputForLook)
 			{
-				LookInput(value.ReadValue<Vector2>());
+				LookInput(value.Get<Vector2>());
 			}
 		}
 
-		public void OnJump(InputAction.CallbackContext value)
+		public void OnJump(InputValue value)
 		{
-			JumpInput(value.action.triggered);
+			JumpInput(value.isPressed);
 		}
 
-		public void OnSprint(InputAction.CallbackContext value)
+		public void OnSprint(InputValue value)
 		{
-			SprintInput(value.action.ReadValue<float>() == 1);
+			SprintInput(value.isPressed);
 		}
-
-       /* public void OnMove(InputValue value)
-        {
-            MoveInput(value.Get<Vector2>());
-        }
-        public void OnLook(InputValue value)
-        {
-            if (cursorInputForLook)
-            {
-                LookInput(value.Get<Vector2>());
-            }
-        }
-        public void OnJump(InputValue value)
-        {
-            JumpInput(value.isPressed);
-        }
-        public void OnSprint(InputValue value)
-        {
-            SprintInput(value.isPressed);
-        }*/
 #endif
 
 
-        public void MoveInput(Vector2 newMoveDirection)
+		public void MoveInput(Vector2 newMoveDirection)
 		{
 			move = newMoveDirection;
 		} 
