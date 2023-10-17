@@ -18,6 +18,7 @@ public class LVL4_PipesGameController : MonoBehaviour
     void Start()
     {
         AddButtons();
+        AddListeners();
     }
 
 
@@ -66,21 +67,77 @@ public class LVL4_PipesGameController : MonoBehaviour
         foreach (LVL4_PipesButtonController button in buttons)
         {
            
-            if (button.Pivot.transform.eulerAngles.z == (int)gamePatternsSO[0].Pattern[i].rotation * 90) 
+            if ((int)button.Pivot.transform.eulerAngles.z != (int)gamePatternsSO[0].Pattern[i].rotation * 90) 
             {
                 //Debug.Log(button);
                 //Debug.Log("ok");
-            }
-            else
-            {
-                Debug.LogError(button);
-                Debug.LogError(button.Pivot.transform.eulerAngles.z);
-                Debug.LogError((int)gamePatternsSO[0].Pattern[i].rotation * 90);
-                Debug.LogError(i);
                 break;
             }
             i++;
+            if (i == 16) 
+            {
+                Debug.Log("Game has finished");
+            }
         }
-        Debug.Log("ok");
+        
+    }
+    void AddListeners()
+    {
+
+        foreach (LVL4_PipesButtonController btn in buttons)
+        {
+            /*
+            if (btn.Button == null) {
+                Debug.Log("button is null");
+            }
+            else
+            {
+                Debug.Log("button exist");
+
+            }*/
+            btn.Button.onClick.AddListener(() => OnClick(btn));
+        }
+    }
+    public void OnClick(LVL4_PipesButtonController buttonController)
+    {
+        switch (buttonController.PipeButtonType)
+        {
+            case EPipeButtonType.Angled:
+                {
+                    if (buttonController.Pivot.transform.eulerAngles.z >= 270)
+                    {
+                        //Debug.Log("if");
+                        //Debug.Log(pivot.transform.eulerAngles.z);
+                        buttonController.Pivot.Rotate(0, 0, -270);
+                        //Debug.Log(pivot.transform.eulerAngles.z);
+                    }
+                    else
+                    {
+                        //Debug.Log("else");
+                        //Debug.Log(pivot.transform.eulerAngles.z);
+                        buttonController.Pivot.Rotate(0, 0, 90);
+                        //Debug.Log(pivot.transform.eulerAngles.z);
+                    }
+                }
+                break;
+            case EPipeButtonType.Straight:
+                {
+                    if (buttonController.Pivot.transform.eulerAngles.z >= 90)
+                    {
+                        buttonController.Pivot.Rotate(0, 0, -buttonController.Pivot.transform.eulerAngles.z);
+                    }
+                    else
+                    {
+                        buttonController.Pivot.Rotate(0, 0, 90);
+                    }
+                }
+                break;
+            default:
+                {
+                    Debug.Log("Case Default");
+                }
+                break;
+        }
+        CheckIfTheGameISFinished();
     }
 }
