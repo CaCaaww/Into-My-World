@@ -925,12 +925,9 @@ MonoBehaviour:
   patternIndex: 0
   gameGrid: {fileID: 279025588}
   buttons: []
-  prefabs:
-  - {fileID: 6994076441954057796, guid: 462b81c25873bdf4b8e0d8e5725d6c1f, type: 3}
-  - {fileID: 5411243942093395396, guid: 686fee704ae705a4ca4c50b94bd06fbc, type: 3}
-  - {fileID: 5810779415621937474, guid: d420d5e34dce4d14aa8743a3fc8aa658, type: 3}
-  - {fileID: 6994076441954057796, guid: ceaa33818c5b6cd4da298317ccd0203b, type: 3}
-  - {fileID: 5810779415621937474, guid: e4b689be5cacb0a46aba48a2d32a2dd8, type: 3}
+  GameCopletePrefab: {fileID: 8987640460194968958, guid: ea4b0c3c4603caf4f801fe1832c8d652,
+    type: 3}
+  canvas: {fileID: 210760384}
 --- !u!4 &882757860
 Transform:
   m_ObjectHideFlags: 0

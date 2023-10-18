@@ -21,9 +21,12 @@ public class LVL4_PipesGameController : MonoBehaviour
     [Tooltip("The buttons")]
     [SerializeField]
     public List<LVL4_PipesButtonController> buttons = new();
-    [Tooltip("The prefabs")]
+    [Tooltip("Game Completed Prefab")]
     [SerializeField]
-    public List<LVL4_PipesButtonController> prefabs;
+    private GameObject GameCopletePrefab;
+    [Tooltip("The canvas")]
+    [SerializeField]
+    private Transform canvas;
     #endregion
 
     #region Unity Methods
@@ -31,6 +34,8 @@ public class LVL4_PipesGameController : MonoBehaviour
     {
         AddButtons();
         AddListeners();
+
+        AddWater();
     }
     #endregion
 
@@ -97,34 +102,26 @@ public class LVL4_PipesGameController : MonoBehaviour
         }
         
     }
-    public void AddWater(LVL4_PipesButtonController buttonController)
+    public void AddWater()
     {
         int i = 0;
         for(int j = 0; j < buttons.Count; j++)
         {
             //Check if the current rotation of the pipe isnt matching the one in the SO pattern
-            if ((int)buttonController.Pivot.transform.eulerAngles.z == (int)gamePatternsSO[patternIndex].Pattern[i].rotation * 90)
+            if ((int)buttons[j].Pivot.transform.eulerAngles.z == (int)gamePatternsSO[patternIndex].Pattern[i].rotation * 90)
             {
                 switch (buttons[j].PipeButtonType)
                 {
                     //Angled pipes have 4 possible rotations
                     case EPipeButtonType.Angled:
                         {
-                            Debug.Log((int)buttonController.Pivot.transform.eulerAngles.z);
-                            Debug.Log((int)gamePatternsSO[patternIndex].Pattern[i].rotation * 90);
-                            buttons[i] = prefabs[3];
+                            buttons[j].SpriteWater();
                         }
                         break;
                     //Staright pipes have 2 possible rotations
                     case EPipeButtonType.Straight:
                         {
-                            buttons[i] = prefabs[2];
-                        }
-                        break;
-                    //The empty button CANT rotate
-                    default:
-                        {
-                            //buttons[i].Pivot.Rotate(0, 0, 0);
+                            buttons[j].SpriteWater();
                         }
                         break;
                 }
@@ -132,10 +129,31 @@ public class LVL4_PipesGameController : MonoBehaviour
             }
             else
             {
+                //Debug.Log("test");
+                for (int k = j; k < buttons.Count; k++)
+                {
+                    switch (buttons[k].PipeButtonType)
+                    {
+                        //Angled pipes have 4 possible rotations
+                        case EPipeButtonType.Angled:
+                            {
+                                buttons[k].SpriteNoWater();
+                            }
+                            break;
+                        //Staright pipes have 2 possible rotations
+                        case EPipeButtonType.Straight:
+                            {
+                                buttons[k].SpriteNoWater();
+                            }
+                            break;
+                    }
+                }
                 break;
             }
             if (i == 16)
             {
+                GameObject GameCoplete = Instantiate(GameCopletePrefab);
+                GameCoplete.transform.SetParent(canvas, false);
                 Debug.Log("Game has finished");
             }
         }
@@ -205,7 +223,7 @@ public class LVL4_PipesGameController : MonoBehaviour
                 break;
         }
         //CheckIfTheGameISFinished();
-        AddWater(buttonController);
+        AddWater();
     }
     #endregion
 }
