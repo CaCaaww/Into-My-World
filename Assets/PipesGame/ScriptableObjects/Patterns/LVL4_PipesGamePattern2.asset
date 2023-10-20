@@ -61,3 +61,25 @@ MonoBehaviour:
   - button: {fileID: 8688393531436021271, guid: d420d5e34dce4d14aa8743a3fc8aa658,
       type: 3}
     rotation: 1
+  winPattern:
+  - button: {fileID: 5276148945404223761, guid: 462b81c25873bdf4b8e0d8e5725d6c1f,
+      type: 3}
+    rotation: 0
+  - button: {fileID: 5276148945404223761, guid: 462b81c25873bdf4b8e0d8e5725d6c1f,
+      type: 3}
+    rotation: 2
+  - button: {fileID: 8688393531436021271, guid: d420d5e34dce4d14aa8743a3fc8aa658,
+      type: 3}
+    rotation: 1
+  - button: {fileID: 5276148945404223761, guid: 462b81c25873bdf4b8e0d8e5725d6c1f,
+      type: 3}
+    rotation: 0
+  - button: {fileID: 8688393531436021271, guid: d420d5e34dce4d14aa8743a3fc8aa658,
+      type: 3}
+    rotation: 0
+  - button: {fileID: 5276148945404223761, guid: 462b81c25873bdf4b8e0d8e5725d6c1f,
+      type: 3}
+    rotation: 2
+  - button: {fileID: 8688393531436021271, guid: d420d5e34dce4d14aa8743a3fc8aa658,
+      type: 3}
+    rotation: 1

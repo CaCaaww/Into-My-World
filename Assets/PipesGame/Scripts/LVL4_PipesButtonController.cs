@@ -39,6 +39,13 @@ public class LVL4_PipesButtonController : MonoBehaviour
     [SerializeField]
     private Image image;
     //private Image sprite;
+    [SerializeField]
+    private bool hasWater;
+
+    public bool HasWater { 
+        get => hasWater;
+    }
+
     #endregion
 
     #region Unity Methods
@@ -53,6 +60,7 @@ public class LVL4_PipesButtonController : MonoBehaviour
         if (pipeButtonType != EPipeButtonType.Empty) 
         {
             image.sprite = spriteWater;
+            hasWater = true;
         }
     }
     public void SpriteNoWater()
@@ -60,6 +68,7 @@ public class LVL4_PipesButtonController : MonoBehaviour
         if (pipeButtonType != EPipeButtonType.Empty)
         {
             image.sprite = spriteNoWater;
+            hasWater = false;
         }
     }
     #endregion
