@@ -29,4 +29,9 @@ public class LVL4_PipesGamePatternSO : ScriptableObject
     {
         get => pattern;
     }
+    [SerializeField]
+    int[] winIndexes;
+     public int[] WinIndexes { 
+        get => winIndexes;
+     }
 }

@@ -921,8 +921,8 @@ MonoBehaviour:
   gamePatternsSO:
   - {fileID: 11400000, guid: 80bbe5478003735458eba1101c6c116f, type: 2}
   - {fileID: 11400000, guid: 95f4e615ac8899d499a128ae11f750ca, type: 2}
-  - {fileID: 11400000, guid: a637818a2ebebd842ae851beb8e1896c, type: 2}
-  patternIndex: 0
+  - {fileID: 11400000, guid: 2f4d43a98f40bdc469192ea32159d6d1, type: 2}
+  patternIndex: 2
   gameGrid: {fileID: 279025588}
   buttons: []
   GameCopletePrefab: {fileID: 8987640460194968958, guid: ea4b0c3c4603caf4f801fe1832c8d652,
