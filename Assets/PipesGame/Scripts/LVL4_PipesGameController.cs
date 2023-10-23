@@ -52,6 +52,7 @@ public class LVL4_PipesGameController : MonoBehaviour
             //button.transform.SetParent(gameGrid, false);
 
             buttons.Add(button.GetComponent<LVL4_PipesButtonController>());
+            button.name += i;
             //buttons[i].Pivot.Rotate(0, 0, 0);
             
             //Add a rando rotation based on the type of pipe
@@ -106,160 +107,77 @@ public class LVL4_PipesGameController : MonoBehaviour
     }
     public void AddWater()
     {
-        int i = 0;
-        for(int j = 0; j < buttons.Count; j++)
+        int correctButtons = 0;
+
+        for (int i = 0; i < buttons.Count; i++)
         {
-            //Debug.Log(buttons[j]);
-            //Debug.Log((int)buttons[j].Pivot.transform.eulerAngles.z);
-            //Debug.Log((int)gamePatternsSO[patternIndex].Pattern[i].rotation * 90);
-            //Check if the current rotation of the pipe isnt matching the one in the SO pattern
-            if (buttons[j].PipeButtonType != EPipeButtonType.Empty)
-            {
-                int winIndex = Array.IndexOf(gamePatternsSO[patternIndex].WinIndexes, j);
-                if (winIndex == 0)
-                {
-                    if ((int)buttons[j].Pivot.transform.eulerAngles.z == (int)gamePatternsSO[patternIndex].Pattern[j].rotation * 90)
-                    {
-                    
-                    }
-                }
+            Debug.Log("i: "+ i);
+            if (buttons[i].PipeButtonType == EPipeButtonType.Empty)
+                continue;
 
-
-
-
-
-
-                if ((int)buttons[j].Pivot.transform.eulerAngles.z == (int)gamePatternsSO[patternIndex].Pattern[j].rotation * 90)
-                {
-                    Debug.Log(j + " winIndex: " + winIndex);
-                    if (winIndex == 0)
-                    {
-                        switch (buttons[j].PipeButtonType)
-                        {
-                            //Angled pipes have 4 possible rotations
-                            case EPipeButtonType.Angled:
-                                {
-                                    buttons[j].SpriteWater();
-                                }
-                                break;
-                            //Staright pipes have 2 possible rotations
-                            case EPipeButtonType.Straight:
-                                {
-                                    buttons[j].SpriteWater();
-                                }
-                                break;
-                        }
-                    }
-                    else if(winIndex > 0)
-                    {
-                        winIndex--;
-                        if (buttons[gamePatternsSO[patternIndex].WinIndexes[winIndex]].HasWater)
-                        {
-                            switch (buttons[j].PipeButtonType)
-                            {
-                                //Angled pipes have 4 possible rotations
-                                case EPipeButtonType.Angled:
-                                    {
-                                        buttons[j].SpriteWater();
-                                    }
-                                    break;
-                                //Staright pipes have 2 possible rotations
-                                case EPipeButtonType.Straight:
-                                    {
-                                        buttons[j].SpriteWater();
-                                    }
-                                    break;
-                            }
-                        }
-                    }
-                    i++;
-                }
-                else
-                {
-                    //Debug.Log("test");
-                    for (int k = j; k < buttons.Count; k++)
-                    {
-                        switch (buttons[k].PipeButtonType)
-                        {
-                            //Angled pipes have 4 possible rotations
-                            case EPipeButtonType.Angled:
-                                {
-                                    buttons[k].SpriteNoWater();
-                                }
-                                break;
-                            //Staright pipes have 2 possible rotations
-                            case EPipeButtonType.Straight:
-                                {
-                                    buttons[k].SpriteNoWater();
-                                }
-                                break;
-                        }
-                    }
-                    break;
-                }
-                if (i == gamePatternsSO[patternIndex].Pattern.Count)
-                {
-                    GameObject GameCoplete = Instantiate(GameCopletePrefab);
-                    GameCoplete.transform.SetParent(canvas, false);
-                    Debug.Log("Game has finished");
-                }
-            }
-        }
-
-    }
-    private void test()
-    {
-        for(int i = 0; i < gamePatternsSO[patternIndex].WinIndexes.Length ; i++)
-        {
-            int currentIndex = gamePatternsSO[patternIndex].WinIndexes[i];
+            int winIndex = Array.IndexOf(gamePatternsSO[patternIndex].WinIndexes, i);
+            Debug.Log("winIndex: " + winIndex);
             if (i == 0)
             {
-                if ((int)buttons[currentIndex].Pivot.transform.eulerAngles.z == (int)gamePatternsSO[patternIndex].Pattern[currentIndex].rotation * 90)
+                if ((int)buttons[i].Pivot.transform.eulerAngles.z == (int)gamePatternsSO[patternIndex].Pattern[i].rotation * 90)
                 {
-                    switch (buttons[currentIndex].PipeButtonType)
+                    switch (buttons[i].PipeButtonType)
                     {
                         //Angled pipes have 4 possible rotations
                         case EPipeButtonType.Angled:
                             {
-                                buttons[currentIndex].SpriteWater();
+                                buttons[i].SpriteWater();
                             }
                             break;
                         //Staright pipes have 2 possible rotations
                         case EPipeButtonType.Straight:
                             {
-                                buttons[currentIndex].SpriteWater();
+                                buttons[i].SpriteWater();
                             }
                             break;
                     }
+                    //correctButtons++;
                 }
+                /*else
+                {
+                    if (correctButtons > 0)
+                    {
+                        correctButtons--;
+                    }
+                }*/
             }
             else if (i > 0)
             {
-                int previousIndex = currentIndex-1;
-                if ((int)buttons[currentIndex].Pivot.transform.eulerAngles.z == (int)gamePatternsSO[patternIndex].Pattern[currentIndex].rotation * 90)
+                int previousWinIndex = winIndex - 1;
+                Debug.Log("previousWinIndex: " + previousWinIndex);
+                Debug.Log("realPreviousWinIndex :" + gamePatternsSO[patternIndex].WinIndexes[previousWinIndex]);
+
+                //Debug.Log("Rotation" + i + ": " + (int)buttons[i].Pivot.transform.eulerAngles.z + " should be equal to " + (int)gamePatternsSO[patternIndex].Pattern[i].rotation * 90);
+                if ((int)buttons[i].Pivot.transform.eulerAngles.z == (int)gamePatternsSO[patternIndex].Pattern[i].rotation * 90)
                 {
-                    if (buttons[gamePatternsSO[patternIndex].WinIndexes[previousIndex]].HasWater)
+                    Debug.Log("HasWater " + buttons[gamePatternsSO[patternIndex].WinIndexes[previousWinIndex]] + ": " + buttons[gamePatternsSO[patternIndex].WinIndexes[previousWinIndex]].HasWater);
+                    if (buttons[gamePatternsSO[patternIndex].WinIndexes[previousWinIndex]].HasWater)
                     {
-                        switch (buttons[currentIndex].PipeButtonType)
+                        switch (buttons[i].PipeButtonType)
                         {
                             //Angled pipes have 4 possible rotations
                             case EPipeButtonType.Angled:
                                 {
-                                    buttons[currentIndex].SpriteWater();
+                                    buttons[i].SpriteWater();
                                 }
                                 break;
                             //Staright pipes have 2 possible rotations
                             case EPipeButtonType.Straight:
                                 {
-                                    buttons[currentIndex].SpriteWater();
+                                    buttons[i].SpriteWater();
                                 }
                                 break;
                         }
                     }
-                    
+
                 }
             }
-            
+
         }
     }
 
