@@ -925,7 +925,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 2f4d43a98f40bdc469192ea32159d6d1, type: 2}
   - {fileID: 11400000, guid: a637818a2ebebd842ae851beb8e1896c, type: 2}
   - {fileID: 11400000, guid: 18176e2c5ae9dd6b7af3819992177479, type: 2}
-  patternIndex: 4
+  patternIndex: 2
   gameGrid: {fileID: 279025588}
   buttons: []
   GameCopletePrefab: {fileID: 8987640460194968958, guid: ea4b0c3c4603caf4f801fe1832c8d652,
