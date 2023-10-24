@@ -61,7 +61,13 @@ public class LVL4_PipesGameController : MonoBehaviour
                 //Angled pipes have 4 possible rotations
                 case EPipeButtonType.Angled:
                     {
+                        //Assign to rotationIndex a random value[0,4) 
                         int rotationIndex = UnityEngine.Random.Range(0, 4);
+                        //Keeps doing it until the generated value it's different from the correct pattern rotation
+                        while (rotationIndex == (int)gamePatternsSO[patternIndex].Pattern[i].rotation)
+                        {
+                            rotationIndex = UnityEngine.Random.Range(0, 4);
+                        }
                         buttons[i].Pivot.Rotate(0, 0, rotationIndex*90f);
                     }
                     break;
