@@ -5,15 +5,17 @@ using UnityEngine.EventSystems;
 
 public class EnemySlot : MonoBehaviour, IDropHandler
 {
+    [SerializeField]
+    private Transform floor;
     public void OnDrop(PointerEventData eventData)
     {
         //Debug.Log("OnDrop");
             if (eventData.pointerDrag != null)
         {
-            eventData.pointerDrag.GetComponent<RectTransform>().anchoredPosition = GetComponent<RectTransform>().anchoredPosition + Vector2.left*500;
+            eventData.pointerDrag.transform.SetParent(floor, false);
+            eventData.pointerDrag.GetComponent<RectTransform>().position = GetComponent<RectTransform>().position + (Vector3.left * 300);
         }
     }
-
     // Start is called before the first frame update
     void Start()
     {
