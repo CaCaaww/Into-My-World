@@ -34,13 +34,18 @@ public class LVL4_PipesGameController : MonoBehaviour
     private Transform canvas;
     #endregion
 
+    #region Private variables
+    int[] winIndexes;
+    #endregion
+
     #region Unity Methods
     void Start()
     {
+        winIndexes = (int[]) gamePatternsSO[patternIndex].WinIndexes.Clone();
+
         AddButtons();
         AddListeners();
-
-        AddWater();
+        CheckRotation(winIndexes);
     }
     #endregion
 
@@ -55,12 +60,11 @@ public class LVL4_PipesGameController : MonoBehaviour
             
             buttons.Add(button.GetComponent<LVL4_PipesButtonController>());
             button.name += i;
-            //buttons[i].Pivot.Rotate(0, 0, 0);
             
-            //Add a rando rotation based on the type of pipe
+            // Add a random rotation based on the type of pipe
             switch (buttons[i].PipeButtonType)
             {
-                //Angled pipes have 4 possible rotations
+                // Angled pipes have 4 possible rotations
                 case EPipeButtonType.Angled:
                     {
                         #if UNITY_EDITOR
@@ -71,9 +75,9 @@ public class LVL4_PipesGameController : MonoBehaviour
                         }
                         #endif
 
-                        //Assign to rotationIndex a random value[0,4) 
+                        // Assign to rotationIndex a random value[0,4) 
                         int rotationIndex = UnityEngine.Random.Range(0, 4);
-                        //Keeps doing it until the generated value it's different from the correct pattern rotation
+                        // Keep doing it until the generated value it's different from the correct pattern rotation
                         while (rotationIndex == (int)gamePatternsSO[patternIndex].Pattern[i].rotation)
                         {
                             rotationIndex = UnityEngine.Random.Range(0, 4);
@@ -81,7 +85,7 @@ public class LVL4_PipesGameController : MonoBehaviour
                         buttons[i].Pivot.Rotate(0, 0, rotationIndex*90f);
                     }
                     break;
-                //Staright pipes have 2 possible rotations
+                // Straight pipes have 2 possible rotations
                 case EPipeButtonType.Straight:
                     {
                         #if UNITY_EDITOR
@@ -93,25 +97,20 @@ public class LVL4_PipesGameController : MonoBehaviour
                         #endif
 
                         int rotationIndex = UnityEngine.Random.Range(0, 2);
-                        buttons[i].Pivot.Rotate(0, 0, rotationIndex * 90f);
+                        buttons[i].Pivot.eulerAngles = Vector3.zero;
                     }
                     break;
-                //The empty button CAN NOT rotate
+                // The empty button CAN NOT rotate
                 default:
                     {
                         buttons[i].Pivot.Rotate(0, 0, 0);
                     }
                     break;
             }
-            
-            //Debug.Log((float)gamePatternsSO[0].Pattern[i].rotation);
-            //Debug.Log(i);
-            //Debug.Break();
-            //buttons[i].Pivot.Rotate(0, 0, 90);
         }
     }
 
-    public void CheckIfTheGameISFinished()
+    public void CheckIfTheGameIsFinished()
     {
         int i = 0;
         foreach (LVL4_PipesButtonController button in buttons)
@@ -129,15 +128,8 @@ public class LVL4_PipesGameController : MonoBehaviour
         }
         
     }
-    public void AddWater()
+    public void CheckRotation(int[] winIndexes)
     {
-        int[] winIndexes = (int[]) gamePatternsSO[patternIndex].WinIndexes.Clone();
-
-        // foreach (var win in winIndexes)
-        // {
-        //     Debug.Log(win);
-        // }
-        
         for (int i = 0; i < winIndexes.Length; i++)
         {
             // Debug.Log("["+ i + "] Current winIndex value: " + winIndexes[i]);
@@ -262,7 +254,6 @@ public class LVL4_PipesGameController : MonoBehaviour
 
     void AddListeners()
     {
-
         foreach (LVL4_PipesButtonController btn in buttons)
         {
             btn.Button.onClick.AddListener(() => OnClick(btn));
@@ -315,7 +306,7 @@ public class LVL4_PipesGameController : MonoBehaviour
         }
 
         //CheckIfTheGameISFinished();
-        AddWater();
+        CheckRotation(winIndexes);
     }
     #endregion
 }
