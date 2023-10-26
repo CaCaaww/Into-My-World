@@ -1,0 +1,64 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8e65bfeab7db4af4283f73d1436d8364, type: 3}
+  m_Name: LVL4_PipesGamePattern5
+  m_EditorClassIdentifier: 
+  pattern:
+  - button: {fileID: 5276148945404223761, guid: 462b81c25873bdf4b8e0d8e5725d6c1f,
+      type: 3}
+    rotation: 0
+  - button: {fileID: 5276148945404223761, guid: 462b81c25873bdf4b8e0d8e5725d6c1f,
+      type: 3}
+    rotation: 1
+  - button: {fileID: 8688393531436021271, guid: d420d5e34dce4d14aa8743a3fc8aa658,
+      type: 3}
+    rotation: 1
+  - button: {fileID: 5276148945404223761, guid: 462b81c25873bdf4b8e0d8e5725d6c1f,
+      type: 3}
+    rotation: 0
+  - button: {fileID: 5276148945404223761, guid: 462b81c25873bdf4b8e0d8e5725d6c1f,
+      type: 3}
+    rotation: 2
+  - button: {fileID: 5276148945404223761, guid: 462b81c25873bdf4b8e0d8e5725d6c1f,
+      type: 3}
+    rotation: 3
+  - button: {fileID: 7147159038704323217, guid: 686fee704ae705a4ca4c50b94bd06fbc,
+      type: 3}
+    rotation: 0
+  - button: {fileID: 8688393531436021271, guid: d420d5e34dce4d14aa8743a3fc8aa658,
+      type: 3}
+    rotation: 0
+  - button: {fileID: 7147159038704323217, guid: 686fee704ae705a4ca4c50b94bd06fbc,
+      type: 3}
+    rotation: 0
+  - button: {fileID: 7147159038704323217, guid: 686fee704ae705a4ca4c50b94bd06fbc,
+      type: 3}
+    rotation: 0
+  - button: {fileID: 5276148945404223761, guid: 462b81c25873bdf4b8e0d8e5725d6c1f,
+      type: 3}
+    rotation: 1
+  - button: {fileID: 5276148945404223761, guid: 462b81c25873bdf4b8e0d8e5725d6c1f,
+      type: 3}
+    rotation: 3
+  - button: {fileID: 7147159038704323217, guid: 686fee704ae705a4ca4c50b94bd06fbc,
+      type: 3}
+    rotation: 0
+  - button: {fileID: 7147159038704323217, guid: 686fee704ae705a4ca4c50b94bd06fbc,
+      type: 3}
+    rotation: 0
+  - button: {fileID: 5276148945404223761, guid: 462b81c25873bdf4b8e0d8e5725d6c1f,
+      type: 3}
+    rotation: 2
+  - button: {fileID: 8688393531436021271, guid: d420d5e34dce4d14aa8743a3fc8aa658,
+      type: 3}
+    rotation: 1
+  winIndexes: 000000000400000005000000010000000200000003000000070000000b0000000a0000000e0000000f000000

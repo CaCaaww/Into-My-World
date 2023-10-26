@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.18028331, g: 0.2257133, b: 0.3069217, a: 1}
+  m_IndirectSpecularColor: {r: 0.18028378, g: 0.22571412, b: 0.30692285, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -918,10 +918,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 21dc91a76e7a3df478df6afe86afbb13, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  enableDebug: 0
   gamePatternsSO:
   - {fileID: 11400000, guid: 80bbe5478003735458eba1101c6c116f, type: 2}
   - {fileID: 11400000, guid: 95f4e615ac8899d499a128ae11f750ca, type: 2}
   - {fileID: 11400000, guid: 2f4d43a98f40bdc469192ea32159d6d1, type: 2}
+  - {fileID: 11400000, guid: a637818a2ebebd842ae851beb8e1896c, type: 2}
+  - {fileID: 11400000, guid: 18176e2c5ae9dd6b7af3819992177479, type: 2}
   patternIndex: 2
   gameGrid: {fileID: 279025588}
   buttons: []
