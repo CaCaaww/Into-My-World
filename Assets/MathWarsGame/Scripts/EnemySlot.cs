@@ -14,6 +14,7 @@ public class EnemySlot : MonoBehaviour, IDropHandler
         {
             eventData.pointerDrag.transform.SetParent(floor, false);
             eventData.pointerDrag.GetComponent<RectTransform>().position = GetComponent<RectTransform>().position + (Vector3.left * 300);
+            //eventData.pointerDrag
         }
     }
     // Start is called before the first frame update
