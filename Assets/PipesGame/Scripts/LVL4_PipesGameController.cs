@@ -36,22 +36,27 @@ public class LVL4_PipesGameController : MonoBehaviour
 
     #region Private variables
     int[] winIndexes;
+    private int winIndexesLength;
+    //private int correctButtons;
     #endregion
 
     #region Unity Methods
     void Start()
     {
         winIndexes = (int[]) gamePatternsSO[patternIndex].WinIndexes.Clone();
+        winIndexesLength = winIndexes.Count();
 
         AddButtons();
         AddListeners();
-        CheckRotation(winIndexes);
+        CheckRotation();
     }
     #endregion
 
     #region Helper Methods
     
-    //Add the buttons to the grid
+    /// <summary>
+    /// Add the buttons to the grid
+    /// </summary>
     void AddButtons()
     {
         for (int i = 0; i < 16; i++)
@@ -109,28 +114,14 @@ public class LVL4_PipesGameController : MonoBehaviour
             }
         }
     }
-
-    public void CheckIfTheGameIsFinished()
+   
+    /// <summary>
+    /// Check the rotation for all the buttons
+    /// </summary>
+    /// <param name="winIndexes">The array that contains all the button indexes for the current winning pattern</param>
+    void CheckRotation()
     {
-        int i = 0;
-        foreach (LVL4_PipesButtonController button in buttons)
-        {
-            //Check if the current rotation of the pipe isnt matching the one in the SO pattern
-            if ((int)button.Pivot.transform.eulerAngles.z != (int)gamePatternsSO[patternIndex].Pattern[i].rotation * 90) 
-            {
-                break;
-            }
-            i++;
-            if (i == 16) 
-            {
-                Debug.Log("Game has finished");
-            }
-        }
-        
-    }
-    public void CheckRotation(int[] winIndexes)
-    {
-        for (int i = 0; i < winIndexes.Length; i++)
+        for (int i = 0; i < winIndexesLength; i++)
         {
             // Debug.Log("["+ i + "] Current winIndex value: " + winIndexes[i]);
 
@@ -138,39 +129,15 @@ public class LVL4_PipesGameController : MonoBehaviour
             {
                 if ((int)buttons[winIndexes[i]].Pivot.transform.eulerAngles.z == (int)gamePatternsSO[patternIndex].Pattern[i].rotation * 90)
                 {
-                    switch (buttons[winIndexes[i]].PipeButtonType)
-                    {
-                        //Angled pipes have 4 possible rotations
-                        case EPipeButtonType.Angled:
-                            {
-                                buttons[winIndexes[i]].SpriteWater();
-                            }
-                            break;
-                        //Staright pipes have 2 possible rotations
-                        case EPipeButtonType.Straight:
-                            {
-                                buttons[winIndexes[i]].SpriteWater();
-                            }
-                            break;
-                    }
+                    AddOrRemoveWater(buttons[winIndexes[i]], true);
+                    buttons[winIndexes[i]].PreviousRotationStatus = buttons[winIndexes[i]].CurrentRotationStatus;
+                    buttons[winIndexes[i]].CurrentRotationStatus = EPipesButtonRotationStatus.Correct;
                 }
                 else
                 {
-                    switch (buttons[winIndexes[i]].PipeButtonType)
-                    {
-                        //Angled pipes have 4 possible rotations
-                        case EPipeButtonType.Angled:
-                            {
-                                buttons[winIndexes[i]].SpriteNoWater();
-                            }
-                            break;
-                        //Staright pipes have 2 possible rotations
-                        case EPipeButtonType.Straight:
-                            {
-                                buttons[winIndexes[i]].SpriteNoWater();
-                            }
-                            break;
-                    }
+                    AddOrRemoveWater(buttons[winIndexes[i]], false);
+                    buttons[winIndexes[i]].PreviousRotationStatus = buttons[winIndexes[i]].CurrentRotationStatus;
+                    buttons[winIndexes[i]].CurrentRotationStatus = EPipesButtonRotationStatus.NotCorrect;
                 }
             }
             else if (i > 0)
@@ -185,40 +152,16 @@ public class LVL4_PipesGameController : MonoBehaviour
                     // Debug.Log("["+ i + "] Previous winIndex HasWater " + buttons[winIndexes[previousWinIndex]] + ": " + buttons[winIndexes[previousWinIndex]].HasWater);
                     if (buttons[winIndexes[previousWinIndex]].HasWater)
                     {
-                        switch (buttons[winIndexes[i]].PipeButtonType)
-                        {
-                            //Angled pipes have 4 possible rotations
-                            case EPipeButtonType.Angled:
-                                {
-                                    buttons[winIndexes[i]].SpriteWater();
-                                }
-                                break;
-                            //Staright pipes have 2 possible rotations
-                            case EPipeButtonType.Straight:
-                                {
-                                    buttons[winIndexes[i]].SpriteWater();
-                                }
-                                break;
-                        }
+                        AddOrRemoveWater(buttons[winIndexes[i]], true);
                     }
+                    buttons[winIndexes[i]].PreviousRotationStatus = buttons[winIndexes[i]].CurrentRotationStatus;
+                    buttons[winIndexes[i]].CurrentRotationStatus = EPipesButtonRotationStatus.Correct;
                 }
                 else
                 {
-                    switch (buttons[winIndexes[i]].PipeButtonType)
-                    {
-                        //Angled pipes have 4 possible rotations
-                        case EPipeButtonType.Angled:
-                            {
-                                buttons[winIndexes[i]].SpriteNoWater();
-                            }
-                            break;
-                        //Staright pipes have 2 possible rotations
-                        case EPipeButtonType.Straight:
-                            {
-                                buttons[winIndexes[i]].SpriteNoWater();
-                            }
-                            break;
-                    }
+                    AddOrRemoveWater(buttons[winIndexes[i]], false);
+                    buttons[winIndexes[i]].PreviousRotationStatus = buttons[winIndexes[i]].CurrentRotationStatus;
+                    buttons[winIndexes[i]].CurrentRotationStatus = EPipesButtonRotationStatus.NotCorrect;
                 }
             }
 
@@ -228,35 +171,54 @@ public class LVL4_PipesGameController : MonoBehaviour
                 {
                     if (buttons[winIndexes[j]].HasWater)
                     {
-                        switch (buttons[winIndexes[j]].PipeButtonType)
-                        {
-                            //Angled pipes have 4 possible rotations
-                            case EPipeButtonType.Angled:
-                                {
-                                    buttons[winIndexes[j]].SpriteNoWater();
-                                }
-                                break;
-                            //Staright pipes have 2 possible rotations
-                            case EPipeButtonType.Straight:
-                                {
-                                    buttons[winIndexes[j]].SpriteNoWater();
-                                }
-                                break;
-                        }
+                        AddOrRemoveWater(buttons[winIndexes[j]], false);
                     }
                 }
             }
-
-            
-
         }
     }
 
+    /// <summary>
+    /// Check if the game is finished
+    /// </summary>
+    void CheckIfTheGameIsFinished()
+    {
+        bool isFinished = buttons[winIndexes[0]].HasCorrectRotation;
+
+        for (int i = 1; i < winIndexesLength; i++)
+        {
+            int previousItem = i - 1;
+            isFinished = buttons[winIndexes[previousItem]].HasCorrectRotation && buttons[winIndexes[i]].HasCorrectRotation;
+        }
+
+        Debug.Log(isFinished ? "Game Finished" : "Not Finished");
+    }
+
+    /// <summary>
+    /// Add listeners to all the interactable buttons
+    /// </summary>
     void AddListeners()
     {
         foreach (LVL4_PipesButtonController btn in buttons)
         {
             btn.Button.onClick.AddListener(() => OnClick(btn));
+        }
+    }
+
+    /// <summary>
+    /// Add or remove the water for a section
+    /// </summary>
+    /// <param name="buttonController">The button controller</param>
+    /// <param name="water">true to add water, false to remove it</param>
+    void AddOrRemoveWater(LVL4_PipesButtonController buttonController, bool water)
+    {
+        if (water)
+        {
+            buttonController.SpriteWater();
+        }
+        else
+        {
+            buttonController.SpriteNoWater();
         }
     }
     #endregion
@@ -305,8 +267,8 @@ public class LVL4_PipesGameController : MonoBehaviour
                 break;
         }
 
-        //CheckIfTheGameISFinished();
-        CheckRotation(winIndexes);
+        CheckRotation();
+        CheckIfTheGameIsFinished();
     }
     #endregion
 }
