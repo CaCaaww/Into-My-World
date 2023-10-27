@@ -6,11 +6,8 @@ using UnityEngine.TextCore.Text;
 
 public class MathWarGameController : MonoBehaviour
 {
-    //private const int V = 0;
     [SerializeField]
     private GameObject player;
-    
-    //private RectTransform playerStartPos;
     [SerializeField]
     private GameObject enemy;
     [SerializeField]
