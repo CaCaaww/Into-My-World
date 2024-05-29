@@ -1704,5 +1704,10 @@ PrefabInstance:
       propertyPath: playerStartPos
       value: 
       objectReference: {fileID: 480900168}
+    - target: {fileID: 8269712780381734663, guid: 0e7554b8a2353c44b8efb5387d93d9fd,
+        type: 3}
+      propertyPath: m_text
+      value: 40
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 0e7554b8a2353c44b8efb5387d93d9fd, type: 3}
