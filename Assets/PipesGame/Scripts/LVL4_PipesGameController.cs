@@ -13,22 +13,28 @@ public class LVL4_PipesGameController : MonoBehaviour
     [Header("Debug")]
     [SerializeField]
     private bool enableDebug;
+
     [Header("Inspector settings")]
     [Tooltip("The patterns")]
     [SerializeField]
     private List<LVL4_PipesGamePatternSO> gamePatternsSO;
+
     [Tooltip("The pattern to display")]
     [SerializeField]
     private int patternIndex;
+
     [Tooltip("The panel")]
     [SerializeField]
     private Transform gameGrid;
+
     [Tooltip("The buttons")]
     [SerializeField]
     public List<LVL4_PipesButtonController> buttons = new();
+
     [Tooltip("Game Completed Prefab")]
     [SerializeField]
-    private GameObject GameCopletePrefab;
+    private GameObject GameCompletePrefab;
+
     [Tooltip("The canvas")]
     [SerializeField]
     private Transform canvas;
@@ -207,6 +213,7 @@ public class LVL4_PipesGameController : MonoBehaviour
     void CheckIfTheGameIsFinished()
     {
         int withCorrectRotation = 0;
+        bool gameFinished = false;
 
         for (int i = 0; i < winIndexesLength; i++)
         {
@@ -214,7 +221,15 @@ public class LVL4_PipesGameController : MonoBehaviour
                 withCorrectRotation += 1;
         }
 
-        Debug.Log(withCorrectRotation == winIndexesLength ? "Game Finished" : "Not Finished");
+        if (withCorrectRotation == winIndexesLength)
+            gameFinished = true;
+
+        Debug.Log(gameFinished ? "Game Finished" : "Not Finished");
+
+        if(gameFinished) {
+            GameObject GameComplete = Instantiate(GameCompletePrefab);
+            GameComplete.transform.SetParent(canvas, false);
+        }
     }
     #endregion
 
