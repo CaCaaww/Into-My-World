@@ -29,6 +29,8 @@ public class LVL4_PipesGameController : MonoBehaviour
     [Tooltip("Game Completed Prefab")]
     [SerializeField]
     private GameObject GameCopletePrefab;
+    [SerializeField]                                                // James & Ryan
+    private GameObject winText;                                     // James & Ryan
     [Tooltip("The canvas")]
     [SerializeField]
     private Transform canvas;
@@ -156,12 +158,12 @@ public class LVL4_PipesGameController : MonoBehaviour
             {
                 if ((int)buttons[winIndexes[i]].Pivot.transform.eulerAngles.z == (int)gamePatternsSO[patternIndex].Pattern[i].rotation * 90)
                 {
-                    AddOrRemoveWater(buttons[winIndexes[i]], true);
+                    //AddOrRemoveWater(buttons[winIndexes[i]], true);
                     buttons[winIndexes[i]].HasCorrectRotation = true;
                 }
                 else
                 {
-                    AddOrRemoveWater(buttons[winIndexes[i]], false);
+                    //AddOrRemoveWater(buttons[winIndexes[i]], false);
                     buttons[winIndexes[i]].HasCorrectRotation = false;
                 }
             }
@@ -174,20 +176,21 @@ public class LVL4_PipesGameController : MonoBehaviour
                 // Debug.Log("["+ i + "] " + (int)gamePatternsSO[patternIndex].Pattern[i].rotation * 90);
                 if ((int)buttons[winIndexes[i]].Pivot.transform.eulerAngles.z == (int)gamePatternsSO[patternIndex].Pattern[winIndexes[i]].rotation * 90)
                 {
+                    /*
                     if (buttons[winIndexes[previousWinIndex]].HasWater)
                     {
                         AddOrRemoveWater(buttons[winIndexes[i]], true);
                     }
-
+                    */
                     buttons[winIndexes[i]].HasCorrectRotation = true;
                 }
                 else
                 {
-                    AddOrRemoveWater(buttons[winIndexes[i]], false);
+                    //AddOrRemoveWater(buttons[winIndexes[i]], false);
                     buttons[winIndexes[i]].HasCorrectRotation = false;
                 }
             }
-
+            /*
             if (!buttons[winIndexes[i]].HasWater)
             {
                 for (int j = i; j < winIndexes.Length; j++)
@@ -198,9 +201,16 @@ public class LVL4_PipesGameController : MonoBehaviour
                     }
                 }
             }
+            */
         }
     }
-
+    private void addAllWater() {
+        for (int j = 0; j < winIndexes.Length; j++) {
+            if (!buttons[winIndexes[j]].HasWater) {
+                AddOrRemoveWater(buttons[winIndexes[j]], true);
+            }
+        }
+    }
     /// <summary>
     /// Check if the game is finished
     /// </summary>
@@ -214,6 +224,10 @@ public class LVL4_PipesGameController : MonoBehaviour
                 withCorrectRotation += 1;
         }
 
+        if (withCorrectRotation == winIndexesLength) {
+            addAllWater();
+            winText.SetActive(true);
+        }
         Debug.Log(withCorrectRotation == winIndexesLength ? "Game Finished" : "Not Finished");
     }
     #endregion
