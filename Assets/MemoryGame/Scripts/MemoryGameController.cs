@@ -197,12 +197,20 @@ public class MemoryGameController : MonoBehaviour
         {
             secondGuess = true;
             secondGuessIndex = int.Parse(name);
-            secondGuessPuzzle = relatedSprites[secondGuessIndex].name;
-            buttons[secondGuessIndex].image.sprite = relatedSprites[secondGuessIndex];
+            if (secondGuessIndex == firstGuessIndex)
+            {
+                secondGuess = false;
+                
+            }
+            else 
+            {
+                secondGuessPuzzle = relatedSprites[secondGuessIndex].name;
+                buttons[secondGuessIndex].image.sprite = relatedSprites[secondGuessIndex];
 
-            countGuesses++;
+                countGuesses++;
 
-            StartCoroutine(CheckIfThePuzzlesMatch());
+                StartCoroutine(CheckIfThePuzzlesMatch());
+            }
         }
     }
     #endregion
