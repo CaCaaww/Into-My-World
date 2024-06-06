@@ -51,6 +51,7 @@ public class LVL4_PipesGameController : MonoBehaviour
         AddButtons();
         AddListeners();
         CheckRotation();
+        
     }
     #endregion
 
