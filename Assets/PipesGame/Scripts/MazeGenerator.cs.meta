@@ -1,0 +1,18 @@
+fileFormatVersion: 2
+guid: 6e09b2bb634c9d6419bcba3ac9d28bea
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences:
+  - nodePrefab: {instanceID: 0}
+  - angledPrefab: {fileID: 5276148945404223761, guid: 462b81c25873bdf4b8e0d8e5725d6c1f,
+      type: 3}
+  - straightPrefab: {fileID: 8688393531436021271, guid: d420d5e34dce4d14aa8743a3fc8aa658,
+      type: 3}
+  - emptyPrefab: {fileID: 7147159038704323217, guid: 686fee704ae705a4ca4c50b94bd06fbc,
+      type: 3}
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
