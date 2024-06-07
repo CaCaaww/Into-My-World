@@ -1,23 +1,50 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Security.Cryptography;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.Rendering;
 
-public class MazeGenerator : MonoBehaviour {
+public class MazeGenerator{
 
-    [SerializeField] MazeNode nodePrefab;
+    //[SerializeField] MazeNode nodePrefab;
     [SerializeField] Vector2Int mazeSize;
     [SerializeField] List<int> winIndices;
     [SerializeField] List<EPipesButtonRotation> buttonRotations;
+    private List<MazeNode> nodes;
 
     // Start is called before the first frame update
     void Start() {
+        
+    }
+    public MazeGenerator() {
         winIndices = new List<int>();
         buttonRotations = new List<EPipesButtonRotation>();
-
+        nodes = new List<MazeNode>();
+        mazeSize = new Vector2Int(4,4);
         generateMaze(mazeSize);
     }
+    public int[] getWinIndices() {
+        int[] result = new int[winIndices.Count];
+        for (int i = 0; i < winIndices.Count; i++) {
+            result[i] = winIndices[i];
+        }
+        return result;
+    }
+    public EPipeButtonType getButton(int index) {
+        return nodes[index].pipeType;
+        
 
+    }
+    public EPipesButtonRotation getButtonRotation(int indexInWin) {
+        int actualIndex = winIndices.IndexOf(indexInWin);
+        if (actualIndex != -1) {
+            return buttonRotations[actualIndex];
+        } else {
+            return EPipesButtonRotation.Rotation0;
+        }
+    }
     public EPipeButtonType getCurrentNodeType(Vector2 prevPos, Vector2 nextPos) {
         // compare rows
         float dx = nextPos.x - prevPos.x;
@@ -81,13 +108,15 @@ public class MazeGenerator : MonoBehaviour {
     }
 
     public void generateMaze(Vector2Int size) {
-        List<MazeNode> nodes = new List<MazeNode>();
 
+        //Debug.Log("size.x : " + size.x);
         // Create Nodes
         for (int x = 0; x < size.x; x++) {
             for (int y = 0; y < size.y; y++) {
-                Vector3 nodePos = new Vector3(x - (size.x / 2f), 0, y - (size.y / 2f));
-                MazeNode newNode = Instantiate(nodePrefab, nodePos, Quaternion.identity, transform);
+                //Debug.Log(x + " | " + y);
+                //Vector3 nodePos = new Vector3(x - (size.x / 2f), 0, y - (size.y / 2f));
+                //MazeNode newNode = Instantiate(nodePrefab, nodePos, Quaternion.identity, transform);
+                MazeNode newNode = new MazeNode();
                 newNode.position = new Vector2(x, y);
                 nodes.Add(newNode);
             }
@@ -97,6 +126,7 @@ public class MazeGenerator : MonoBehaviour {
         List<MazeNode> completedNodes = new List<MazeNode>();
 
         // Choose starting node
+        //Debug.Log(nodes.Count);
         currentPath.Add(nodes[0]);
 
         while (!(currentPath[currentPath.Count - 1].Equals(nodes[15]))) {
@@ -144,13 +174,14 @@ public class MazeGenerator : MonoBehaviour {
             // If there is an available neighbor, go to a random one
             if (possibleDirections.Count > 0) {
                 // Choose Next Node
-                int chosenDirection = Random.Range(0, possibleDirections.Count);
+                //int chosenDirection = Random.Range(0, possibleDirections.Count);
+                int chosenDirection = RandomNumberGenerator.GetInt32(0, possibleDirections.Count);
                 MazeNode chosenNode = nodes[possibleNextNodes[chosenDirection]];
 
                 MazeNode currentNode = currentPath[currentPath.Count - 1];
 
                 // Top left node edge case
-                Debug.Log(currentNode.position);
+                //Debug.Log(currentNode.position);
                 if (currentNode.position == (new Vector2(0, 0))) {
                     currentNode.pipeType = getCurrentNodeType(new Vector2(0, -1), chosenNode.position);
                     currentNode.input = getPipeInput(new Vector2(0, -1), currentNode.position);

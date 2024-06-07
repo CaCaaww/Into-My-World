@@ -1,6 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.IO.Pipes;
+using System.Runtime.CompilerServices;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public enum Side {
@@ -11,7 +13,7 @@ public enum Side {
     Bottom
 }
 
-public class MazeNode : MonoBehaviour {
+public class MazeNode {
     [SerializeField] public Vector2 position;
     [SerializeField] public EPipeButtonType pipeType;
     [SerializeField] public Side input;
@@ -19,5 +21,7 @@ public class MazeNode : MonoBehaviour {
 
     [SerializeField] GameObject[] walls;
     [SerializeField] MeshRenderer floor;
-
+    public MazeNode() {
+ 
+    }
 }

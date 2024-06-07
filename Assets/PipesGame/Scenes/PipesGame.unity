@@ -940,10 +940,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   enableDebug: 0
   gamePatternsSO:
-  - {fileID: 11400000, guid: 80bbe5478003735458eba1101c6c116f, type: 2}
-  - {fileID: 11400000, guid: 95f4e615ac8899d499a128ae11f750ca, type: 2}
-  - {fileID: 11400000, guid: 2f4d43a98f40bdc469192ea32159d6d1, type: 2}
-  - {fileID: 11400000, guid: a637818a2ebebd842ae851beb8e1896c, type: 2}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
   - {fileID: 11400000, guid: 18176e2c5ae9dd6b7af3819992177479, type: 2}
   patternIndex: 2
   gameGrid: {fileID: 279025588}
@@ -952,6 +952,12 @@ MonoBehaviour:
     type: 3}
   winText: {fileID: 907016310}
   canvas: {fileID: 210760384}
+  angledPrefab: {fileID: 5276148945404223761, guid: 462b81c25873bdf4b8e0d8e5725d6c1f,
+    type: 3}
+  straightPrefab: {fileID: 8688393531436021271, guid: d420d5e34dce4d14aa8743a3fc8aa658,
+    type: 3}
+  emptyPrefab: {fileID: 7147159038704323217, guid: 686fee704ae705a4ca4c50b94bd06fbc,
+    type: 3}
 --- !u!4 &882757860
 Transform:
   m_ObjectHideFlags: 0
@@ -1002,7 +1008,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 12.818}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -8.141174, y: 0.91503906}
+  m_AnchoredPosition: {x: -8.141113, y: 0.91503906}
   m_SizeDelta: {x: -325.46436, y: -908.45}
   m_Pivot: {x: 0.5, y: 0.49999976}
 --- !u!114 &907016312
