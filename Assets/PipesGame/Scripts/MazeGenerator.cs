@@ -5,19 +5,36 @@ using System.Security.Cryptography;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Rendering;
-
+public enum Side {
+    None,
+    Left,
+    Right,
+    Top,
+    Bottom
+}
+/// <summary>
+/// objects contained in the maze. Each of these stores the information for an individual pipe.
+/// </summary>
+public class MazeNode {
+    [SerializeField] public Vector2 position; // row & col coordinates for the pipe, represented as a vector2
+    [SerializeField] public EPipeButtonType pipeType; // the type of pipe; straight, angled, or empty
+    [SerializeField] public Side input; // what side -- left, right, top, or bottom -- of the tile of the pipe is the side that the previous pipe touches
+    [SerializeField] public Side output; // same sorta thing as above, but it's where the pipe after this one connects
+}
 public class MazeGenerator{
 
     //[SerializeField] MazeNode nodePrefab;
-    [SerializeField] Vector2Int mazeSize;
-    [SerializeField] List<int> winIndices;
-    [SerializeField] List<EPipesButtonRotation> buttonRotations;
-    private List<MazeNode> nodes;
+    [SerializeField] Vector2Int mazeSize; // the length in tiles of one side of the square that represents the entirety of the board
+    [SerializeField] List<int> winIndices; // a list on indexes of the pipes, in the order that they need to be traversed in order ti
+    // traverse from start to end of the puzzle.
+    [SerializeField] List<EPipesButtonRotation> buttonRotations; // corresponds to the winIndices but instead holds the rotations that
+    // those pipes need to be.
+    private List<MazeNode> nodes; // list of the MazeNodes that make up the entirety of the board. In order of left->right, top->bottom.
 
-    // Start is called before the first frame update
-    void Start() {
-        
-    }
+    /// <summary>
+    /// Constructor for MazeGenerator. Instantiates the winIndices list, the buttonRotations list, the nodes list, and sets the mazeSize.
+    /// After that it calss the generateMaze() function to get a random maze.
+    /// </summary>
     public MazeGenerator() {
         winIndices = new List<int>();
         buttonRotations = new List<EPipesButtonRotation>();
@@ -25,6 +42,9 @@ public class MazeGenerator{
         mazeSize = new Vector2Int(4,4);
         generateMaze(mazeSize);
     }
+    /// <summary>
+    /// returns the list of winIndices int int[] form.
+    /// </summary>
     public int[] getWinIndices() {
         int[] result = new int[winIndices.Count];
         for (int i = 0; i < winIndices.Count; i++) {
@@ -32,11 +52,17 @@ public class MazeGenerator{
         }
         return result;
     }
+    /// <summary>
+    /// takes the index of the button in the nodesList and returns what type of pipe it is; straight, angled, or empty.
+    /// </summary>
     public EPipeButtonType getButton(int index) {
         return nodes[index].pipeType;
-        
-
     }
+    /// <summary>
+    /// takes the index of a button in the nodesList.
+    /// Makes sure it's a node required for the winList, then fetches the rotation of that button and returns that.
+    /// Returns an arbitrary rotation if it's an empty button.
+    /// </summary>
     public EPipesButtonRotation getButtonRotation(int indexInWin) {
         int actualIndex = winIndices.IndexOf(indexInWin);
         if (actualIndex != -1) {
@@ -45,6 +71,10 @@ public class MazeGenerator{
             return EPipesButtonRotation.Rotation0;
         }
     }
+    /// <summary>
+    /// takes two pipe positions and returns the type of pipe it must be according to how it needs to translate from
+    /// the previous position to the next position.
+    /// </summary>
     public EPipeButtonType getCurrentNodeType(Vector2 prevPos, Vector2 nextPos) {
         // compare rows
         float dx = nextPos.x - prevPos.x;
@@ -52,33 +82,41 @@ public class MazeGenerator{
         // compare columns
         float dy = nextPos.y - prevPos.y;
 
+        // if it changes in both x and y values, then we know the pipe is angled.
         if (dx != 0 && dy != 0) {
             return EPipeButtonType.Angled;
         };
-
+        // else it must be a straight pipe. There will never be an empty pipe that comes from this because 
+        // these are all pipes in the path.
         return EPipeButtonType.Straight;
     }
-
+    /// <summary>
+    /// takes two pipe positions (either the previous pipe and the current pipe or the next pipe and the current pipe)
+    /// returns what side of the current pipe is being used. We use this information to calculate the rotation for the pipe.
+    /// </summary>
     public Side getPipeInput(Vector2 position1, Vector2 position2) {
+        // difference in x axis
         float dy = position2.y - position1.y;
-
+        // difference in y axis
         float dx = position2.x - position1.x;
-
+        // it will only translate in the x or y, never in both. So we check which one it is
         if (dy == 0) {
-            if (dx > 0) {
+            if (dx > 0) { // if it translates in the x and that is a positive translation
                 return Side.Top;
             } else {
                 return Side.Bottom;
             }
         } else {
-            if (dy > 0) {
+            if (dy > 0) { // if it translates in the y and that is a positive translation
                 return Side.Left;
             } else {
                 return Side.Right;
             }
         }
     }
-
+    /// <summary>
+    /// takes the two sides of the pipe that are being used and returns what rotation that pipe needs to be for the solution.
+    /// </summary>
     public EPipesButtonRotation getPipeRotation(Side input, Side output) {
         switch (input) {
             case Side.Left:
@@ -106,27 +144,21 @@ public class MazeGenerator{
         Debug.Log("SOMETHING WENT WRONG");
         return EPipesButtonRotation.Rotation0;
     }
-
+    /// <summary>
+    /// Code that generates the Maze. 
+    /// </summary>
     public void generateMaze(Vector2Int size) {
-
-        //Debug.Log("size.x : " + size.x);
-        // Create Nodes
+        // Create the blank nodes that will be traversed later.
         for (int x = 0; x < size.x; x++) {
-            for (int y = 0; y < size.y; y++) {
-                //Debug.Log(x + " | " + y);
-                //Vector3 nodePos = new Vector3(x - (size.x / 2f), 0, y - (size.y / 2f));
-                //MazeNode newNode = Instantiate(nodePrefab, nodePos, Quaternion.identity, transform);
+            for (int y = 0; y < size.y; y++) { 
                 MazeNode newNode = new MazeNode();
                 newNode.position = new Vector2(x, y);
                 nodes.Add(newNode);
             }
         }
-
         List<MazeNode> currentPath = new List<MazeNode>();
         List<MazeNode> completedNodes = new List<MazeNode>();
-
         // Choose starting node
-        //Debug.Log(nodes.Count);
         currentPath.Add(nodes[0]);
 
         while (!(currentPath[currentPath.Count - 1].Equals(nodes[15]))) {
