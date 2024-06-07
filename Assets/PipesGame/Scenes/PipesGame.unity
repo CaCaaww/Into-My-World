@@ -948,7 +948,7 @@ MonoBehaviour:
   patternIndex: 2
   gameGrid: {fileID: 279025588}
   buttons: []
-  GameCompletePrefab: {fileID: 8987640460194968958, guid: ea4b0c3c4603caf4f801fe1832c8d652,
+  GameCompletePrefab: {fileID: 8987640460194968958, guid: 5246ff37b7c783640ba3fc9605f64925,
     type: 3}
   winText: {fileID: 907016310}
   canvas: {fileID: 210760384}

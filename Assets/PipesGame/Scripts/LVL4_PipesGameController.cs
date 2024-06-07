@@ -40,14 +40,12 @@ public class LVL4_PipesGameController : MonoBehaviour
     [SerializeField] private GameObject angledPrefab;
     [SerializeField] private GameObject straightPrefab;
     [SerializeField] private GameObject emptyPrefab;
-    //[SerializeField] private GameObject GameCompletePrefab;
     #endregion
 
     #region Private variables
     int[] winIndexes;
     private int winIndexesLength;
     List<LVL4_PipesGameSpawnableItem> pattern;
-    //private int correctButtons;
     #endregion
     public class LVL4_PipesGameSpawnableItem {
         public GameObject button;
@@ -56,21 +54,18 @@ public class LVL4_PipesGameController : MonoBehaviour
     #region Unity Methods
     void Start()
     {
-        //MazeGenerator pipePattern = new MazeGenerator();
-        //winIndexes = pipePattern.getWinIndices();
         //winIndexes = (int[]) gamePatternsSO[patternIndex].WinIndexes.Clone();
-        pattern = new List<LVL4_PipesGameSpawnableItem>();
-        for (int i = 0; i < 16; i++) {
+        pattern = new List<LVL4_PipesGameSpawnableItem>(); //instantiate the list for the pattern
+        for (int i = 0; i < 16; i++) { // filling it with blank objects
             LVL4_PipesGameSpawnableItem adding = new LVL4_PipesGameSpawnableItem();
             pattern.Add(adding);
         }
-        MazeGenerator pipePattern = new MazeGenerator();
-        winIndexes = pipePattern.getWinIndices();
-        //Debug.Log(pattern.Count);
-        for (int i = 0; i < pattern.Count; i++) {
-            pattern[i].rotation = pipePattern.getButtonRotation(i);
-            EPipeButtonType buttonType = pipePattern.getButton(i);
-            switch (buttonType) {
+        MazeGenerator pipePattern = new MazeGenerator(); // generating a random pattern
+        winIndexes = pipePattern.getWinIndices(); // getting the winIndexes for that.
+        for (int i = 0; i < pattern.Count; i++) { // go through each item in the pattern list and grab the information for that.
+            pattern[i].rotation = pipePattern.getButtonRotation(i); // getting the rotation
+            EPipeButtonType buttonType = pipePattern.getButton(i); // getting the button type
+            switch (buttonType) { // setting the right prefab for that.
                 case EPipeButtonType.Angled:
                     pattern[i].button = angledPrefab;
                     break;
@@ -85,9 +80,7 @@ public class LVL4_PipesGameController : MonoBehaviour
                     break;
             }
         }
-        //winIndexes = (int[]) pipesPattern.WinIndexes.Clone();
         winIndexesLength = winIndexes.Count();
-
         AddButtons();
         AddListeners();
         CheckRotation();
