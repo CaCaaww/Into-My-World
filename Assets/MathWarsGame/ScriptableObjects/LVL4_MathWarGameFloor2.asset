@@ -14,5 +14,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   stages:
   - floors: 050000001900000005000000
-  - floors: 190000001e000000c8000000
+  - floors: 190000001e00000096000000
   - floors: 320000000a0000000f000000
