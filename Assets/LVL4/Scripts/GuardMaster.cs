@@ -1,7 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
+using DG.Tweening;
 using StarterAssets;
 using Unity.VisualScripting;
+using UnityEditor.Animations;
 using UnityEditor.EditorTools;
 using UnityEditor.ShaderGraph;
 using UnityEngine;
@@ -21,6 +23,14 @@ public class GuardMaster : MonoBehaviour
     // Serialized fields
     [SerializeField, Tooltip("The model/body of the guard")]
     private GameObject guardBody;
+    [SerializeField, Tooltip("The animator to control guard body animations")]
+    private Animator animator;
+    /*
+    [SerializeField, Tooltip("The preset animation that controls how the guard body walks")]
+    private AnimatorController walkingAnimation;
+    [SerializeField, Tooltip("The preset animation that controls how the guard body is displayed when it pauses walking")]
+    private AnimatorController standingAnimation;
+    */
     [SerializeField, Tooltip("The points that the guard stops at")]
     private List<GameObject> stoppingPoints;
     [SerializeField, Tooltip("How long the guard stops at every point")]
@@ -46,6 +56,9 @@ public class GuardMaster : MonoBehaviour
     private float playerAggroTimer;
     private float guardAggroCooldownTimer;
     private float guardStopTimer;
+    private float guardLerpTimer;
+    private Vector3 forwardVec;
+    private Vector3 targetForwardVec;
 
     void Start()
     {
@@ -76,6 +89,9 @@ public class GuardMaster : MonoBehaviour
 
         // Set the timer to zero
         playerAggroTimer = 0.0f;
+
+        animator.SetBool("Walking", true);
+        guardBody.transform.LookAt(nextPoint.transform);
     }
 
     void Update()
@@ -83,6 +99,7 @@ public class GuardMaster : MonoBehaviour
         switch (state)
         {
             case GuardState.Patrolling:
+                animator.SetBool("Walking", true);
                 playerAggroTimer = 0.0f;
                 guardAggroCooldownTimer += Time.deltaTime;
 
@@ -99,6 +116,10 @@ public class GuardMaster : MonoBehaviour
                     possiblePoints.Remove(nextPoint);
                     possiblePoints.Add(prev_nextPoint);
 
+                    forwardVec = guardBody.transform.forward;
+                    targetForwardVec = (nextPoint.transform.position - guardBody.transform.position).normalized;
+                    guardLerpTimer = 0.0f;
+
                     state = GuardState.Stopped;
                 }
                 else
@@ -114,11 +135,11 @@ public class GuardMaster : MonoBehaviour
                     Debug.Log("Play guard audio");
                     guardBody.GetComponent<AudioSource>().Play();
 
-                    warningSprite.SetActive(true);
-
+                    // warningSprite.SetActive(true);
                 }
                 break;
             case GuardState.Searching:
+                animator.SetBool("Walking", false);
                 playerAggroTimer += Time.deltaTime;
                 if (playerAggroTimer >= aggroTime)
                 {
@@ -139,19 +160,24 @@ public class GuardMaster : MonoBehaviour
                     state = prevState;
                     guardAggroCooldownTimer = 0.0f;
 
-                    warningSprite.SetActive(false);
-
+                    // warningSprite.SetActive(false);
                 }
                 break;
             case GuardState.Stopped:
+                animator.SetBool("Walking", false);
                 playerAggroTimer = 0.0f;
                 guardAggroCooldownTimer += Time.deltaTime;
                 guardStopTimer += Time.deltaTime;
+                guardLerpTimer += Time.deltaTime;
+
+                Vector3 newForwardVec = Vector3.Lerp(forwardVec, targetForwardVec, guardLerpTimer/stopTime);
+                guardBody.transform.forward = newForwardVec;
 
                 if (guardStopTimer >= stopTime)
                 {
                     state = GuardState.Patrolling;
                     guardStopTimer = 0.0f;
+                    animator.SetBool("Walking", true);
                 }
 
                 if (Vector3.Distance(guardBody.transform.position, playerBody.transform.position) < aggroRange && guardAggroCooldownTimer >= 0.2f)
@@ -162,8 +188,7 @@ public class GuardMaster : MonoBehaviour
                     Debug.Log("Play guard audio");
                     guardBody.GetComponent<AudioSource>().Play();
 
-                    warningSprite.SetActive(true);
-
+                    // warningSprite.SetActive(true);
                 }
                 break;
         }
