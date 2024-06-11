@@ -33,8 +33,8 @@ public class GuardMaster : MonoBehaviour
     */
     [SerializeField, Tooltip("The points that the guard stops at")]
     private List<GameObject> stoppingPoints;
-    [SerializeField, Tooltip("How long the guard stops at every point")]
-    private float stopTime;
+    [SerializeField, Tooltip("The lowest to highest amount of time that the guard can stop for")]
+    private Vector2 stopTimeRange;
     [SerializeField, Tooltip("The range around the guard that the player cannot be in")]
     private float aggroRange;
     [SerializeField, Tooltip("The time it takes for the guard to cause the player to lose")]
@@ -47,6 +47,11 @@ public class GuardMaster : MonoBehaviour
     private GameObject warningSprite;
     [SerializeField, Tooltip("Panel that appears when the player is caught by a guard")]
     private GameObject gameOverPanel;
+    [SerializeField, Tooltip("Male and female guard bodies")]
+    private List<GameObject> guardPrefabs;
+    [SerializeField, Tooltip("Face textures for the wandering guard")]
+    private Texture2D angryFace, neutralFace;
+
 
     // Private variables
     private GuardState state = GuardState.Patrolling;
@@ -57,8 +62,11 @@ public class GuardMaster : MonoBehaviour
     private float guardAggroCooldownTimer;
     private float guardStopTimer;
     private float guardLerpTimer;
-    private Vector3 forwardVec;
-    private Vector3 targetForwardVec;
+    private Vector3 curRotation;
+    private Vector3 targetRotation;
+    private float stopTime;
+
+    private MeshRenderer facePlate;
 
     void Start()
     {
@@ -69,6 +77,19 @@ public class GuardMaster : MonoBehaviour
             Destroy(this);
             return;
         }
+
+        // Assign female or male guard body
+        GameObject model = Instantiate(guardPrefabs[Random.Range(0, guardPrefabs.Count)], animator.transform);
+        foreach (MeshRenderer i in model.GetComponentsInChildren<MeshRenderer>())
+        {
+            if (i.gameObject.name.Contains("Face_Plate"))
+            {
+                facePlate = i;
+                break;
+            }
+        }
+
+        animator.Rebind();
 
         // Make the guard start at the first stopping point
         guardBody.transform.position = new Vector3(
@@ -100,6 +121,7 @@ public class GuardMaster : MonoBehaviour
         {
             case GuardState.Patrolling:
                 animator.SetBool("Walking", true);
+                facePlate.material.mainTexture = neutralFace;
                 playerAggroTimer = 0.0f;
                 guardAggroCooldownTimer += Time.deltaTime;
 
@@ -116,9 +138,11 @@ public class GuardMaster : MonoBehaviour
                     possiblePoints.Remove(nextPoint);
                     possiblePoints.Add(prev_nextPoint);
 
-                    forwardVec = guardBody.transform.forward;
-                    targetForwardVec = (nextPoint.transform.position - guardBody.transform.position).normalized;
+                    curRotation = guardBody.transform.rotation.eulerAngles;
+                    targetRotation = Quaternion.LookRotation((nextPoint.transform.position - guardBody.transform.position).normalized, guardBody.transform.up).eulerAngles;
                     guardLerpTimer = 0.0f;
+
+                  stopTime = Random.Range(stopTimeRange.x, stopTimeRange.y);
 
                     state = GuardState.Stopped;
                 }
@@ -140,6 +164,7 @@ public class GuardMaster : MonoBehaviour
                 break;
             case GuardState.Searching:
                 animator.SetBool("Walking", false);
+                facePlate.material.mainTexture = angryFace;
                 playerAggroTimer += Time.deltaTime;
                 if (playerAggroTimer >= aggroTime)
                 {
@@ -165,13 +190,14 @@ public class GuardMaster : MonoBehaviour
                 break;
             case GuardState.Stopped:
                 animator.SetBool("Walking", false);
+                facePlate.material.mainTexture = neutralFace;
                 playerAggroTimer = 0.0f;
                 guardAggroCooldownTimer += Time.deltaTime;
                 guardStopTimer += Time.deltaTime;
                 guardLerpTimer += Time.deltaTime;
 
-                Vector3 newForwardVec = Vector3.Lerp(forwardVec, targetForwardVec, guardLerpTimer/stopTime);
-                guardBody.transform.forward = newForwardVec;
+                Quaternion newRotation = Quaternion.Lerp(Quaternion.Euler(curRotation), Quaternion.Euler(targetRotation), guardLerpTimer / stopTime);
+                guardBody.transform.rotation = newRotation;
 
                 if (guardStopTimer >= stopTime)
                 {
