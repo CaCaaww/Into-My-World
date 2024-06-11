@@ -19,6 +19,7 @@ namespace StarterAssets
 		[Header("Mouse Cursor Settings")]
 		public bool cursorLocked = true;
 		public bool cursorInputForLook = true;
+		public OnClickDelegate onClickCall;
 
 #if ENABLE_INPUT_SYSTEM
 		public void OnMove(InputValue value)
@@ -43,10 +44,13 @@ namespace StarterAssets
 		{
 			SprintInput(value.isPressed);
 		}
+		public delegate void OnClickDelegate();
+
+		public void OnClick(InputValue value) {
+			onClickCall.Invoke();
+		}
 #endif
-
-
-		public void MoveInput(Vector2 newMoveDirection)
+        public void MoveInput(Vector2 newMoveDirection)
 		{
 			move = newMoveDirection;
 		} 
@@ -75,6 +79,7 @@ namespace StarterAssets
 		{
 			Cursor.lockState = newState ? CursorLockMode.Locked : CursorLockMode.None;
 		}
+		
 	}
 	
 }

@@ -10,6 +10,9 @@ TagManager:
   - NPC
   - Building
   - PuzzleButton
+  - DoorController
+  - JailCell
+  - JailCellGuard
   layers:
   - Default
   - TransparentFX
