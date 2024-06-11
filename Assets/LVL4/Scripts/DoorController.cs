@@ -8,14 +8,9 @@ public class DoorController : MonoBehaviour
     [SerializeField] private GameObject leftDoor;
     [SerializeField] private GameObject rightDoor;
     [SerializeField] private bool onLeftSideOfHall;
-
+    //[SerializeField] private GameObject lockObject;
     //[SerializeField] private RectTransform pivot;
-    void Start()
-    {
-        toggleDoor();
-    }
-
-    private void toggleDoor()
+    public void toggleDoor()
     {
         Debug.Log("Toggling doors");
         if (onLeftSideOfHall)

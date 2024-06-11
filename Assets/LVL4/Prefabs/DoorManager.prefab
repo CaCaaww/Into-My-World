@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 5998734647360313303}
   m_Layer: 0
   m_Name: DoorManager
-  m_TagString: Untagged
+  m_TagString: DoorController
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -48,7 +48,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   leftDoor: {fileID: 8285319623900033266}
   rightDoor: {fileID: 1404853455562926264}
-  isOpen: 0
+  onLeftSideOfHall: 0
 --- !u!1001 &1404853455562932820
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -156,7 +156,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 488452, guid: fbfaefed9c8de504992ea1e44db04aaf, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0
+      value: 0.07
       objectReference: {fileID: 0}
     - target: {fileID: 488452, guid: fbfaefed9c8de504992ea1e44db04aaf, type: 3}
       propertyPath: m_LocalPosition.y
