@@ -5,6 +5,7 @@ using UnityEngine;
 
 public class ObjectSelect : MonoBehaviour
 {
+    
     // Start is called before the first frame update
     void Start()
     {
@@ -31,18 +32,7 @@ public class ObjectSelect : MonoBehaviour
                 Debug.Log("DoorTag");
             }
             if (hit.collider.gameObject.CompareTag("JailCell")) {
-                int randNum = RandomNumberGenerator.GetInt32(0, 3);
-                switch (randNum) {
-                    case 0:
-                        Debug.Log("Load Pipe Game");
-                        break;
-                    case 1:
-                        Debug.Log("Load Matching Game");
-                        break;
-                    case 2:
-                        Debug.Log("Load Maths Game");
-                        break;
-                }
+                hit.collider.gameObject.GetComponent<MiniGameController>().lockClicked();
             }
         }
     }

@@ -160,6 +160,7 @@ public class MemoryGameController : MonoBehaviour
             GameCoplete.transform.SetParent(canvas, false);
             Debug.Log("Game Finished!");
             Debug.Log("It took you " + countGuesses + " many guesses to finish the game");
+            this.gameObject.SetActive(false);
         }
     }
 

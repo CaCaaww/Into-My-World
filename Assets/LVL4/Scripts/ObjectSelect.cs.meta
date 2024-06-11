@@ -3,7 +3,11 @@ guid: 2c691e5dc93c2431fa4f0bd85083d2de
 MonoImporter:
   externalObjects: {}
   serializedVersion: 2
-  defaultReferences: []
+  defaultReferences:
+  - pipeMiniGamePrefab: {fileID: 5613396304989967261, guid: 6b0cebf8fa10e774a8fbfadbff1c7230,
+      type: 3}
+  - matchingMiniGamePrefab: {fileID: 1830052669545164958, guid: 9429fd3eb82395744bfd43bf02290b44,
+      type: 3}
   executionOrder: 0
   icon: {instanceID: 0}
   userData: 

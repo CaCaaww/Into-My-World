@@ -265,7 +265,7 @@ public class LVL4_PipesGameController : MonoBehaviour
             GameObject gameComplete = Instantiate(GameCompletePrefab);
             gameComplete.transform.SetParent(canvas,false);
             Time.timeScale = 0;
-            //winText.SetActive(true);
+            this.gameObject.SetActive(false);
         }
         Debug.Log(withCorrectRotation == winIndexesLength ? "Game Finished" : "Not Finished");
     }
