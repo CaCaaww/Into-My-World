@@ -26,7 +26,7 @@ public class ObjectSelect : MonoBehaviour
         if (Physics.Raycast(cameraPosition, forwardDirection, out hit, 5.0F)) {
             // If the ray hits something, you can access the hit information
             //Debug.Log("Hit: " + hit.collider.gameObject.transform.parent.tag);
-            if (hit.collider.gameObject.transform.parent.CompareTag("DoorController")) {
+            if (hit.collider.gameObject.CompareTag("JailCellGuard")) {
                 hit.collider.gameObject.transform.parent.GetComponent<DoorController>().toggleDoor();
                 Debug.Log("DoorTag");
             }

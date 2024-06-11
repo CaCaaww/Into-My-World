@@ -12,6 +12,7 @@ TagManager:
   - PuzzleButton
   - DoorController
   - JailCell
+  - JailCellGuard
   layers:
   - Default
   - TransparentFX
