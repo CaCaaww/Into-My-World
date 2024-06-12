@@ -1,6 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Drawing.Text;
+using System.Linq;
 using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class MathWarGameController : MonoBehaviour
@@ -27,13 +30,21 @@ public class MathWarGameController : MonoBehaviour
     private GameObject floor7;
     [SerializeField, Tooltip("Floor Object 8")]
     private GameObject floor8;
+    [SerializeField]
     private List<MathWarGameButtonController> buttons;
 [   SerializeField]
     private TextMeshProUGUI enemyScoreRef;
-    [SerializeField]
     private List<GameObject> floors = new();
 
+    [SerializeField]
+    private GameObject quitButton;
+    [SerializeField]
+    private GameObject backdrop;
+    [SerializeField]
+    private GameObject thumb;
+
     public string enemyText;
+    public HashSet<int> aliveEnemies = new();
     // Start is called before the first frame update
     void Start()
     {
@@ -50,7 +61,10 @@ public class MathWarGameController : MonoBehaviour
         floors.Add(floor6);
         floors.Add(floor7);
         floors.Add(floor8);
-
+        for (int i = 0; i < 9; i++)
+        {
+            aliveEnemies.Add(i);
+        }
         AddFloors();
     }
 
@@ -83,6 +97,28 @@ public class MathWarGameController : MonoBehaviour
             }
             // GameObject button = Instantiate(floor, gameGrid);
             // enemyText = "test";
+        }
+    }
+
+    public void checkIfGameWon(){
+        
+        
+        int defeated = 0;
+        for (int i = 0; i < buttons.Count; i++)
+        {
+            // Debug.Log(buttons[i].GetComponentInChildren<MathWarGameButtonController>().isDefeated);
+            if (buttons[i].GetComponentInChildren<MathWarGameButtonController>().isDefeated == true)
+            {
+                // Increments if an enemy was defeated this turn
+                defeated++;
+            }
+        }
+        if (defeated == floors.Count)
+        {
+            quitButton.SetActive(false);
+            backdrop.SetActive(true);
+            thumb.SetActive(true);
+            Debug.Log("Game Won!");
         }
     }
 }
