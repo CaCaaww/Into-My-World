@@ -158,9 +158,9 @@ public class MemoryGameController : MonoBehaviour
         {
             GameObject GameCoplete = Instantiate(GameCopletePrefab);
             GameCoplete.transform.SetParent(canvas, false);
+            this.gameObject.transform.GetChild(2).gameObject.SetActive(true);
             Debug.Log("Game Finished!");
             Debug.Log("It took you " + countGuesses + " many guesses to finish the game");
-            this.gameObject.SetActive(false);
         }
     }
 

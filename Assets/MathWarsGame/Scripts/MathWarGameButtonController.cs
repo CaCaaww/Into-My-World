@@ -49,7 +49,7 @@ public class MathWarGameButtonController : MonoBehaviour
         else
         {
             //Teleport the player back
-            player.transform.position = new Vector3(500, 300, 0);
+            player.transform.position = new Vector3(300, 300, 0);
 
         }    
         mathWarGameController.checkIfGameWon();

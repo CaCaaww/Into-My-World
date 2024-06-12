@@ -121,3 +121,4 @@ MonoBehaviour:
   miniGames:
   - {fileID: 2166695027496420803, guid: 562dfe69e2b90cc4cadc2135be8aa3d4, type: 3}
   - {fileID: 3169593065693230296, guid: 4dffb11b6cd701a4486c1f83eb70b1fd, type: 3}
+  - {fileID: 9189180116276971346, guid: 3dff0db88a3680243b766ec578891b2f, type: 3}

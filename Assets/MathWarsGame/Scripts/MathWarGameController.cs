@@ -118,6 +118,7 @@ public class MathWarGameController : MonoBehaviour
             quitButton.SetActive(false);
             backdrop.SetActive(true);
             thumb.SetActive(true);
+            this.gameObject.transform.GetChild(1).gameObject.SetActive(true);
             Debug.Log("Game Won!");
         }
     }
