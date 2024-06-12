@@ -6,10 +6,12 @@ using UnityEngine.SceneManagement;
 
 public class LVL4Manager : MonoBehaviour
 {
+    public static LVL4Manager instance;
+    private KeyItem currentlyHeldItem;
 
     void Start()
     {
-
+        instance = this;
     }
 
     void Update()
@@ -25,5 +27,14 @@ public class LVL4Manager : MonoBehaviour
 
     }
 
-    
+    public void PickUpItem(KeyItem item)
+    {
+        if (currentlyHeldItem)
+        {
+            currentlyHeldItem.ShowItem(true);
+        }
+        currentlyHeldItem = item;
+        item.ShowItem(false);
+    }
+
 }
