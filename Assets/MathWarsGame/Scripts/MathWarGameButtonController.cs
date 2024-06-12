@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Runtime.Remoting.Messaging;
@@ -17,6 +18,11 @@ public class MathWarGameButtonController : MonoBehaviour
     private TextMeshProUGUI playerScoreRef;
     [SerializeField]
     private TextMeshProUGUI enemyScoreRef;
+    [SerializeField]
+    private MathWarGameController mathWarGameController;
+    public bool isDefeated = false;
+    
+
     #endregion
 
     #region Helper Methods
@@ -37,13 +43,19 @@ public class MathWarGameButtonController : MonoBehaviour
             enemy.SetActive(false);
             //Update playerScore UI
             playerScoreRef.text = playerScore.ToString();
+            // Marks enemy as defeated to track win or lose
+            isDefeated = true;
         }
         else
         {
             //Teleport the player back
             player.transform.position = new Vector3(500, 300, 0);
 
-        }
+        }    
+        mathWarGameController.checkIfGameWon();
     }
+
+
+
     #endregion
 }
