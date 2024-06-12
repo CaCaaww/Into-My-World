@@ -10,7 +10,8 @@ namespace StarterAssets
 #if ENABLE_INPUT_SYSTEM
 	[RequireComponent(typeof(PlayerInput))]
 #endif
-	public class FirstPersonController : MonoBehaviour {
+	public class FirstPersonController : MonoBehaviour
+	{
 		[Header("Player")]
 		[Tooltip("Move speed of the character in m/s")]
 		public float MoveSpeed = 4.0f;
@@ -32,10 +33,6 @@ namespace StarterAssets
 		public float JumpTimeout = 0.1f;
 		[Tooltip("Time required to pass before entering the fall state. Useful for walking down stairs")]
 		public float FallTimeout = 0.15f;
-
-		[Space(10)]
-		[Tooltip("Clicking")]
-		public ObjectSelect objectSelector;
 
 		[Header("Player Grounded")]
 		[Tooltip("If the character is grounded or not. Not part of the CharacterController built in grounded check")]
@@ -78,8 +75,10 @@ namespace StarterAssets
 
 		private const float _threshold = 0.01f;
 
-		private bool IsCurrentDeviceMouse {
-			get {
+		private bool IsCurrentDeviceMouse
+		{
+			get
+			{
 #if ENABLE_INPUT_SYSTEM
 				return _playerInput.currentControlScheme == "KeyboardMouse";
 #else
@@ -88,14 +87,17 @@ namespace StarterAssets
 			}
 		}
 
-		private void Awake() {
+		private void Awake()
+		{
 			// get a reference to our main camera
-			if (_mainCamera == null) {
+			if (_mainCamera == null)
+			{
 				_mainCamera = GameObject.FindGameObjectWithTag("MainCamera");
 			}
 		}
 
-		private void Start() {
+		private void Start()
+		{
 			_controller = GetComponent<CharacterController>();
 			_input = GetComponent<StarterAssetsInputs>();
 #if ENABLE_INPUT_SYSTEM
@@ -107,8 +109,9 @@ namespace StarterAssets
 			// reset our timeouts on start
 			_jumpTimeoutDelta = JumpTimeout;
 			_fallTimeoutDelta = FallTimeout;
-            objectSelector = this.GetComponent<ObjectSelect>();
-            _input.onClickCall = () => { objectSelector.RayCast();
+			_input.onClickCall = () =>
+			{
+				SphereCast();
 			};
 		}
 
@@ -130,6 +133,37 @@ namespace StarterAssets
 			Vector3 spherePosition = new Vector3(transform.position.x, transform.position.y - GroundedOffset, transform.position.z);
 			Grounded = Physics.CheckSphere(spherePosition, GroundedRadius, GroundLayers, QueryTriggerInteraction.Ignore);
 		}
+		private void SphereCast()
+		{
+			Vector3 cameraPosition = Camera.main.transform.position;
+			Vector3 forwardDirection = Camera.main.transform.forward;
+
+			RaycastHit hit;
+			// float maxDistance = 1.2F;
+			if (Physics.SphereCast(cameraPosition, 0.3f, forwardDirection, out hit, 5.0F))
+			{
+				// If the ray hits something, you can access the hit information
+				Debug.Log("Hit: " + hit.collider.gameObject.name);
+				if (hit.collider.gameObject.CompareTag("JailCellGuard"))
+				{
+					hit.collider.gameObject.transform.parent.GetComponent<DoorController>().toggleDoor();
+					Debug.Log("DoorTag");
+				}
+				if (hit.collider.gameObject.CompareTag("JailCell"))
+				{
+					hit.collider.gameObject.GetComponent<MiniGameController>().lockClicked();
+				}
+
+				if (hit.collider.gameObject.GetComponent<KeyItem>())
+				{
+					LVL4Manager.instance.PickUpItem(hit.collider.gameObject.GetComponent<KeyItem>());
+				}
+				else if (hit.collider.gameObject.GetComponentInParent<KeyItem>())
+				{
+					LVL4Manager.instance.PickUpItem(hit.collider.gameObject.GetComponentInParent<KeyItem>());
+				}
+			}
+		}
 
 		private void CameraRotation()
 		{
@@ -138,7 +172,7 @@ namespace StarterAssets
 			{
 				//Don't multiply mouse input by Time.deltaTime
 				float deltaTimeMultiplier = IsCurrentDeviceMouse ? 1.0f : Time.deltaTime;
-				
+
 				_cinemachineTargetPitch += _input.look.y * RotationSpeed * deltaTimeMultiplier;
 				_rotationVelocity = _input.look.x * RotationSpeed * deltaTimeMultiplier;
 
