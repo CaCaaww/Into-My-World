@@ -16,11 +16,11 @@ public class MiniGameController : MonoBehaviour
         randNum = RandomNumberGenerator.GetInt32(0, miniGames.Count);
         currentGame = Instantiate(miniGames[randNum]);
         currentGame.gameObject.SetActive(false);
-
-
     }
+
     public void lockClicked() {
         currentGame.gameObject.SetActive(true);
+        LVL4Manager.instance.TogglePlayerInput();
         Cursor.visible = true;
         Cursor.lockState = CursorLockMode.None;
     }

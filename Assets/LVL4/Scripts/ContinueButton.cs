@@ -7,7 +7,7 @@ public class ContinueButton : MonoBehaviour
    public void ReturnToLevel()
     {
         this.GetParent().SetActive(false);
-        Time.timeScale = 1.0f;
+        LVL4Manager.instance.TogglePlayerInput();
     }
 
     public GameObject GetParent()

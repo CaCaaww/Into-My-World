@@ -27,11 +27,12 @@ public class Quit : MonoBehaviour
     public void YesButtonClicked()
     {
         // Sets the game canvas to inactivem the player will return to the level
-        this.gameObject.transform.parent.gameObject.SetActive(false);
         AreYouSure.SetActive(false);
         YesButton.SetActive(false);
         NoButton.SetActive(false);
         Backdrop.SetActive(false);
+        this.gameObject.transform.parent.gameObject.SetActive(false);
+        LVL4Manager.instance.TogglePlayerInput();
 
     }
 

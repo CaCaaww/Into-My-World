@@ -268,7 +268,6 @@ public class LVL4_PipesGameController : MonoBehaviour
             addAllWater();
             GameObject gameComplete = Instantiate(GameCompletePrefab);
             gameComplete.transform.SetParent(canvas,false);
-            Time.timeScale = 0;
             // Instantiate the continue button prefab
             // The index of continue button in the Unity hierarchy
             this.gameObject.transform.GetChild(3).gameObject.SetActive(true);
