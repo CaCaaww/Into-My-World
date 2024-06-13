@@ -34,6 +34,11 @@ public class LVL4_PipesGameController : MonoBehaviour
     [Tooltip("Game Completed Prefab")]
     [SerializeField]
     private GameObject GameCompletePrefab;
+
+    [Tooltip("Backdrop")]
+    [SerializeField]
+    private GameObject backdrop;
+
     [Tooltip("The canvas")]
     [SerializeField]
     private Transform canvas;
@@ -267,7 +272,7 @@ public class LVL4_PipesGameController : MonoBehaviour
             // Instantiate the continue button prefab
             // The index of continue button in the Unity hierarchy
             this.gameObject.transform.GetChild(3).gameObject.SetActive(true);
-            //this.gameObject.SetActive(false);
+            backdrop.SetActive(true);
         }
         Debug.Log(withCorrectRotation == winIndexesLength ? "Game Finished" : "Not Finished");
     }
