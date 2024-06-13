@@ -28,6 +28,8 @@ public class Quit : MonoBehaviour
     {
         // Sets the game canvas to inactivem the player will return to the level
         this.gameObject.transform.parent.gameObject.SetActive(false);
+        Cursor.visible = false;
+        Cursor.lockState = CursorLockMode.Locked;
         AreYouSure.SetActive(false);
         YesButton.SetActive(false);
         NoButton.SetActive(false);

@@ -76,7 +76,7 @@ public class MemoryGameController : MonoBehaviour
     #region Unity Methods
     private void OnDisable()
     {
-        RemoveListeners();
+        //RemoveListeners();
     }
     
     private void Start()
