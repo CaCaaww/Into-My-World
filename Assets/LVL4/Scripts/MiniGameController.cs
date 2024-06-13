@@ -19,8 +19,10 @@ public class MiniGameController : MonoBehaviour
     }
 
     public void lockClicked() {
+        //Debug.Log("Loading");
         currentGame.gameObject.SetActive(true);
         LVL4Manager.instance.TogglePlayerInput();
+        //Debug.Log(currentGame.gameObject.active);
         Cursor.visible = true;
         Cursor.lockState = CursorLockMode.None;
     }
