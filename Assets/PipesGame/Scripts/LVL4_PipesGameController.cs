@@ -272,7 +272,7 @@ public class LVL4_PipesGameController : MonoBehaviour
             // Instantiate the continue button prefab
             // The index of continue button in the Unity hierarchy
             this.gameObject.transform.GetChild(3).gameObject.SetActive(true);
-            backdrop.SetActive(true);n
+            backdrop.SetActive(true);
         }
         Debug.Log(withCorrectRotation == winIndexesLength ? "Game Finished" : "Not Finished");
     }
