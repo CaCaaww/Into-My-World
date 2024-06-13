@@ -34,6 +34,10 @@ public class MemoryGameController : MonoBehaviour
     [Tooltip("The panel")]
     [SerializeField]
     private Transform puzzleField;
+    [Tooltip("Beating a minigame shows this backdrop")]
+    [SerializeField]
+    private GameObject backdrop;
+
     [Header("Sprites")]
     [Tooltip("The back image of the card")]
     [SerializeField]
@@ -159,6 +163,7 @@ public class MemoryGameController : MonoBehaviour
             GameObject GameCoplete = Instantiate(GameCopletePrefab);
             GameCoplete.transform.SetParent(canvas, false);
             this.gameObject.transform.GetChild(2).gameObject.SetActive(true);
+            backdrop.SetActive(true);
             Debug.Log("Game Finished!");
             Debug.Log("It took you " + countGuesses + " many guesses to finish the game");
         }
