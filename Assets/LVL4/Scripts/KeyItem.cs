@@ -40,7 +40,7 @@ public class KeyItem : MonoBehaviour
     }
 
     [SerializeField]
-    private ItemType itemType;
+    public ItemType itemType;
     [SerializeField]
     private GameObject itemObjectOverride;
     private List<String> itemTags;
