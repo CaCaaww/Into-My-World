@@ -58,6 +58,13 @@ public class MazeGenerator{
     public EPipeButtonType getButton(int index) {
         return nodes[index].pipeType;
     }
+    /*public Side getInput(int index) {
+        return nodes[index].input;
+    }
+    public Side getOutput(int index) {
+        return nodes[index].output;
+    }*/
+    
     /// <summary>
     /// takes the index of a button in the nodesList.
     /// Makes sure it's a node required for the winList, then fetches the rotation of that button and returns that.

@@ -8,6 +8,8 @@ public class ContinueButton : MonoBehaviour
     {
         this.GetParent().SetActive(false);
         LVL4Manager.instance.TogglePlayerInput();
+        Cursor.visible = false;
+        Cursor.lockState = CursorLockMode.Locked;
     }
 
     public GameObject GetParent()

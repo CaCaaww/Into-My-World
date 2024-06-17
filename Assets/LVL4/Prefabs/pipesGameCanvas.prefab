@@ -206,6 +206,7 @@ MonoBehaviour:
   GameCompletePrefab: {fileID: 8987640460194968958, guid: 5246ff37b7c783640ba3fc9605f64925,
     type: 3}
   backdrop: {fileID: 1827854586411904241}
+  continueButton: {fileID: 7321271795793704326}
   canvas: {fileID: 344012819078629755}
   angledPrefab: {fileID: 5276148945404223761, guid: 462b81c25873bdf4b8e0d8e5725d6c1f,
     type: 3}
@@ -703,6 +704,12 @@ PrefabInstance:
 --- !u!224 &1359412075344884191 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 359014900761251489, guid: 5a0c3a5e77cfb3e41a294da29cba585b,
+    type: 3}
+  m_PrefabInstance: {fileID: 1596209623616765822}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &7321271795793704326 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 8339683385549130488, guid: 5a0c3a5e77cfb3e41a294da29cba585b,
     type: 3}
   m_PrefabInstance: {fileID: 1596209623616765822}
   m_PrefabAsset: {fileID: 0}

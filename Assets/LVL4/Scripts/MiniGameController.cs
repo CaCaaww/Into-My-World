@@ -15,6 +15,7 @@ public class MiniGameController : MonoBehaviour
     {
         randNum = RandomNumberGenerator.GetInt32(0, miniGames.Count);
         currentGame = Instantiate(miniGames[randNum]);
+        //currentGame = Instantiate(miniGames[0]);
         currentGame.gameObject.SetActive(false);
     }
 

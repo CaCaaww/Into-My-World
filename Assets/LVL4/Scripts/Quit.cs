@@ -33,7 +33,8 @@ public class Quit : MonoBehaviour
         Backdrop.SetActive(false);
         this.gameObject.transform.parent.gameObject.SetActive(false);
         LVL4Manager.instance.TogglePlayerInput();
-
+        Cursor.visible = false;
+        Cursor.lockState = CursorLockMode.Locked;
     }
 
     public void NoButtonClicked()

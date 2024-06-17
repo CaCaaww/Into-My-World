@@ -66,8 +66,9 @@ public class LVL4Manager : MonoBehaviour
     }
 
     public void TogglePlayerInput()
-    {
+    {   
         inputsEnabled = !inputsEnabled;
+        //Debug.Log("Toggling Input: " + inputsEnabled);
         if (inputsEnabled)
         {
             playerInput.currentActionMap.Enable();
