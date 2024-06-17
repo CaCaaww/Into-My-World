@@ -15,6 +15,8 @@ public class Quit : MonoBehaviour
     private GameObject NoButton;
     [SerializeField]
     private GameObject Backdrop;
+    [SerializeField]
+    private Canvas gameCanvas;
 
     public void RedXButtonClicked()
     {
@@ -31,7 +33,10 @@ public class Quit : MonoBehaviour
         YesButton.SetActive(false);
         NoButton.SetActive(false);
         Backdrop.SetActive(false);
-        this.gameObject.transform.parent.gameObject.SetActive(false);
+        //this.gameObject.transform.parent.gameObject.transform.parent.GetComponent<Canvas>().enabled = false;
+        if (gameCanvas != null) {
+            gameCanvas.enabled = false;
+        }
         LVL4Manager.instance.TogglePlayerInput();
         Cursor.visible = false;
         Cursor.lockState = CursorLockMode.Locked;

@@ -15,15 +15,15 @@ public class MiniGameController : MonoBehaviour
     {
         randNum = RandomNumberGenerator.GetInt32(0, miniGames.Count);
         currentGame = Instantiate(miniGames[randNum]);
-        //currentGame = Instantiate(miniGames[0]);
-        currentGame.gameObject.SetActive(false);
+        //currentGame = Instantiate(miniGames[2]);
+        //currentGame.gameObject.GetComponent<Canvas>().enabled = true;
     }
 
     public void lockClicked() {
-        //Debug.Log("Loading");
-        currentGame.gameObject.SetActive(true);
+        Debug.Log("Loading");
+        currentGame.gameObject.GetComponent<Canvas>().enabled = true;
         LVL4Manager.instance.TogglePlayerInput();
-        //Debug.Log(currentGame.gameObject.active);
+        Debug.Log(currentGame.gameObject.active);
         Cursor.visible = true;
         Cursor.lockState = CursorLockMode.None;
     }
