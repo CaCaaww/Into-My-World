@@ -12,15 +12,21 @@ public class LVL4Manager : MonoBehaviour
 {
     [HideInInspector]
     public static LVL4Manager instance;
+
+    #region Inspector
     [SerializeField]
     private TMP_Text itemText;
     [SerializeField]
     private CanvasRenderer itemPanel;
-    private KeyItem currentlyHeldItem;
-    private bool inputsEnabled;
-
     [SerializeField]
     private PlayerInput playerInput;
+    #endregion
+
+    #region Private Variables
+    private KeyItem currentlyHeldItem;
+    private bool inputsEnabled;
+    #endregion
+
 
     void Start()
     {

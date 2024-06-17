@@ -42,6 +42,8 @@ public class MathWarGameController : MonoBehaviour
     private GameObject backdrop;
     [SerializeField]
     private GameObject thumb;
+    [SerializeField]
+    private GameObject continueButton;
 
     public string enemyText;
     public HashSet<int> aliveEnemies = new();
@@ -118,7 +120,7 @@ public class MathWarGameController : MonoBehaviour
             quitButton.SetActive(false);
             backdrop.SetActive(true);
             thumb.SetActive(true);
-            this.gameObject.transform.GetChild(1).gameObject.SetActive(true);
+            continueButton.SetActive(true);
             Debug.Log("Game Won!");
         }
     }

@@ -145,6 +145,7 @@ MonoBehaviour:
   quitButton: {fileID: 2000687244455911969}
   backdrop: {fileID: 4921871583922763243}
   thumb: {fileID: 5911135452206084665}
+  continueButton: {fileID: 8448087545114204170}
   enemyText: 
 --- !u!1 &3838956396102239094
 GameObject:
@@ -588,6 +589,12 @@ PrefabInstance:
 --- !u!224 &178553130013645907 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 359014900761251489, guid: 5a0c3a5e77cfb3e41a294da29cba585b,
+    type: 3}
+  m_PrefabInstance: {fileID: 468694346024948466}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &8448087545114204170 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 8339683385549130488, guid: 5a0c3a5e77cfb3e41a294da29cba585b,
     type: 3}
   m_PrefabInstance: {fileID: 468694346024948466}
   m_PrefabAsset: {fileID: 0}

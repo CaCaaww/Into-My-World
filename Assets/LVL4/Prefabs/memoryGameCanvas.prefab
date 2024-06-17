@@ -228,6 +228,7 @@ MonoBehaviour:
   canvas: {fileID: 1573289631283948232}
   puzzleField: {fileID: 2991617731724182519}
   backdrop: {fileID: 2532738877407394832}
+  continueButton: {fileID: 41085686192230130}
   cardCover: {fileID: 2104175589, guid: cb3b4ff2b3ddf8742894b43900267995, type: 3}
   puzzleSprites:
   - {fileID: 798162721, guid: 0db30bb4edc1a7140abbbe1341ebb5c9, type: 3}
@@ -488,6 +489,12 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 5a0c3a5e77cfb3e41a294da29cba585b, type: 3}
+--- !u!1 &41085686192230130 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 8339683385549130488, guid: 5a0c3a5e77cfb3e41a294da29cba585b,
+    type: 3}
+  m_PrefabInstance: {fileID: 8299420445442393098}
+  m_PrefabAsset: {fileID: 0}
 --- !u!224 &8635103397936564907 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 359014900761251489, guid: 5a0c3a5e77cfb3e41a294da29cba585b,
