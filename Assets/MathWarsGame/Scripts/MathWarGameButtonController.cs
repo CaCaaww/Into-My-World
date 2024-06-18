@@ -54,8 +54,18 @@ public class MathWarGameButtonController : MonoBehaviour
         }    
         mathWarGameController.checkIfGameWon();
     }
-
-
+    public void setPlayerToStart() {
+        player.transform.position = new Vector3(300, 300, 0);
+    }
+    public void reviveEnemy() {
+        enemy.SetActive(true);
+        this.gameObject.SetActive(true);
+    }
+    public void resetPlayerScore() {
+        int playerScore = int.Parse(playerScoreRef.text);
+        playerScore = 10;
+        playerScoreRef.text = playerScore.ToString();
+    }
 
     #endregion
 }

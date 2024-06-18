@@ -47,6 +47,7 @@ public class MathWarGameController : MonoBehaviour
 
     public string enemyText;
     public HashSet<int> aliveEnemies = new();
+    private int roomNumber;
     // Start is called before the first frame update
     void Start()
     {
@@ -69,12 +70,25 @@ public class MathWarGameController : MonoBehaviour
         }
         AddFloors();
     }
+    public void restartMathsGame() { 
+        for (int i = 0; i < buttons.Count; i++) {
+            buttons[i].GetComponentInChildren<MathWarGameButtonController>().isDefeated = false;
+            buttons[i].reviveEnemy();
+            buttons[i].setPlayerToStart();
+        }
+        aliveEnemies.Clear();
+        for (int i = 0; i < 9; i++) {
+            aliveEnemies.Add(i);
+        }
+        buttons[0].resetPlayerScore();
+        
+    }
 
     // Update is called once per frame
     void AddFloors()
     {
         // Select a random Scriptable object to use for the minigame data
-        int roomNumber = Random.Range(0, 4);
+        roomNumber = Random.Range(0, 4);
         // Track items in list for getting items from scriptable objects
         int floorNumber = 0;
 
@@ -102,7 +116,7 @@ public class MathWarGameController : MonoBehaviour
         }
     }
 
-    public void checkIfGameWon(){
+    public bool checkIfGameWon(){
         
         
         int defeated = 0;
@@ -122,6 +136,8 @@ public class MathWarGameController : MonoBehaviour
             thumb.SetActive(true);
             continueButton.SetActive(true);
             Debug.Log("Game Won!");
+            return true;
         }
+        return false;
     }
 }

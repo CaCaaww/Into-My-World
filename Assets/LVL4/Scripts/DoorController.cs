@@ -12,7 +12,7 @@ public class DoorController : MonoBehaviour
     //[SerializeField] private RectTransform pivot;
     public void toggleDoor()
     {
-        Debug.Log("Toggling doors");
+        //Debug.Log("Toggling doors");
         if (onLeftSideOfHall)
         {
             leftDoor.transform.rotation = Quaternion.Euler(0, 0, 0);

@@ -94,6 +94,16 @@ public class MemoryGameController : MonoBehaviour
         Shuffle(relatedSprites);
         gameGuesses = numberOfGamePuzzles / 2;
     }
+    public void restartMemoryGame() {
+        foreach (Button b in buttons) {
+            b.interactable = true;
+            b.image.enabled = true;
+            b.image.sprite = cardCover;
+        }
+        //Shuffle(relatedSprites);
+        countCorrectGuesses = countGuesses = 0;
+        gameGuesses = numberOfGamePuzzles / 2;
+    }
     #endregion
 
     #region Helper Methods
@@ -156,7 +166,7 @@ public class MemoryGameController : MonoBehaviour
     }
 
     // Check if the game is finished checking if the number of guesses is equal to the number of guesses required
-    void CheckIfTheGameISFinished()
+    public bool CheckIfTheGameISFinished()
     {
         countCorrectGuesses++;
 
@@ -168,7 +178,9 @@ public class MemoryGameController : MonoBehaviour
             backdrop.SetActive(true);
             Debug.Log("Game Finished!");
             Debug.Log("It took you " + countGuesses + " many guesses to finish the game");
+            return true;
         }
+        return false;
     }
 
     // Shuffle the sprites in a random order

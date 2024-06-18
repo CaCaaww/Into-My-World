@@ -61,6 +61,7 @@ public class LVL4_PipesGameController : MonoBehaviour
         public EPipesButtonRotation rotation;
         public EPipeButtonType type;
     }
+
     #region Unity Methods
     void Start()
     {
@@ -407,7 +408,7 @@ public class LVL4_PipesGameController : MonoBehaviour
     /// <summary>
     /// Check if the game is finished
     /// </summary>
-    void CheckIfTheGameIsFinished()
+    public bool CheckIfTheGameIsFinished()
     {
         int withCorrectRotation = 0;
 
@@ -424,8 +425,41 @@ public class LVL4_PipesGameController : MonoBehaviour
             // The index of continue button in the Unity hierarchy
             continueButton.SetActive(true);
             backdrop.SetActive(true);
+            return true;
         }
+        return false;
         //Debug.Log(withCorrectRotation == winIndexesLength ? "Game Finished" : "Not Finished");
+    }
+    public void restartPipeGame() {
+        for (int i = 0; i < 16; i++) {
+            // Add a random rotation based on the type of pipe
+            switch (buttons[i].PipeButtonType) {
+                // Angled pipes have 4 possible rotations
+                case EPipeButtonType.Angled: {
+                    // Assign to rotationIndex a random value[0,4) 
+                    int rotationIndex = UnityEngine.Random.Range(0, 4);
+                    // Keep doing it until the generated value it's different from the correct pattern rotation
+                    while (rotationIndex == (int)pattern[i].rotation) {
+                        rotationIndex = UnityEngine.Random.Range(0, 4);
+                    }
+                    buttons[i].Pivot.Rotate(0, 0, rotationIndex * 90f);
+                    }
+                    break;
+                // Straight pipes have 2 possible rotations
+                case EPipeButtonType.Straight: {
+                        int rotationIndex = UnityEngine.Random.Range(0, 2);
+                        buttons[i].Pivot.eulerAngles = Vector3.zero;
+                    }
+                    break;
+                // The empty button CAN NOT rotate
+                default: {
+                        buttons[i].Pivot.Rotate(0, 0, 0);
+                    }
+                    break;
+            }
+        }
+        CheckRotation();
+        CheckRotation2();
     }
     #endregion
 
