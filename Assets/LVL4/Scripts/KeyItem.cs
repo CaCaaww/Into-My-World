@@ -41,17 +41,18 @@ public class KeyItem : MonoBehaviour
 
     [SerializeField]
     public ItemType itemType;
+    public List<String> itemTags;
     [SerializeField]
     private GameObject itemObjectOverride;
-    private List<String> itemTags;
     private bool hasOverride;
 
-    public bool HasOverride{get; set;}
+    public bool HasOverride { get; set; }
 
     // Start is called before the first frame update
     void Start()
     {
-        if(itemObjectOverride){
+        if (itemObjectOverride)
+        {
             hasOverride = true;
         }
         itemTags = new List<string>();
@@ -60,10 +61,14 @@ public class KeyItem : MonoBehaviour
         itemTags.Add("clay");
     }
 
-    public void ShowItem(bool show){
-        if(hasOverride){
+    public void ShowItem(bool show)
+    {
+        if (hasOverride)
+        {
             itemObjectOverride.SetActive(show);
-        } else{
+        }
+        else
+        {
             this.gameObject.SetActive(show);
         }
     }
