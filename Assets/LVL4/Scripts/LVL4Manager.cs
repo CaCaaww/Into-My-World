@@ -17,14 +17,23 @@ public class LVL4Manager : MonoBehaviour
     [SerializeField]
     private TMP_Text itemText;
     [SerializeField]
+    private TMP_Text pickupText;
+    [SerializeField]
+    private TMP_Text itemHeldText;
+    [SerializeField]
     private CanvasRenderer itemPanel;
     [SerializeField]
     private PlayerInput playerInput;
     #endregion
 
     #region Private Variables
-    private KeyItem currentlyHeldItem;
     private bool inputsEnabled;
+    private List<int> DOTweenIDs;
+    private List<KeyItem> allKeyItems;
+    #endregion
+
+    #region Public Variables
+    public KeyItem currentlyHeldItem;
     #endregion
 
 
@@ -32,6 +41,18 @@ public class LVL4Manager : MonoBehaviour
     {
         instance = this;
         inputsEnabled = true;
+        DOTweenIDs = new List<int>();
+        DOTweenIDs.Add(-1);
+        DOTweenIDs.Add(-1);
+        DOTweenIDs.Add(-1);
+
+        itemPanel.SetAlpha(0);
+        itemText.alpha = 0;
+        pickupText.alpha = 0;
+
+        itemHeldText.text = "Nothing";
+
+        
     }
 
     void Update()
@@ -44,7 +65,6 @@ public class LVL4Manager : MonoBehaviour
         SceneManager.LoadSceneAsync("LVL4");
         Cursor.visible = true;
         Cursor.lockState = CursorLockMode.Locked;
-
     }
 
     public void PickUpItem(KeyItem item)
@@ -56,17 +76,27 @@ public class LVL4Manager : MonoBehaviour
         currentlyHeldItem = item;
         item.ShowItem(false);
         itemPanel.gameObject.SetActive(true);
-        itemText.text = item.itemType.ToString();
+        itemText.text = item.itemType.ToString().Replace("_", " ");
+        itemHeldText.text = itemText.text;
+
+        for (int i = 0; i < DOTweenIDs.Count; i++)
+        {
+            if (DOTweenIDs[i] != -1)
+                DOTween.Kill(DOTweenIDs[i]);
+        }
+
         itemPanel.SetAlpha(1);
-        DOTween.To(()=>itemPanel.GetAlpha(), x=>itemPanel.SetAlpha(x), 0, 4);
-        // foreach(TMP_Text i in itemPanel.GetComponentsInChildren<TMP_Text>())
-        // {
-        //     DOTween.To(()=>i.color.a, x=>i.color.a, 0, 4);
-        // }
+        DOTweenIDs[0] = DOTween.To(() => itemPanel.GetAlpha(), x => itemPanel.SetAlpha(x), 0, 4).intId;
+
+        itemText.alpha = 1;
+        DOTweenIDs[1] = DOTween.To(() => itemText.alpha, x => itemText.alpha = x, 0, 4).intId;
+
+        pickupText.alpha = 1;
+        DOTweenIDs[2] = DOTween.To(() => pickupText.alpha, x => pickupText.alpha = x, 0, 4).intId;
     }
 
     public void TogglePlayerInput()
-    {   
+    {
         inputsEnabled = !inputsEnabled;
         //Debug.Log("Toggling Input: " + inputsEnabled);
         if (inputsEnabled)

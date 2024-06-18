@@ -32,8 +32,8 @@ public class KeyItem : MonoBehaviour
         Sword,
         Scabbard,
         Flower,
-        LionStatue,
-        LionHead,
+        Lion_Statue,
+        Lion_Head,
         Pergola,
         Anvil,
         Basket

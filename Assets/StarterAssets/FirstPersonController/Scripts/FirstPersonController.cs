@@ -144,10 +144,9 @@ namespace StarterAssets
 			{
 				// If the ray hits something, you can access the hit information
 				Debug.Log("Hit: " + hit.collider.gameObject.name);
-				if (hit.collider.gameObject.CompareTag("JailCellGuard"))
+				if (hit.collider.gameObject.GetComponent<CellGuard>())
 				{
-					hit.collider.gameObject.transform.parent.GetComponent<DoorController>().toggleDoor();
-					Debug.Log("DoorTag");
+					hit.collider.gameObject.GetComponent<CellGuard>().Interact();
 				}
 				if (hit.collider.gameObject.CompareTag("JailCell"))
 				{

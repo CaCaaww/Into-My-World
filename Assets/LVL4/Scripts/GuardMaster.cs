@@ -20,7 +20,7 @@ public class GuardMaster : MonoBehaviour
         Stopped
     }
 
-    // Serialized fields
+    #region Inspector
     [SerializeField, Tooltip("The model/body of the guard")]
     private GameObject guardBody;
     [SerializeField, Tooltip("The animator to control guard body animations")]
@@ -51,9 +51,9 @@ public class GuardMaster : MonoBehaviour
     private List<GameObject> guardPrefabs;
     [SerializeField, Tooltip("Face textures for the wandering guard")]
     private Texture2D angryFace, neutralFace;
+    #endregion
 
-
-    // Private variables
+    #region Private Variables
     private GuardState state = GuardState.Patrolling;
     private GuardState prevState = GuardState.Patrolling;
     private GameObject nextPoint;
@@ -65,8 +65,8 @@ public class GuardMaster : MonoBehaviour
     private Vector3 curRotation;
     private Vector3 targetRotation;
     private float stopTime;
-
     private MeshRenderer facePlate;
+    #endregion
 
     void Start()
     {
@@ -142,7 +142,7 @@ public class GuardMaster : MonoBehaviour
                     targetRotation = Quaternion.LookRotation((nextPoint.transform.position - guardBody.transform.position).normalized, guardBody.transform.up).eulerAngles;
                     guardLerpTimer = 0.0f;
 
-                  stopTime = Random.Range(stopTimeRange.x, stopTimeRange.y);
+                    stopTime = Random.Range(stopTimeRange.x, stopTimeRange.y);
 
                     state = GuardState.Stopped;
                 }
