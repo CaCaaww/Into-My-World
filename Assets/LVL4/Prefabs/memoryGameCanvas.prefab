@@ -241,6 +241,7 @@ MonoBehaviour:
   - {fileID: 1927982243, guid: 0db30bb4edc1a7140abbbe1341ebb5c9, type: 3}
   buttons: []
   relatedSprites: []
+  quitButton: {fileID: 2171375570525944323}
 --- !u!1001 &4839489656635607924
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -349,6 +350,18 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d27525b9453a7446994a64e748f2c223, type: 3}
+--- !u!114 &2171375570525944323 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 6704475147813368183, guid: d27525b9453a7446994a64e748f2c223,
+    type: 3}
+  m_PrefabInstance: {fileID: 4839489656635607924}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &2532738877407394832 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 6921833223702001508, guid: d27525b9453a7446994a64e748f2c223,

@@ -5,6 +5,7 @@ using System.Linq;
 using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class MathWarGameController : MonoBehaviour
 {
@@ -37,7 +38,7 @@ public class MathWarGameController : MonoBehaviour
     private List<GameObject> floors = new();
 
     [SerializeField]
-    private GameObject quitButton;
+    private Button quitButton;
     [SerializeField]
     private GameObject backdrop;
     [SerializeField]
@@ -131,7 +132,7 @@ public class MathWarGameController : MonoBehaviour
         }
         if (defeated == floors.Count)
         {
-            quitButton.SetActive(false);
+            quitButton.enabled = false;
             backdrop.SetActive(true);
             thumb.SetActive(true);
             continueButton.SetActive(true);

@@ -53,6 +53,8 @@ public class MemoryGameController : MonoBehaviour
     [Tooltip("The relation between sprites and cards")]
     [SerializeField]
     private List<Sprite> relatedSprites = new();
+    [SerializeField]
+    private Button quitButton;
     #endregion
 
     #region Private Variables
@@ -175,6 +177,7 @@ public class MemoryGameController : MonoBehaviour
             GameObject GameCoplete = Instantiate(GameCopletePrefab);
             GameCoplete.transform.SetParent(canvas, false);
             continueButton.SetActive(true);
+            quitButton.interactable = false;
             backdrop.SetActive(true);
             Debug.Log("Game Finished!");
             Debug.Log("It took you " + countGuesses + " many guesses to finish the game");

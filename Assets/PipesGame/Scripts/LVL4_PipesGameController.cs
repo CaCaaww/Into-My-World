@@ -49,6 +49,8 @@ public class LVL4_PipesGameController : MonoBehaviour
     [SerializeField] private GameObject angledPrefab;
     [SerializeField] private GameObject straightPrefab;
     [SerializeField] private GameObject emptyPrefab;
+    [SerializeField]
+    private Button quitButton;
     #endregion
 
     #region Private variables
@@ -425,6 +427,7 @@ public class LVL4_PipesGameController : MonoBehaviour
             // The index of continue button in the Unity hierarchy
             continueButton.SetActive(true);
             backdrop.SetActive(true);
+            quitButton.enabled = false;
             return true;
         }
         return false;

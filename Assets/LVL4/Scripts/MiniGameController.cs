@@ -14,7 +14,7 @@ public class MiniGameController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        randNum = RandomNumberGenerator.GetInt32(0, miniGames.Count)
+        randNum = RandomNumberGenerator.GetInt32(0, miniGames.Count);
         currentGame = Instantiate(miniGames[randNum]);
         //currentGame.gameObject.GetComponent<Canvas>().enabled = true;
     }
