@@ -20,6 +20,7 @@ namespace StarterAssets
 		public bool cursorLocked = true;
 		public bool cursorInputForLook = true;
 		public OnClickDelegate onClickCall;
+		public OnOpenDebugMenuDelegate onOpenDebugMenuCall;
 
 #if ENABLE_INPUT_SYSTEM
 		public void OnMove(InputValue value)
@@ -44,11 +45,18 @@ namespace StarterAssets
 		{
 			SprintInput(value.isPressed);
 		}
-		public delegate void OnClickDelegate();
 
 		public void OnClick(InputValue value) {
 			onClickCall.Invoke();
 		}
+
+		public void OnOpenDebugMenu(InputValue value) 
+		{
+			onOpenDebugMenuCall.Invoke();
+		}
+
+		public delegate void OnClickDelegate();
+		public delegate void OnOpenDebugMenuDelegate();
 #endif
         public void MoveInput(Vector2 newMoveDirection)
 		{

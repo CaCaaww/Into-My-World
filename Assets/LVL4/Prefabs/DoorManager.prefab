@@ -86,7 +86,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 2.1}
-  m_SizeDelta: {x: 35, y: 6}
+  m_SizeDelta: {x: 30, y: 6}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!23 &2407837471854813062
 MeshRenderer:
@@ -289,6 +289,8 @@ MonoBehaviour:
     to me. If you want me to let you through, you have to retrieve them and bring
     them back to me.
   itemCheckDialoge: 'If you want to free your friends bring me:'
+  completeDialoge: Thank you for collecting all of the items!
+  angryDialoge: That is not an item I asked for!
   cellGuardModels:
   - {fileID: 897262184509383712, guid: db4bdeeaaa9b8ab68a87bfc000af5630, type: 3}
   - {fileID: 7306503956860966316, guid: eab4cebcbd41a54579ac4b0b3f7a2a8f, type: 3}
@@ -296,7 +298,9 @@ MonoBehaviour:
   angryFace: {fileID: 2800000, guid: dd27650165883338daae4d68c069c51f, type: 3}
   neutralFace: {fileID: 2800000, guid: 96768fb6f63d148d595cb94ca8eb1e15, type: 3}
   happyFace: {fileID: 2800000, guid: 0f85a89f506368f2d8def253c4016696, type: 3}
-  baseInteractionCooldown: 3
+  baseInteractionCooldown: 1.5
+  angryInteractionCooldown: 15
+  textAlphaFalloffDistance: 10
 --- !u!95 &2674403688427087086
 Animator:
   serializedVersion: 5

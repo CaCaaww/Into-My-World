@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
+using Unity.VisualScripting;
 using UnityEditor;
 using UnityEngine;
 
@@ -11,7 +12,8 @@ public class CellGuard : MonoBehaviour
         HasNotTalkedToPlayer,
         TalkedToPlayer,
         AskingForItems,
-        Angry
+        Angry,
+        Happy
     }
 
     #region Inspector
@@ -19,6 +21,10 @@ public class CellGuard : MonoBehaviour
     private string introDialoge;
     [SerializeField, TextArea]
     private string itemCheckDialoge;
+    [SerializeField, TextArea]
+    private string completeDialoge;
+    [SerializeField, TextArea]
+    private string angryDialoge;
     [SerializeField]
     private List<GameObject> cellGuardModels;
     [SerializeField]
@@ -27,13 +33,17 @@ public class CellGuard : MonoBehaviour
     private Texture2D angryFace, neutralFace, happyFace;
     [SerializeField]
     private float baseInteractionCooldown;
+    [SerializeField]
+    private float angryInteractionCooldown;
+    [SerializeField]
+    private float textAlphaFalloffDistance;
     #endregion
 
     #region Private Variables
     private CellGuardState cellGuardState;
     private MeshRenderer facePlate;
-    private int itemsFound;
     private float interactionCooldownTimer;
+    private List<KeyItem> items;
     #endregion
 
     // Start is called before the first frame update
@@ -54,8 +64,6 @@ public class CellGuard : MonoBehaviour
 
         guardText.text = "";
 
-        itemsFound = -1;
-
         GetComponent<Animator>().Rebind();
     }
 
@@ -63,6 +71,11 @@ public class CellGuard : MonoBehaviour
     void Update()
     {
         interactionCooldownTimer += Time.deltaTime;
+
+        float distance = Vector3.Distance(this.transform.position, LVL4Manager.instance.playerCapsule.transform.position);
+        float alpha = 1 - ((distance - textAlphaFalloffDistance / 2) / (textAlphaFalloffDistance / 2));
+        alpha = Mathf.Clamp(alpha, 0, 1);
+        guardText.alpha = alpha;
 
         #region State Machine
         switch (cellGuardState)
@@ -73,10 +86,38 @@ public class CellGuard : MonoBehaviour
                 guardText.text = introDialoge;
                 break;
             case CellGuardState.AskingForItems:
-                guardText.text = itemCheckDialoge;
-            break;
+                string fullItemText = itemCheckDialoge + "\n";
+                for (int i = 0; i < items.Count; i++)
+                {
+                    fullItemText += "something " + items[0].itemTags[0] + ", " + items[0].itemTags[1] + ", " + items[0].itemTags[2];
+                    if (i != items.Count - 1)
+                    {
+                        fullItemText += "\n";
+                    }
+                }
+                guardText.text = fullItemText;
+                break;
+            case CellGuardState.Happy:
+                facePlate.material.mainTexture = happyFace;
+                guardText.text = completeDialoge;
+                break;
+            case CellGuardState.Angry:
+                facePlate.material.mainTexture = angryFace;
+                guardText.text = angryDialoge;
+                if (interactionCooldownTimer >= angryInteractionCooldown)
+                {
+                    cellGuardState = CellGuardState.AskingForItems;
+                }
+                break;
         }
         #endregion
+    }
+
+    private bool CompareItemTags(KeyItem item1, KeyItem item2)
+    {
+        return item1.itemTags.Contains(item2.itemTags[0])
+            && item1.itemTags.Contains(item2.itemTags[1])
+            && item1.itemTags.Contains(item2.itemTags[2]);
     }
 
     public void Interact()
@@ -87,18 +128,61 @@ public class CellGuard : MonoBehaviour
         {
             interactionCooldownTimer = 0;
 
-            if (cellGuardState == CellGuardState.HasNotTalkedToPlayer)
+            switch (cellGuardState)
             {
-                cellGuardState = CellGuardState.TalkedToPlayer;
-            }
-            else if (cellGuardState == CellGuardState.TalkedToPlayer)
-            {
-                cellGuardState = CellGuardState.AskingForItems;
+                case CellGuardState.HasNotTalkedToPlayer:
+                    cellGuardState = CellGuardState.TalkedToPlayer;
+                    break;
+                case CellGuardState.TalkedToPlayer:
+                    cellGuardState = CellGuardState.AskingForItems;
+                    break;
+                case CellGuardState.AskingForItems:
+                    if (LVL4Manager.instance.currentlyHeldItem)
+                    {
+                        bool isItemCorrect = false;
+                        foreach (KeyItem i in items)
+                        {
+                            isItemCorrect = isItemCorrect || CompareItemTags(LVL4Manager.instance.currentlyHeldItem, i);
+                        }
+
+                        if (isItemCorrect)
+                        {
+                            for (int i = items.Count - 1; i >= 0; i--)
+                            {
+                                if (CompareItemTags(LVL4Manager.instance.currentlyHeldItem, items[i]))
+                                {
+                                    items.RemoveAt(i);
+                                    LVL4Manager.instance.ItemWasCorrect();
+                                    break;
+                                }
+                            }
+                            if (items.Count == 0)
+                            {
+                                cellGuardState = CellGuardState.Happy;
+                                GetComponentInParent<DoorController>().toggleDoor();
+                            }
+                        }
+                        else
+                        {
+                            cellGuardState = CellGuardState.Angry;
+                        }
+                    }
+                    break;
             }
         }
     }
 
-    public void OnDrawGizmos()
+    public void SetItems(KeyItem item1, KeyItem item2, KeyItem item3)
+    {
+        items = new List<KeyItem>
+        {
+            item1,
+            item2,
+            item3
+        };
+    }
+
+    private void OnDrawGizmos()
     {
         if (SceneView.currentDrawingSceneView)
         {
