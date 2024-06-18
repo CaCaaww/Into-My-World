@@ -170,7 +170,7 @@ public class MemoryGameController : MonoBehaviour
     {
         countCorrectGuesses++;
 
-        if (countCorrectGuesses == gameGuesses)
+        if (countCorrectGuesses >= gameGuesses)
         {
             GameObject GameCoplete = Instantiate(GameCopletePrefab);
             GameCoplete.transform.SetParent(canvas, false);

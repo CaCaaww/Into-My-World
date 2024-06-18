@@ -15,6 +15,7 @@ public class MiniGameController : MonoBehaviour
     void Start()
     {
         randNum = RandomNumberGenerator.GetInt32(0, miniGames.Count);
+        randNum = 1;
         currentGame = Instantiate(miniGames[randNum]);
         //currentGame.gameObject.GetComponent<Canvas>().enabled = true;
     }
