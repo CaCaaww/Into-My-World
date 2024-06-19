@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class KeyItem : MonoBehaviour
@@ -41,10 +42,12 @@ public class KeyItem : MonoBehaviour
 
     [SerializeField]
     public ItemType itemType;
-    public List<String> itemTags;
     [SerializeField]
     private GameObject itemObjectOverride;
     private bool hasOverride;
+
+    [HideInInspector]
+    public string[] itemTags = new string[3];
 
     public bool HasOverride { get; set; }
 
@@ -55,10 +58,6 @@ public class KeyItem : MonoBehaviour
         {
             hasOverride = true;
         }
-        itemTags = new List<string>();
-        itemTags.Add("gold");
-        itemTags.Add("sharp");
-        itemTags.Add("clay");
     }
 
     public void ShowItem(bool show)
@@ -71,5 +70,12 @@ public class KeyItem : MonoBehaviour
         {
             this.gameObject.SetActive(show);
         }
+    }
+
+    public bool CompareItemTags(KeyItem other)
+    {
+        return itemTags.Contains(other.itemTags[0])
+            && itemTags.Contains(other.itemTags[1])
+            && itemTags.Contains(other.itemTags[2]);
     }
 }

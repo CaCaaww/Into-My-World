@@ -113,7 +113,7 @@ namespace StarterAssets
 			{
 				SphereCast();
 			};
-			_input.onOpenDebugMenuCall = () =>
+			_input.onToggleDebugCall = () =>
 			{
 				LVL4Manager.instance.ToggleDebug();
 			};

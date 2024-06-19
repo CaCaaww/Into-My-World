@@ -51,7 +51,7 @@
                     "initialStateCheck": false
                 },
                 {
-                    "name": "OpenDebugMenu",
+                    "name": "ToggleDebug",
                     "type": "Button",
                     "id": "78d4355c-9922-4dd0-8de0-f9430a3e0de2",
                     "expectedControlType": "Button",
@@ -255,7 +255,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "OpenDebugMenu",
+                    "action": "ToggleDebug",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

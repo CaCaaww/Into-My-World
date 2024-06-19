@@ -113,13 +113,6 @@ public class CellGuard : MonoBehaviour
         #endregion
     }
 
-    private bool CompareItemTags(KeyItem item1, KeyItem item2)
-    {
-        return item1.itemTags.Contains(item2.itemTags[0])
-            && item1.itemTags.Contains(item2.itemTags[1])
-            && item1.itemTags.Contains(item2.itemTags[2]);
-    }
-
     public void Interact()
     {
         Debug.Log("Cell Guard Interaction");
@@ -142,14 +135,14 @@ public class CellGuard : MonoBehaviour
                         bool isItemCorrect = false;
                         foreach (KeyItem i in items)
                         {
-                            isItemCorrect = isItemCorrect || CompareItemTags(LVL4Manager.instance.currentlyHeldItem, i);
+                            isItemCorrect = isItemCorrect || LVL4Manager.instance.currentlyHeldItem.CompareItemTags(i);
                         }
 
                         if (isItemCorrect)
                         {
                             for (int i = items.Count - 1; i >= 0; i--)
                             {
-                                if (CompareItemTags(LVL4Manager.instance.currentlyHeldItem, items[i]))
+                                if (LVL4Manager.instance.currentlyHeldItem.CompareItemTags(items[i]))
                                 {
                                     items.RemoveAt(i);
                                     LVL4Manager.instance.ItemWasCorrect();
@@ -165,6 +158,7 @@ public class CellGuard : MonoBehaviour
                         else
                         {
                             cellGuardState = CellGuardState.Angry;
+                            LVL4Manager.instance.ItemWasIncorrect();
                         }
                     }
                     break;

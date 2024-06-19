@@ -8,6 +8,7 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
 using System.Linq;
+using static UnityEditor.Progress;
 
 public class LVL4Manager : MonoBehaviour
 {
@@ -25,11 +26,16 @@ public class LVL4Manager : MonoBehaviour
     private CanvasRenderer itemPanel;
     [SerializeField]
     private PlayerInput playerInput;
+    [SerializeField]
+    private CanvasRenderer DEBUG_PANEL;
+    [SerializeField]
+    private KeyItemTagsSO presetItemTags;
     #endregion
 
     #region Private Variables
     private bool inputsEnabled;
     private List<int> DOTweenIDs;
+    private bool debugEnabled;
     #endregion
 
     #region Public Variables
@@ -43,8 +49,7 @@ public class LVL4Manager : MonoBehaviour
     {
         instance = this;
         inputsEnabled = true;
-
-        AssignItemsToGuards();
+        debugEnabled = false;
 
         DOTweenIDs = new List<int>();
         DOTweenIDs.Add(-1);
@@ -56,11 +61,23 @@ public class LVL4Manager : MonoBehaviour
         pickupText.alpha = 0;
 
         itemHeldText.text = "Nothing";
+
+        SetItemTags();
+        AssignItemsToGuards();
     }
 
-    void Update()
+    private void SetItemTags()
     {
-
+        presetItemTags.Init();
+        List<KeyItem> allItems = new List<KeyItem>();
+        allItems.AddRange(Object.FindObjectsOfType<KeyItem>());
+        foreach (KeyItem item in allItems)
+        {
+            if (!presetItemTags.SetTagsOfItem(item))
+            {
+                Debug.LogError("Can not find item tags for item " + item.itemType.ToString().Replace("_", " "));
+            }
+        }
     }
 
     private void AssignItemsToGuards()
@@ -157,12 +174,36 @@ public class LVL4Manager : MonoBehaviour
 
     public void ItemWasIncorrect()
     {
-
+        currentlyHeldItem.ShowItem(true);
+        currentlyHeldItem = null;
+        itemHeldText.text = "Nothing";
     }
 
     public void ToggleDebug()
     {
-        Debug.Log("Opening Debug Menu");
+        Debug.Log("Toggle Debug");
+        debugEnabled = !debugEnabled;
+        DEBUG_PANEL.gameObject.SetActive(!DEBUG_PANEL.gameObject.activeSelf);
+        if (debugEnabled)
+        {
+            Cursor.visible = true;
+            Cursor.lockState = CursorLockMode.None;
+        }
+        else
+        {
+            Cursor.visible = false;
+            Cursor.lockState = CursorLockMode.Locked;
+        }
+    }
+
+    public void ToggleAllDoors()
+    {
+        List<DoorController> doors = new List<DoorController>();
+        doors.AddRange(Object.FindObjectsOfType<DoorController>());
+        foreach (DoorController i in doors)
+        {
+            i.toggleDoor();
+        }
     }
 
 
