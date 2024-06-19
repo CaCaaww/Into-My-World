@@ -5,25 +5,25 @@ using UnityEngine;
 
 public class MiniGameController : MonoBehaviour
 {
-    [SerializeField] private List<Canvas> miniGames;
-    //[SerializeField] private GameObject pipeMiniGamePrefab;
-    //[SerializeField] private GameObject matchingMiniGamePrefab;
-    private Canvas currentGame;
-    private int randNum;
-    private bool firstTime = true;
-    // Start is called before the first frame update
+    #region variables
+    [SerializeField] private List<Canvas> miniGames; // list containing the miniGames
+    private Canvas currentGame; // Canvas for the current game
+    private int randNum; // the random number which is the index of which game of the list we are using
+    private bool firstTime = true; // true if this is the first time the lock on the cell is being clicked
+    #endregion
+    #region general functions
     void Start()
     {
+        // picks a random minigame and makes it the current game for the lock
         randNum = RandomNumberGenerator.GetInt32(0, miniGames.Count);
         currentGame = Instantiate(miniGames[randNum]);
-        //currentGame.gameObject.GetComponent<Canvas>().enabled = true;
     }
-
+    #endregion
+    #region helper functions
     public void lockClicked() {
-        //Debug.Log("Loading");
-        currentGame.gameObject.GetComponent<Canvas>().enabled = true;
-        if (!firstTime) {
-            switch (randNum) {
+        currentGame.gameObject.GetComponent<Canvas>().enabled = true; // sets the canvas to be visible so the game can be seen
+        if (!firstTime) { // if this is not the first time playing the game, the game is reset to its original state
+            switch (randNum) { // makes sure the game is not already finished so it doesn't reset a completed game
                 case 0:
                     if (!currentGame.gameObject.GetComponent<LVL4_PipesGameController>().CheckIfTheGameIsFinished()) {
                         currentGame.gameObject.GetComponent<LVL4_PipesGameController>().restartPipeGame();
@@ -40,15 +40,12 @@ public class MiniGameController : MonoBehaviour
                     }
                     break;
             }
-        } else {
+        } else { // else it is no longer the first time
             firstTime = false;
         }
-        
-        LVL4Manager.instance.TogglePlayerInput();
-        //Debug.Log(currentGame.gameObject.active);
-        Cursor.visible = true;
+        LVL4Manager.instance.TogglePlayerInput(); // locking player input
+        Cursor.visible = true; // freeing the cursor and making it visible
         Cursor.lockState = CursorLockMode.None;
     }
-
-    
+    #endregion
 }

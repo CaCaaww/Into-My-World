@@ -96,19 +96,20 @@ public class MemoryGameController : MonoBehaviour
         Shuffle(relatedSprites);
         gameGuesses = numberOfGamePuzzles / 2;
     }
+
+    #endregion
+
+    #region Helper Methods
     public void restartMemoryGame() {
-        foreach (Button b in buttons) {
+        foreach (Button b in buttons) { // make all the buttons interactable again and turn them face down
             b.interactable = true;
             b.image.enabled = true;
             b.image.sprite = cardCover;
         }
-        //Shuffle(relatedSprites);
+        //reset the guesses
         countCorrectGuesses = countGuesses = 0;
         gameGuesses = numberOfGamePuzzles / 2;
     }
-    #endregion
-
-    #region Helper Methods
 
     //Populate the panel whit the selected ammount of buttons 
     void AddButtons()

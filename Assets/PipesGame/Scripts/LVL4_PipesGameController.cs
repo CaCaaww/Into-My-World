@@ -58,11 +58,14 @@ public class LVL4_PipesGameController : MonoBehaviour
     private int winIndexesLength;
     List<LVL4_PipesGameSpawnableItem> pattern;
     #endregion
+
+    #region constructor
     public class LVL4_PipesGameSpawnableItem {
         public GameObject button;
         public EPipesButtonRotation rotation;
         public EPipeButtonType type;
     }
+    #endregion
 
     #region Unity Methods
     void Start()
@@ -148,7 +151,8 @@ public class LVL4_PipesGameController : MonoBehaviour
         return null;
 
     }
-    private int getIndexFromInput(int index, Side side) {
+    private int getIndexFromInput(int index, Side side) { // take an index and side of a pipe to get the index of the pipe attached to that
+        // side. Return -10 if out of bounds or other error.
         switch (side) {
             case Side.Left:
                 index--;
@@ -433,7 +437,8 @@ public class LVL4_PipesGameController : MonoBehaviour
         return false;
         //Debug.Log(withCorrectRotation == winIndexesLength ? "Game Finished" : "Not Finished");
     }
-    public void restartPipeGame() {
+    public void restartPipeGame() { 
+        // rotate all the pipes
         for (int i = 0; i < 16; i++) {
             // Add a random rotation based on the type of pipe
             switch (buttons[i].PipeButtonType) {
@@ -461,6 +466,7 @@ public class LVL4_PipesGameController : MonoBehaviour
                     break;
             }
         }
+        // check rotation and add water
         CheckRotation();
         CheckRotation2();
     }
