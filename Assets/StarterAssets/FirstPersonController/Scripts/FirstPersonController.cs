@@ -159,11 +159,17 @@ namespace StarterAssets
 
 				if (hit.collider.gameObject.GetComponent<KeyItem>())
 				{
-					LVL4Manager.instance.PickUpItem(hit.collider.gameObject.GetComponent<KeyItem>());
+					if (hit.collider.gameObject.GetComponent<KeyItem>().CanPickUp())
+					{
+						LVL4Manager.instance.PickUpItem(hit.collider.gameObject.GetComponent<KeyItem>());
+					}
 				}
 				else if (hit.collider.gameObject.GetComponentInParent<KeyItem>())
 				{
-					LVL4Manager.instance.PickUpItem(hit.collider.gameObject.GetComponentInParent<KeyItem>());
+					if (hit.collider.gameObject.GetComponentInParent<KeyItem>().CanPickUp())
+					{
+						LVL4Manager.instance.PickUpItem(hit.collider.gameObject.GetComponentInParent<KeyItem>());
+					}
 				}
 			}
 		}

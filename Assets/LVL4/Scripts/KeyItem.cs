@@ -78,4 +78,12 @@ public class KeyItem : MonoBehaviour
             && itemTags.Contains(other.itemTags[1])
             && itemTags.Contains(other.itemTags[2]);
     }
+
+    public bool CanPickUp(){
+        if (hasOverride)
+        {
+            return itemObjectOverride.activeSelf;
+        }
+        return true;
+    }
 }
