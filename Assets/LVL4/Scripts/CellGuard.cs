@@ -86,10 +86,11 @@ public class CellGuard : MonoBehaviour
                 guardText.text = introDialoge;
                 break;
             case CellGuardState.AskingForItems:
+                facePlate.material.mainTexture = neutralFace;
                 string fullItemText = itemCheckDialoge + "\n";
                 for (int i = 0; i < items.Count; i++)
                 {
-                    fullItemText += "something " + items[0].itemTags[0] + ", " + items[0].itemTags[1] + ", " + items[0].itemTags[2];
+                    fullItemText += "something " + items[i].itemTags[0] + ", " + items[i].itemTags[1] + ", " + items[i].itemTags[2];
                     if (i != items.Count - 1)
                     {
                         fullItemText += "\n";

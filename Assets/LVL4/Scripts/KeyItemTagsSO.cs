@@ -80,6 +80,7 @@ public class KeyItemTagsSO : ScriptableObject
             {KeyItem.ItemType.Basket, basket}
         };
     }
+
     public bool SetTagsOfItem(KeyItem item)
     {
         TagsHolder holder;
@@ -91,6 +92,9 @@ public class KeyItemTagsSO : ScriptableObject
         }
         else
         {
+            string badTag = item.itemType.ToString();
+            string[] tags = new string[] { badTag, badTag, badTag };
+            item.itemTags = tags;
             return false;
         }
         return true;

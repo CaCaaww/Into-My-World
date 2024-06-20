@@ -75,7 +75,7 @@ public class LVL4Manager : MonoBehaviour
         {
             if (!presetItemTags.SetTagsOfItem(item))
             {
-                Debug.LogError("Can not find item tags for item " + item.itemType.ToString().Replace("_", " "));
+                Debug.LogWarning("Can not find item tags for item " + item.itemType.ToString().Replace("_", " "));
             }
         }
     }
