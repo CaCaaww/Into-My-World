@@ -94,31 +94,31 @@ public class LVL4Manager : MonoBehaviour
 
             KeyItem item1 = temp[Random.Range(0, temp.Count)];
             temp.Remove(item1);
-            for (int i = temp.Count - 1; i >= 0; i--)
+            for (int i = allItems.Count - 1; i >= 0; i--)
             {
-                if (temp[i].itemType == item1.itemType)
+                if (allItems[i].itemType == item1.itemType)
                 {
-                    temp.RemoveAt(i);
+                    allItems.RemoveAt(i);
                 }
             }
 
             KeyItem item2 = temp[Random.Range(0, temp.Count)];
             temp.Remove(item2);
-            for (int i = temp.Count - 1; i >= 0; i--)
+            for (int i = allItems.Count - 1; i >= 0; i--)
             {
-                if (temp[i].itemType == item2.itemType)
+                if (allItems[i].itemType == item2.itemType)
                 {
-                    temp.RemoveAt(i);
+                    allItems.RemoveAt(i);
                 }
             }
 
             KeyItem item3 = temp[Random.Range(0, temp.Count)];
             temp.Remove(item3);
-            for (int i = temp.Count - 1; i >= 0; i--)
+            for (int i = allItems.Count - 1; i >= 0; i--)
             {
-                if (temp[i].itemType == item3.itemType)
+                if (allItems[i].itemType == item3.itemType)
                 {
-                    temp.RemoveAt(i);
+                    allItems.RemoveAt(i);
                 }
             }
 
