@@ -1,11 +1,6 @@
 using System.Collections.Generic;
-using UnityEditor.UIElements;
 using UnityEditor;
 using UnityEngine;
-using UnityEngine.UIElements;
-using System;
-using System.Runtime.InteropServices;
-using static Unity.Burst.Intrinsics.X86.Avx;
 
 [CreateAssetMenu(fileName = "KeyItemTags", menuName = "IMW/KeyItemTags")]
 public class KeyItemTagsSO : ScriptableObject
@@ -106,6 +101,7 @@ public class KeyItemTagsSO : ScriptableObject
         public string tag1, tag2, tag3;
     }
 
+    #if UNITY_EDITOR
     [CustomPropertyDrawer(typeof(TagsHolder))]
     private class ItemDrawer : PropertyDrawer
     {
@@ -138,4 +134,5 @@ public class KeyItemTagsSO : ScriptableObject
             EditorGUI.EndProperty();
         }
     }
+    #endif  
 }

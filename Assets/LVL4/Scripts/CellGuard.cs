@@ -177,6 +177,7 @@ public class CellGuard : MonoBehaviour
         };
     }
 
+#if UNITY_EDITOR
     private void OnDrawGizmos()
     {
         if (SceneView.currentDrawingSceneView)
@@ -185,5 +186,5 @@ public class CellGuard : MonoBehaviour
             Gizmos.DrawMesh(cellGuardModels[0].GetComponentInChildren<SkinnedMeshRenderer>().sharedMesh, this.transform.position, this.transform.rotation, this.transform.localScale);
         }
     }
-
+#endif
 }
