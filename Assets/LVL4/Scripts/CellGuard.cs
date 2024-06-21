@@ -1,7 +1,5 @@
-using System.Collections;
 using System.Collections.Generic;
 using TMPro;
-using Unity.VisualScripting;
 using UnityEditor;
 using UnityEngine;
 
@@ -12,8 +10,9 @@ public class CellGuard : MonoBehaviour
         HasNotTalkedToPlayer,
         TalkedToPlayer,
         AskingForItems,
-        Angry,
-        Happy
+        IncorrectItem,
+        AllItemsFound,
+        CorrectItemFound
     }
 
     #region Inspector
@@ -25,16 +24,22 @@ public class CellGuard : MonoBehaviour
     private string completeDialoge;
     [SerializeField, TextArea]
     private string angryDialoge;
+    [SerializeField, TextArea]
+    private string correctItemDialoge;
     [SerializeField]
     private List<GameObject> cellGuardModels;
     [SerializeField]
-    TMP_Text guardText;
+    private TMP_Text guardText;
+    [SerializeField]
+    private SpriteRenderer textBackground;
     [SerializeField, Tooltip("Face textures for the cell guard")]
     private Texture2D angryFace, neutralFace, happyFace;
     [SerializeField]
     private float baseInteractionCooldown;
     [SerializeField]
     private float angryInteractionCooldown;
+    [SerializeField]
+    private float correctItemTextTime;
     [SerializeField]
     private float textAlphaFalloffDistance;
     #endregion
@@ -76,6 +81,15 @@ public class CellGuard : MonoBehaviour
         float alpha = 1 - ((distance - textAlphaFalloffDistance / 2) / (textAlphaFalloffDistance / 2));
         alpha = Mathf.Clamp(alpha, 0, 1);
         guardText.alpha = alpha;
+        if (guardText.text == "")
+        {
+            textBackground.color = new Color(1, 1, 1, 0);
+        }
+        else
+        {
+            textBackground.color = new Color(1, 1, 1, alpha);
+        }
+
 
         #region State Machine
         switch (cellGuardState)
@@ -98,14 +112,22 @@ public class CellGuard : MonoBehaviour
                 }
                 guardText.text = fullItemText;
                 break;
-            case CellGuardState.Happy:
+            case CellGuardState.AllItemsFound:
                 facePlate.material.mainTexture = happyFace;
                 guardText.text = completeDialoge;
                 break;
-            case CellGuardState.Angry:
+            case CellGuardState.IncorrectItem:
                 facePlate.material.mainTexture = angryFace;
                 guardText.text = angryDialoge;
                 if (interactionCooldownTimer >= angryInteractionCooldown)
+                {
+                    cellGuardState = CellGuardState.AskingForItems;
+                }
+                break;
+            case CellGuardState.CorrectItemFound:
+                facePlate.material.mainTexture = happyFace;
+                guardText.text = correctItemDialoge;
+                if (interactionCooldownTimer >= correctItemTextTime)
                 {
                     cellGuardState = CellGuardState.AskingForItems;
                 }
@@ -118,7 +140,7 @@ public class CellGuard : MonoBehaviour
     {
         Debug.Log("Cell Guard Interaction");
 
-        if (interactionCooldownTimer >= baseInteractionCooldown)
+        if (interactionCooldownTimer >= baseInteractionCooldown && cellGuardState != CellGuardState.IncorrectItem && cellGuardState != CellGuardState.CorrectItemFound)
         {
             interactionCooldownTimer = 0;
 
@@ -147,18 +169,19 @@ public class CellGuard : MonoBehaviour
                                 {
                                     items.RemoveAt(i);
                                     LVL4Manager.instance.ItemWasCorrect();
+                                    cellGuardState = CellGuardState.CorrectItemFound;
                                     break;
                                 }
                             }
                             if (items.Count == 0)
                             {
-                                cellGuardState = CellGuardState.Happy;
+                                cellGuardState = CellGuardState.AllItemsFound;
                                 GetComponentInParent<DoorController>().toggleDoor();
                             }
                         }
                         else
                         {
-                            cellGuardState = CellGuardState.Angry;
+                            cellGuardState = CellGuardState.IncorrectItem;
                             LVL4Manager.instance.ItemWasIncorrect();
                         }
                     }
