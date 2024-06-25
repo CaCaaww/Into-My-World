@@ -40,17 +40,23 @@ public class KeyItem : MonoBehaviour
         Basket
     }
 
+    #region Inspector
     [SerializeField]
     public ItemType itemType;
     [SerializeField]
     private GameObject itemObjectOverride;
+    #endregion
+
+    #region Private Variables
     private bool hasOverride;
+    #endregion
 
     [HideInInspector]
     public string[] itemTags = new string[3];
 
     public bool HasOverride { get; set; }
 
+    #region Unity Methods
     // Start is called before the first frame update
     void Start()
     {
@@ -59,7 +65,15 @@ public class KeyItem : MonoBehaviour
             hasOverride = true;
         }
     }
+    #endregion
 
+    #region Public Methods
+    /// <summary>
+    /// Shows or hides an item
+    /// - The previously picked up item is shown
+    /// - The new item being picked up is hidden
+    /// </summary>
+    /// <param name="show"> A boolean to set an item active or inactive </param>
     public void ShowItem(bool show)
     {
         if (hasOverride)
@@ -72,6 +86,10 @@ public class KeyItem : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Returns true if the item has all tags the guard requested
+    /// </summary>
+    /// <param name="other"> The item the guard requested </param>
     public bool CompareItemTags(KeyItem other)
     {
         return itemTags.Contains(other.itemTags[0])
@@ -79,6 +97,10 @@ public class KeyItem : MonoBehaviour
             && itemTags.Contains(other.itemTags[2]);
     }
 
+    /// <summary>
+    /// Checks if an item can be picked up
+    /// </summary>
+    /// <returns></returns>
     public bool CanPickUp(){
         if (hasOverride)
         {
@@ -86,4 +108,5 @@ public class KeyItem : MonoBehaviour
         }
         return true;
     }
+    #endregion
 }

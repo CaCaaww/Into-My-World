@@ -39,7 +39,7 @@ public class LVL4Manager : MonoBehaviour
     public GameObject playerCapsule;
     #endregion
 
-
+    #region Unity Methods
     void Start()
     {
         instance = this;
@@ -60,7 +60,9 @@ public class LVL4Manager : MonoBehaviour
         SetItemTags();
         AssignItemsToGuards();
     }
+    #endregion
 
+    #region Helper Methods
     private void SetItemTags()
     {
         presetItemTags.Init();
@@ -125,7 +127,12 @@ public class LVL4Manager : MonoBehaviour
             );
         }
     }
+    #endregion
 
+    #region Public Methods
+    /// <summary>
+    /// Restarts level 4
+    /// </summary>
     public void RetryButton()
     {
         SceneManager.LoadSceneAsync("LVL4");
@@ -133,6 +140,10 @@ public class LVL4Manager : MonoBehaviour
         Cursor.lockState = CursorLockMode.Locked;
     }
 
+    /// <summary>
+    /// Picks up an item and makes the item inactive
+    /// </summary>
+    /// <param name="item"> The item to be picked up </param>
     public void PickUpItem(KeyItem item)
     {
         if (currentlyHeldItem)
@@ -161,12 +172,18 @@ public class LVL4Manager : MonoBehaviour
         DOTweenIDs[2] = DOTween.To(() => pickupText.alpha, x => pickupText.alpha = x, 0, 4).intId;
     }
 
+    /// <summary>
+    /// Gives the currently held item to the guard
+    /// </summary>
     public void ItemWasCorrect()
     {
         currentlyHeldItem = null;
         itemHeldText.text = "Nothing";
     }
 
+    /// <summary>
+    /// Returns the currently held item to its original spot
+    /// </summary>
     public void ItemWasIncorrect()
     {
         currentlyHeldItem.ShowItem(true);
@@ -174,6 +191,9 @@ public class LVL4Manager : MonoBehaviour
         itemHeldText.text = "Nothing";
     }
 
+    /// <summary>
+    /// Shows or hides the debug panel
+    /// </summary>
     public void ToggleDebug()
     {
         Debug.Log("Toggle Debug");
@@ -191,6 +211,10 @@ public class LVL4Manager : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Opens all doors
+    /// - Used for debugging purposes in the Unity Editor
+    /// </summary>
     public void ToggleAllDoors()
     {
         List<DoorController> doors = new List<DoorController>();
@@ -201,7 +225,9 @@ public class LVL4Manager : MonoBehaviour
         }
     }
 
-
+    /// <summary>
+    /// Toggles the input action map
+    /// </summary>
     public void TogglePlayerInput()
     {
         inputsEnabled = !inputsEnabled;
@@ -220,5 +246,6 @@ public class LVL4Manager : MonoBehaviour
         playerInput.currentActionMap.Enable();
         //Debug.Log(inputsEnabled);
     }
+    #endregion
 
 }

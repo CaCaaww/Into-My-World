@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 2579849394544813713}
   - component: {fileID: 4945403491124079252}
   - component: {fileID: 4598927895350307016}
+  - component: {fileID: 5552098315369007007}
   m_Layer: 5
   m_Name: mathwarsGamePrefab
   m_TagString: Untagged
@@ -151,6 +152,20 @@ MonoBehaviour:
   MinigameOpenedEventChannel: {fileID: 11400000, guid: 6589e5421f0fc5445b8117c91606b819,
     type: 2}
   enemyText: 
+--- !u!114 &5552098315369007007
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 715311266420116926}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ad1574d4ce6831141a532c239c40ce40, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  CloseGameEventChannel: {fileID: 11400000, guid: 912580ad4f98ff14f8a3679bf0dd64c6,
+    type: 2}
 --- !u!1 &3838956396102239094
 GameObject:
   m_ObjectHideFlags: 0
@@ -574,6 +589,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7708798550076916570, guid: 5a0c3a5e77cfb3e41a294da29cba585b,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: ReturnToLevel
       objectReference: {fileID: 0}
     - target: {fileID: 8339683385549130488, guid: 5a0c3a5e77cfb3e41a294da29cba585b,
         type: 3}

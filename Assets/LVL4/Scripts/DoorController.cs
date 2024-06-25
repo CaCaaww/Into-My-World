@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Drawing;
 using UnityEngine;
 
 
@@ -9,6 +10,9 @@ public class DoorController : MonoBehaviour
     [SerializeField] private GameObject leftDoor;
     [SerializeField] private GameObject rightDoor;
     [SerializeField] private bool onLeftSideOfHall;
+
+    [Header("Listening Event Channels")]
+    [SerializeField] private GenericEventChannelSO<DoorOpenedEvent> DoorOpenedEventChannel;
     #endregion
 
     #region Private Variables
@@ -18,24 +22,22 @@ public class DoorController : MonoBehaviour
     // The open position for a door on the right side of the hall
     private const float yRotationRight = -180;
     private const float zRotation = 0;
-
-    #region Public methods
-    /// <summary>
-    /// Toggles a door leading to a cell when the cell guard's request is fulfilled
-    /// </summary>
-    [Header("Listening Event Channels")]
-    [SerializeField] private GenericEventChannelSO<DoorOpenedEvent> DoorOpenedEventChannel;
     #endregion
+
+    #region Unity Methods
     private void OnEnable() {
         DoorOpenedEventChannel.OnEventRaised += OnDoorOpened;
     }
+    #endregion
+
+    #region Callbacks
     private void OnDoorOpened(DoorOpenedEvent evt) {
         if (evt.controller == null) return;
         if (evt.controller == this) { toggleDoor(); }
     }
-    private void Start() {
-        //toggleDoor();
-    }
+    #endregion
+
+    #region Public Methods
     public void toggleDoor()
     {
         // Without checking what side of the hall the door is on, then

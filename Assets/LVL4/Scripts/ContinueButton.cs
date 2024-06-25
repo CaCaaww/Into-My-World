@@ -4,23 +4,20 @@ using UnityEngine;
 
 public class ContinueButton : MonoBehaviour
 {
-    #region Helper methods
-    /// <summary>
-    /// Brings the player back to first-person gameplay
-    /// </summary>
+    #region Inspector
+
     [Header("Listening Event Channels")]
     [SerializeField] private GenericEventChannelSO<CloseGameEvent> CloseGameEventChannel;
+    #endregion
+
     public void ReturnToLevel()
     {
-        CloseGameEventChannel.RaiseEvent(new CloseGameEvent());
+        CloseGameEventChannel.RaiseEvent(new CloseGameEvent(GetControllerInRoot()));
     }
 
-    /// <summary>
-    /// Returns the parent GameObject
-    /// </summary>
-    public GameObject GetParent()
+    public CloseGameController GetControllerInRoot()
     {
-        return this.gameObject.transform.parent.gameObject;
+        return this.gameObject.transform.root.GetComponent<CloseGameController>();
     }
-    #endregion
+
 }
