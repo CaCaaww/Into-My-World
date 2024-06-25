@@ -57,6 +57,12 @@ public class LVL4_PipesGameController : MonoBehaviour
     int[] winIndexes;
     private int winIndexesLength;
     List<LVL4_PipesGameSpawnableItem> pattern;
+
+    [Header("Listening Event Channels")]
+    [SerializeField] private GenericEventChannelSO<MinigameCompleteEvent> MinigameCompleteEventChannel;
+    [SerializeField] private GenericEventChannelSO<MinigameOpenedEvent> MinigameOpenedEventChannel;
+
+    private MiniGameController currentController;
     #endregion
 
     #region constructor
@@ -67,6 +73,7 @@ public class LVL4_PipesGameController : MonoBehaviour
     }
     #endregion
 
+    
     #region Unity Methods
     void Start()
     {
@@ -106,9 +113,16 @@ public class LVL4_PipesGameController : MonoBehaviour
         CheckRotation2();
         
     }
+    private void OnEnable() {
+        MinigameOpenedEventChannel.OnEventRaised += OnMinigameOpened;
+    }
     #endregion
 
     #region Helper Methods
+    private void OnMinigameOpened(MinigameOpenedEvent evt) {
+        if(evt.controller == null) return;
+        currentController = evt.controller;
+    }
     private Side[] getSides(int index) { // returns a list of the sides that the pipe touches
         // used to determine the input and output of the pipes
         if (pattern[index].type == EPipeButtonType.Empty) {
@@ -424,14 +438,16 @@ public class LVL4_PipesGameController : MonoBehaviour
                 withCorrectRotation += 1;
         }
 
-        if (withCorrectRotation == winIndexesLength) {
+        if (withCorrectRotation == winIndexesLength) {   
             GameObject gameComplete = Instantiate(GameCompletePrefab);
             gameComplete.transform.SetParent(canvas,false);
+
             // Instantiate the continue button prefab
             // The index of continue button in the Unity hierarchy
             continueButton.SetActive(true);
             backdrop.SetActive(true);
             quitButton.enabled = false;
+            MinigameCompleteEventChannel.RaiseEvent(new MinigameCompleteEvent(currentController));
             return true;
         }
         return false;

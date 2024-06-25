@@ -9,6 +9,7 @@ using UnityEngine.UI;
 
 public class MathWarGameController : MonoBehaviour
 {
+    #region Variables
     [SerializeField, Tooltip("Scriptable Object patterns that hold numbers for the Math Game")]
     private List<LVL4_MathWarGameFloorSO> gameFloorsSO;
     [SerializeField]
@@ -46,10 +47,25 @@ public class MathWarGameController : MonoBehaviour
     [SerializeField]
     private GameObject continueButton;
 
+    [Header("Listening Event Channels")]
+    [SerializeField] private GenericEventChannelSO<MinigameCompleteEvent> MinigameCompleteEventChannel;
+    [SerializeField] private GenericEventChannelSO<MinigameOpenedEvent> MinigameOpenedEventChannel;
+
+    private MiniGameController currentController;
+
     public string enemyText;
     public HashSet<int> aliveEnemies = new();
     private int roomNumber;
-    // Start is called before the first frame update
+    #endregion
+
+    #region unity & listener methods
+    private void OnEnable() {
+        MinigameOpenedEventChannel.OnEventRaised += OnMinigameOpened;
+    }
+    private void OnMinigameOpened(MinigameOpenedEvent evt) {
+        if (evt.controller == null) return;
+        currentController = evt.controller;
+    }
     void Start()
     {
         // enemyText = floor.GetComponentInChildren<TextMeshProUGUI>().ToString();
@@ -71,6 +87,9 @@ public class MathWarGameController : MonoBehaviour
         }
         AddFloors();
     }
+    #endregion
+
+    #region game methods
     public void restartMathsGame() { 
         for (int i = 0; i < buttons.Count; i++) {
             buttons[i].GetComponentInChildren<MathWarGameButtonController>().isDefeated = false;
@@ -136,9 +155,10 @@ public class MathWarGameController : MonoBehaviour
             backdrop.SetActive(true);
             thumb.SetActive(true);
             continueButton.SetActive(true);
-            Debug.Log("Game Won!");
+            MinigameCompleteEventChannel.RaiseEvent(new MinigameCompleteEvent(currentController));
             return true;
         }
         return false;
     }
+    #endregion
 }

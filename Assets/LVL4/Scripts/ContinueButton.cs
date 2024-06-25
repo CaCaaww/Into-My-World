@@ -4,12 +4,11 @@ using UnityEngine;
 
 public class ContinueButton : MonoBehaviour
 {
-   public void ReturnToLevel()
+    [Header("Listening Event Channels")]
+    [SerializeField] private GenericEventChannelSO<CloseGameEvent> CloseGameEventChannel;
+    public void ReturnToLevel()
     {
-        this.GetParent().GetComponent<Canvas>().enabled = false;
-        LVL4Manager.instance.TogglePlayerInput();
-        Cursor.visible = false;
-        Cursor.lockState = CursorLockMode.Locked;
+        CloseGameEventChannel.RaiseEvent(new CloseGameEvent());
     }
 
     public GameObject GetParent()

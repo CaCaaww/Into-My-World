@@ -242,6 +242,10 @@ MonoBehaviour:
   buttons: []
   relatedSprites: []
   quitButton: {fileID: 2171375570525944323}
+  MinigameCompleteEventChannel: {fileID: 11400000, guid: 1e52d80abb71ff048ad937dda99daee2,
+    type: 2}
+  MinigameOpenedEventChannel: {fileID: 11400000, guid: 6589e5421f0fc5445b8117c91606b819,
+    type: 2}
 --- !u!1001 &4839489656635607924
 PrefabInstance:
   m_ObjectHideFlags: 0

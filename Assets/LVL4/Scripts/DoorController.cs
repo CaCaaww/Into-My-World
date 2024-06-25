@@ -16,8 +16,20 @@ public class DoorController : MonoBehaviour
     private const float yRotationLeft = 0;
     private const float yRotationRight = -180;
     private const float zRotation = 0;
-    #endregion
 
+    [Header("Listening Event Channels")]
+    [SerializeField] private GenericEventChannelSO<DoorOpenedEvent> DoorOpenedEventChannel;
+    #endregion
+    private void OnEnable() {
+        DoorOpenedEventChannel.OnEventRaised += OnDoorOpened;
+    }
+    private void OnDoorOpened(DoorOpenedEvent evt) {
+        if (evt.controller == null) return;
+        if (evt.controller == this) { toggleDoor(); }
+    }
+    private void Start() {
+        //toggleDoor();
+    }
     public void toggleDoor()
     {
         // Without checking what side of the hall the door is on, then

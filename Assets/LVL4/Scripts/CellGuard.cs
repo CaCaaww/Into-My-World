@@ -49,6 +49,9 @@ public class CellGuard : MonoBehaviour
     private MeshRenderer facePlate;
     private float interactionCooldownTimer;
     private List<KeyItem> items;
+
+    [Header("Listening Event Channels")]
+    [SerializeField] private GenericEventChannelSO<DoorOpenedEvent> DoorOpenedEventChannel;
     #endregion
 
     // Start is called before the first frame update
@@ -176,7 +179,8 @@ public class CellGuard : MonoBehaviour
                             if (items.Count == 0)
                             {
                                 cellGuardState = CellGuardState.AllItemsFound;
-                                GetComponentInParent<DoorController>().toggleDoor();
+                                DoorOpenedEventChannel.RaiseEvent(new DoorOpenedEvent(GetComponentInParent<DoorController>()));
+                                //GetComponentInParent<DoorController>().toggleDoor();
                             }
                         }
                         else

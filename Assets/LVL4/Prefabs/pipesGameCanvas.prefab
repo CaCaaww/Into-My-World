@@ -215,6 +215,10 @@ MonoBehaviour:
   emptyPrefab: {fileID: 7147159038704323217, guid: 686fee704ae705a4ca4c50b94bd06fbc,
     type: 3}
   quitButton: {fileID: 2619272041835981538}
+  MinigameCompleteEventChannel: {fileID: 11400000, guid: 1e52d80abb71ff048ad937dda99daee2,
+    type: 2}
+  MinigameOpenedEventChannel: {fileID: 11400000, guid: 6589e5421f0fc5445b8117c91606b819,
+    type: 2}
 --- !u!1 &4590479324097330700
 GameObject:
   m_ObjectHideFlags: 0

@@ -215,5 +215,10 @@ public class LVL4Manager : MonoBehaviour
             playerInput.currentActionMap.Disable();
         }
     }
+    public void TogglePlayerInput(bool input) {
+        inputsEnabled = input;
+        playerInput.currentActionMap.Enable();
+        //Debug.Log(inputsEnabled);
+    }
 
 }

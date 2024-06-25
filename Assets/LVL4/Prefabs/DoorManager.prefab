@@ -50,6 +50,8 @@ MonoBehaviour:
   leftDoor: {fileID: 8285319623900033266}
   rightDoor: {fileID: 1404853455562926264}
   onLeftSideOfHall: 0
+  DoorOpenedEventChannel: {fileID: 11400000, guid: 1a710d723e1216e4b9f9275a58d26aee,
+    type: 2}
 --- !u!1 &7591305987716409020
 GameObject:
   m_ObjectHideFlags: 0
@@ -393,6 +395,8 @@ MonoBehaviour:
   angryInteractionCooldown: 15
   correctItemTextTime: 4
   textAlphaFalloffDistance: 10
+  DoorOpenedEventChannel: {fileID: 11400000, guid: 1a710d723e1216e4b9f9275a58d26aee,
+    type: 2}
 --- !u!95 &2674403688427087086
 Animator:
   serializedVersion: 5
