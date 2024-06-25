@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Quit : MonoBehaviour
 {
-
+    #region Inspector
     [Tooltip("The Red X in the top left corner")]
     [SerializeField]
     private GameObject RedButton;
@@ -23,7 +23,13 @@ public class Quit : MonoBehaviour
     [Tooltip("Canvas the game is played on")]
     [SerializeField]
     private Canvas gameCanvas;
+    #endregion
 
+    #region Public Methods
+
+    /// <summary>
+    /// Opens the quit menu and dims the screen
+    /// </summary>
     public void RedXButtonClicked()
     {
         // Opening the quit screen
@@ -33,13 +39,16 @@ public class Quit : MonoBehaviour
         Backdrop.SetActive(!Backdrop.activeSelf);
     }
 
+    /// <summary>
+    /// Closes the minigame and resumes first-person gameplay.
+    /// </summary>
     public void YesButtonClicked()
     {
         AreYouSure.SetActive(false);
         YesButton.SetActive(false);
         NoButton.SetActive(false);
         Backdrop.SetActive(false);
-        
+
         // Using .enable and .disable instead of gameObject.SetActive because
         // of issues with reactiviting children when the parent gameObject is
         // activated
@@ -47,7 +56,7 @@ public class Quit : MonoBehaviour
             gameCanvas.enabled = false;
         }
 
-        // Enable
+        // Enable player inputs
         LVL4Manager.instance.TogglePlayerInput();
 
         // Returning to the level, hide the cursor
@@ -55,6 +64,9 @@ public class Quit : MonoBehaviour
         Cursor.lockState = CursorLockMode.Locked;
     }
 
+    /// <summary>
+    /// Closes the quit menu and resumes the minigame
+    /// </summary>
     public void NoButtonClicked()
     {
         // Close the quit screen and continue playing the minigame
@@ -63,4 +75,5 @@ public class Quit : MonoBehaviour
         NoButton.SetActive(false);
         Backdrop.SetActive(false);
     }
+    #endregion
 }

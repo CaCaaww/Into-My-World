@@ -13,11 +13,17 @@ public class DoorController : MonoBehaviour
 
     #region Private Variables
     private const float xRotation = 0;
+    // The open position for a door on the left side of the hall
     private const float yRotationLeft = 0;
+    // The open position for a door on the right side of the hall
     private const float yRotationRight = -180;
     private const float zRotation = 0;
     #endregion
 
+    #region Public methods
+    /// <summary>
+    /// Toggles a door leading to a cell when the cell guard's request is fulfilled
+    /// </summary>
     public void toggleDoor()
     {
         // Without checking what side of the hall the door is on, then
@@ -34,4 +40,5 @@ public class DoorController : MonoBehaviour
             rightDoor.transform.rotation = Quaternion.Euler(xRotation, yRotationLeft, zRotation);
         }
     }
+    #endregion
 }
