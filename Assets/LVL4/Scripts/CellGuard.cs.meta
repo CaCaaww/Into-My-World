@@ -3,7 +3,14 @@ guid: ec56929d041f143c985566abe4875d6d
 MonoImporter:
   externalObjects: {}
   serializedVersion: 2
-  defaultReferences: []
+  defaultReferences:
+  - guardText: {instanceID: 0}
+  - textBackground: {instanceID: 0}
+  - angryFace: {instanceID: 0}
+  - neutralFace: {instanceID: 0}
+  - happyFace: {instanceID: 0}
+  - DoorOpenedEventChannel: {fileID: 11400000, guid: 1a710d723e1216e4b9f9275a58d26aee,
+      type: 2}
   executionOrder: 0
   icon: {instanceID: 0}
   userData: 

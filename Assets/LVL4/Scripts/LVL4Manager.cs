@@ -1,14 +1,9 @@
-using System.Collections;
 using System.Collections.Generic;
-using StarterAssets;
 using DG.Tweening;
 using TMPro;
-using UnityEditor.SearchService;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
-using System.Linq;
-using static UnityEditor.Progress;
 
 public class LVL4Manager : MonoBehaviour
 {
@@ -219,6 +214,11 @@ public class LVL4Manager : MonoBehaviour
         {
             playerInput.currentActionMap.Disable();
         }
+    }
+    public void TogglePlayerInput(bool input) {
+        inputsEnabled = input;
+        playerInput.currentActionMap.Enable();
+        //Debug.Log(inputsEnabled);
     }
 
 }

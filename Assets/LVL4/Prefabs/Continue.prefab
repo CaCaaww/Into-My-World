@@ -280,3 +280,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e9048e8d497bc744ca74b76f82ae40df, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  CloseGameEventChannel: {fileID: 11400000, guid: 912580ad4f98ff14f8a3679bf0dd64c6,
+    type: 2}

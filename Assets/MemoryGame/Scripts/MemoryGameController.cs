@@ -79,14 +79,26 @@ public class MemoryGameController : MonoBehaviour
     private WaitForSeconds waitForHalfSecond = new(.5f);
     //wait for one second
     private WaitForSeconds waitForOnefSecond = new(1f);
+
+    [Header("Listening Event Channels")]
+    [SerializeField] private GenericEventChannelSO<MinigameCompleteEvent> MinigameCompleteEventChannel;
+    [SerializeField] private GenericEventChannelSO<MinigameOpenedEvent> MinigameOpenedEventChannel;
+
+    private MiniGameController currentController;
     #endregion
 
-    #region Unity Methods
+    #region Unity & listener Methods
     private void OnDisable()
     {
         //RemoveListeners();
     }
-    
+    private void OnEnable() {
+        MinigameOpenedEventChannel.OnEventRaised += OnMinigameOpened;
+    }
+    private void OnMinigameOpened(MinigameOpenedEvent evt) {
+        if (evt.controller == null) return;
+        currentController = evt.controller;
+    }
     private void Start()
     {
         
@@ -180,8 +192,8 @@ public class MemoryGameController : MonoBehaviour
             continueButton.SetActive(true);
             quitButton.interactable = false;
             backdrop.SetActive(true);
-            Debug.Log("Game Finished!");
-            Debug.Log("It took you " + countGuesses + " many guesses to finish the game");
+            MinigameCompleteEventChannel.RaiseEvent(new MinigameCompleteEvent(currentController));
+            //Debug.Log("It took you " + countGuesses + " many guesses to finish the game");
             return true;
         }
         return false;

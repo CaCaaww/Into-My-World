@@ -8,15 +8,11 @@ public class ContinueButton : MonoBehaviour
     /// <summary>
     /// Brings the player back to first-person gameplay
     /// </summary>
+    [Header("Listening Event Channels")]
+    [SerializeField] private GenericEventChannelSO<CloseGameEvent> CloseGameEventChannel;
     public void ReturnToLevel()
     {
-        // Get the parent canvas
-        this.GetParent().GetComponent<Canvas>().enabled = false;
-        // Enable player inputs before returning to first-person POV
-        LVL4Manager.instance.TogglePlayerInput();
-
-        Cursor.visible = false;
-        Cursor.lockState = CursorLockMode.Locked;
+        CloseGameEventChannel.RaiseEvent(new CloseGameEvent());
     }
 
     /// <summary>
