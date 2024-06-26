@@ -22,8 +22,6 @@ public class Quit : MonoBehaviour
     private GameObject Backdrop;
     [Tooltip("Canvas the game is played on")]
     [SerializeField]
-    private Canvas gameCanvas;
-    [SerializeField]
     private GenericEventChannelSO<CloseGameEvent> CloseGameEventChannel;
     #endregion
 
@@ -65,7 +63,9 @@ public class Quit : MonoBehaviour
         NoButton.SetActive(false);
         Backdrop.SetActive(false);
     }
+    #endregion
 
+    #region Helper Methods
     public CloseGameController GetControllerInRoot()
     {
         return this.gameObject.transform.root.GetComponent<CloseGameController>();

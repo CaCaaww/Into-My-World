@@ -5,22 +5,21 @@ using UnityEngine;
 
 public class MiniGameController : MonoBehaviour
 {
-    #region variables
+    #region Inspector
     [SerializeField] private List<Canvas> miniGames; // list containing the miniGames
-    private Canvas currentGame; // Canvas for the current game
-    private int randNum; // the random number which is the index of which game of the list we are using
-    private bool firstTime = true; // true if this is the first time the lock on the cell is being clicked
-
+    
     [Header("Listening Event Channels")]
     [SerializeField] private GenericEventChannelSO<MinigameCompleteEvent> MinigameCompleteEventChannel;
     [SerializeField] private GenericEventChannelSO<MinigameOpenedEvent> MinigameOpenedEventChannel;
-    [SerializeField] private GenericEventChannelSO<CloseGameEvent> CloseGameEventChannel;
     #endregion
-    #region general functions
-    private void OnEnable() {
-        MinigameCompleteEventChannel.OnEventRaised += OnMinigameComplete;
-        CloseGameEventChannel.OnEventRaised += OnGameClose;
-    }
+
+    #region Private Variables
+    private Canvas currentGame; // Canvas for the current game
+    private int randNum; // the random number which is the index of which game of the list we are using
+    private bool firstTime = true; // true if this is the first time the lock on the cell is being clicked
+    #endregion
+
+    #region Unity Methods
     void Start()
     {
         // picks a random minigame and makes it the current game for the lock
@@ -28,7 +27,8 @@ public class MiniGameController : MonoBehaviour
         currentGame = Instantiate(miniGames[randNum]);
     }
     #endregion
-    #region helper functions
+
+    #region Public Methods
     public void lockClicked() {
         currentGame.gameObject.GetComponent<Canvas>().enabled = true; // sets the canvas to be visible so the game can be seen
         MinigameOpenedEventChannel.RaiseEvent(new MinigameOpenedEvent(this));
@@ -57,17 +57,14 @@ public class MiniGameController : MonoBehaviour
         Cursor.visible = true; // freeing the cursor and making it visible
         Cursor.lockState = CursorLockMode.None;
     }
+    #endregion
+
+    #region Callbacks
     private void OnMinigameComplete(MinigameCompleteEvent evt) {
         if (evt.controller == null) return;
         if (evt.controller == this) {
             gameObject.SetActive(false);
         }  
-    }
-    private void OnGameClose(CloseGameEvent evt) {
-        currentGame.gameObject.GetComponent<Canvas>().enabled = false;
-        LVL4Manager.instance.TogglePlayerInput(true);
-        Cursor.visible = false;
-        Cursor.lockState = CursorLockMode.Locked;
     }
     #endregion
 }
