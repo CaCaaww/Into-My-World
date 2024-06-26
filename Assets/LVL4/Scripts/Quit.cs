@@ -23,6 +23,8 @@ public class Quit : MonoBehaviour
     [Tooltip("Canvas the game is played on")]
     [SerializeField]
     private Canvas gameCanvas;
+    [SerializeField]
+    private GenericEventChannelSO<CloseGameEvent> CloseGameEventChannel;
     #endregion
 
     #region Public Methods
@@ -49,19 +51,7 @@ public class Quit : MonoBehaviour
         NoButton.SetActive(false);
         Backdrop.SetActive(false);
 
-        // Using .enable and .disable instead of gameObject.SetActive because
-        // of issues with reactiviting children when the parent gameObject is
-        // activated
-        if (gameCanvas != null) {
-            gameCanvas.enabled = false;
-        }
-
-        // Enable player inputs
-        LVL4Manager.instance.TogglePlayerInput();
-
-        // Returning to the level, hide the cursor
-        Cursor.visible = false;
-        Cursor.lockState = CursorLockMode.Locked;
+        CloseGameEventChannel.RaiseEvent(new CloseGameEvent(GetControllerInRoot()));
     }
 
     /// <summary>
@@ -74,6 +64,11 @@ public class Quit : MonoBehaviour
         YesButton.SetActive(false);
         NoButton.SetActive(false);
         Backdrop.SetActive(false);
+    }
+
+    public CloseGameController GetControllerInRoot()
+    {
+        return this.gameObject.transform.root.GetComponent<CloseGameController>();
     }
     #endregion
 }

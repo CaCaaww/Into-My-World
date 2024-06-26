@@ -800,6 +800,9 @@ MonoBehaviour:
   YesButton: {fileID: 5729659539493056593}
   NoButton: {fileID: 5547539005334228615}
   Backdrop: {fileID: 6921833223702001508}
+  gameCanvas: {fileID: 0}
+  CloseGameEventChannel: {fileID: 11400000, guid: 912580ad4f98ff14f8a3679bf0dd64c6,
+    type: 2}
 --- !u!1 &5729659539493056593
 GameObject:
   m_ObjectHideFlags: 0
