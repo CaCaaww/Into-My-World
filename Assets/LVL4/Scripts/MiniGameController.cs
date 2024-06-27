@@ -53,7 +53,7 @@ public class MiniGameController : MonoBehaviour
         } else { // else it is no longer the first time
             firstTime = false;
         }
-        LVL4Manager.instance.TogglePlayerInput(); // locking player input
+        PlayerManager.instance.TogglePlayerInput(); // locking player input
         Cursor.visible = true; // freeing the cursor and making it visible
         Cursor.lockState = CursorLockMode.None;
     }

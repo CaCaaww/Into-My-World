@@ -32,8 +32,7 @@ public class DoorController : MonoBehaviour
 
     #region Callbacks
     private void OnDoorOpened(DoorOpenedEvent evt) {
-        if (evt.controller == null) return;
-        if (evt.controller == this) { toggleDoor(); }
+        if (evt.controller == this || evt.debugCall == true) { toggleDoor(); }
     }
     #endregion
 

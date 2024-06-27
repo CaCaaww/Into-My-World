@@ -35,7 +35,7 @@ public class CloseGameController : MonoBehaviour
         this.gameObject.GetComponent<Canvas>().enabled = false;
 
         // Enable player inputs
-        LVL4Manager.instance.TogglePlayerInput(true);
+        PlayerManager.instance.TogglePlayerInput(true);
 
         // Returning to the level, hide the cursor
         Cursor.visible = false;

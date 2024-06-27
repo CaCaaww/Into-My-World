@@ -80,7 +80,7 @@ public class CellGuard : MonoBehaviour
     {
         interactionCooldownTimer += Time.deltaTime;
 
-        float distance = Vector3.Distance(this.transform.position, LVL4Manager.instance.playerCapsule.transform.position);
+        float distance = Vector3.Distance(this.transform.position, PlayerManager.instance.playerCapsule.transform.position);
         float alpha = 1 - ((distance - textAlphaFalloffDistance / 2) / (textAlphaFalloffDistance / 2));
         alpha = Mathf.Clamp(alpha, 0, 1);
         guardText.alpha = alpha;
@@ -156,22 +156,22 @@ public class CellGuard : MonoBehaviour
                     cellGuardState = CellGuardState.AskingForItems;
                     break;
                 case CellGuardState.AskingForItems:
-                    if (LVL4Manager.instance.currentlyHeldItem)
+                    if (PlayerManager.instance.currentlyHeldItem)
                     {
                         bool isItemCorrect = false;
                         foreach (KeyItem i in items)
                         {
-                            isItemCorrect = isItemCorrect || LVL4Manager.instance.currentlyHeldItem.CompareItemTags(i);
+                            isItemCorrect = isItemCorrect || PlayerManager.instance.currentlyHeldItem.CompareItemTags(i);
                         }
 
                         if (isItemCorrect)
                         {
                             for (int i = items.Count - 1; i >= 0; i--)
                             {
-                                if (LVL4Manager.instance.currentlyHeldItem.CompareItemTags(items[i]))
+                                if (PlayerManager.instance.currentlyHeldItem.CompareItemTags(items[i]))
                                 {
                                     items.RemoveAt(i);
-                                    LVL4Manager.instance.ItemWasCorrect();
+                                    PlayerManager.instance.ItemWasCorrect();
                                     cellGuardState = CellGuardState.CorrectItemFound;
                                     break;
                                 }
@@ -186,7 +186,7 @@ public class CellGuard : MonoBehaviour
                         else
                         {
                             cellGuardState = CellGuardState.IncorrectItem;
-                            LVL4Manager.instance.ItemWasIncorrect();
+                            PlayerManager.instance.ItemWasIncorrect();
                         }
                     }
                     break;
