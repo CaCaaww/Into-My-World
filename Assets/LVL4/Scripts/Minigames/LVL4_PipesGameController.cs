@@ -72,8 +72,7 @@ public class LVL4_PipesGameController : MonoBehaviour
         public EPipeButtonType type;
     }
     #endregion
-
-    
+   
     #region Unity Methods
     void Start()
     {

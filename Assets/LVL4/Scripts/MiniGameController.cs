@@ -26,6 +26,11 @@ public class MiniGameController : MonoBehaviour
         randNum = RandomNumberGenerator.GetInt32(0, miniGames.Count);
         currentGame = Instantiate(miniGames[randNum]);
     }
+
+    private void OnEnable()
+    {
+        MinigameCompleteEventChannel.OnEventRaised += OnMinigameComplete;
+    }
     #endregion
 
     #region Public Methods
