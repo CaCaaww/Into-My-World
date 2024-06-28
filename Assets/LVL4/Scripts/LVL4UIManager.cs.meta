@@ -3,7 +3,17 @@ guid: aa9192e7540cc184999a23d0a4ea0040
 MonoImporter:
   externalObjects: {}
   serializedVersion: 2
-  defaultReferences: []
+  defaultReferences:
+  - pickupItemEventChannel: {instanceID: 0}
+  - toggleDebugEventChannel: {instanceID: 0}
+  - doorOpenedEventChannel: {instanceID: 0}
+  - allPrisonersFreedEventChannel: {fileID: 11400000, guid: 9881a24e97d2172409d19d42205f758c,
+      type: 2}
+  - itemText: {instanceID: 0}
+  - pickupText: {instanceID: 0}
+  - itemHeldText: {instanceID: 0}
+  - itemPanel: {instanceID: 0}
+  - DEBUG_PANEL: {instanceID: 0}
   executionOrder: 0
   icon: {instanceID: 0}
   userData: 

@@ -27,6 +27,7 @@ public class DoorController : MonoBehaviour
     #region Unity Methods
     private void OnEnable() {
         DoorOpenedEventChannel.OnEventRaised += OnDoorOpened;
+        toggleDoor();
     }
     #endregion
 

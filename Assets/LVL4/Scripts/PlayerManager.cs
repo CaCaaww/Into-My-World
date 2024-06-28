@@ -19,17 +19,25 @@ public class PlayerManager : MonoBehaviour
     private ToggleDebugEventChannel toggleDebugEventChannel;
     [SerializeField]
     private InteractWithGuardEventChannel interactWithGuardEventChannel;
+    private MinigameCompleteEventChannel minigameCompleteEventChannel;
+    [SerializeField]
+    private AllPrisonersFreedEventChannel allPrisonersFreedEventChannel;
+    [SerializeField]
+    private ToggleCursorEventChannel toggleCursorEventChannel; 
     [SerializeField]
     private KeyItemTagsSO presetItemTags;
     [SerializeField]
     private PlayerInput playerInput;
     [SerializeField]
     private Camera mainCamera;
+    [SerializeField]
+    private int gamesNeededToComplete;
     #endregion
 
     #region Private Variables
     private bool inputsEnabled;
     private KeyItem currentlyHeldItem;
+    private int gamesCompleted = 0;
     #endregion
 
     #region Public Variables
@@ -46,6 +54,10 @@ public class PlayerManager : MonoBehaviour
         interactEventChannel.OnEventRaised += OnPlayerPressInteract;
 
         pickupItemEventChannel.OnEventRaised += OnPickupItem;
+
+        minigameCompleteEventChannel.OnEventRaised += OnMinigameComplete;
+
+        toggleCursorEventChannel.OnEventRaised += OnToggleCursor;
 
         toggleDebugEventChannel.OnEventRaised += (ToggleDebugEvent evt) => { TogglePlayerInput(); };
 
@@ -132,6 +144,7 @@ public class PlayerManager : MonoBehaviour
         Cursor.lockState = CursorLockMode.Locked;
     }
 
+   
     /// <summary>
     /// Picks up an item and makes the item inactive
     /// </summary>
@@ -206,7 +219,28 @@ public class PlayerManager : MonoBehaviour
     }
     #endregion
 
-
+    /// <summary>
+    /// Increases minigame complete count on event trigger and possibly triggers event to send to next stage.
+    /// </summary>
+    private void OnMinigameComplete(MinigameCompleteEvent evt) {
+        gamesCompleted++;
+        if (gamesCompleted == gamesNeededToComplete) {
+            allPrisonersFreedEventChannel.RaiseEvent(new AllPrisonersFreedEvent());
+            TogglePlayerInput();
+            //toggleCursorEventChannel.RaiseEvent(new ToggleCursorEvent());
+            Cursor.visible = true;
+            Cursor.lockState = CursorLockMode.None;
+        }
+    }
+    private void OnToggleCursor(ToggleCursorEvent evt) {
+        if (Cursor.visible) {
+            Cursor.visible = false; 
+            Cursor.lockState = CursorLockMode.Locked;
+        } else {
+            Cursor.visible = true;
+            Cursor.lockState = CursorLockMode.None;
+        }
+    }
     private void OnPlayerPressInteract(InteractEvent evt)
     {
         Vector3 cameraPosition = mainCamera.transform.position;
