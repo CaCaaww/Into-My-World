@@ -1,0 +1,22 @@
+fileFormatVersion: 2
+guid: 21dc91a76e7a3df478df6afe86afbb13
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences:
+  - gameGrid: {instanceID: 0}
+  - GameCompletePrefab: {instanceID: 0}
+  - backdrop: {instanceID: 0}
+  - continueButton: {instanceID: 0}
+  - canvas: {instanceID: 0}
+  - angledPrefab: {instanceID: 0}
+  - straightPrefab: {instanceID: 0}
+  - emptyPrefab: {instanceID: 0}
+  - quitButton: {instanceID: 0}
+  - MinigameCompleteEventChannel: {fileID: 11400000, guid: 1e52d80abb71ff048ad937dda99daee2,
+      type: 2}
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

@@ -126,5 +126,5 @@ MonoBehaviour:
     type: 2}
   MinigameOpenedEventChannel: {fileID: 11400000, guid: 6589e5421f0fc5445b8117c91606b819,
     type: 2}
-  CloseGameEventChannel: {fileID: 11400000, guid: 912580ad4f98ff14f8a3679bf0dd64c6,
+  ToggleCursorEventChannel: {fileID: 11400000, guid: 0c775ea64491c1845b1be371fbd2aca8,
     type: 2}

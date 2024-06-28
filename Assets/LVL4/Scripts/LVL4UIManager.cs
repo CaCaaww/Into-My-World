@@ -15,6 +15,8 @@ public class LVL4UIManager : MonoBehaviour
     [SerializeField]
     private DoorOpenedEventChannel doorOpenedEventChannel;
     [SerializeField]
+    private AllPrisonersFreedEventChannel allPrisonersFreedEventChannel;
+    [SerializeField]
     private TMP_Text itemText;
     [SerializeField]
     private TMP_Text pickupText;
@@ -24,6 +26,8 @@ public class LVL4UIManager : MonoBehaviour
     private CanvasRenderer itemPanel;
     [SerializeField]
     private CanvasRenderer DEBUG_PANEL;
+    [SerializeField]
+    private GameObject nextStageGameObject;
 
     private List<int> DOTweenIDs;
     private bool debugEnabled;
@@ -32,7 +36,7 @@ public class LVL4UIManager : MonoBehaviour
     {
         pickupItemEventChannel.OnEventRaised += OnPickupItem;
         toggleDebugEventChannel.OnEventRaised += OnToggleDebug;
-
+        allPrisonersFreedEventChannel.OnEventRaised += OnAllPrisonersFreed;
         itemPanel.SetAlpha(0);
         itemText.alpha = 0;
         pickupText.alpha = 0;
@@ -45,6 +49,11 @@ public class LVL4UIManager : MonoBehaviour
         DOTweenIDs.Add(-1);
     }
 
+    private void OnAllPrisonersFreed(AllPrisonersFreedEvent evt) {
+        Debug.Log("Moving to next stage");
+        itemPanel.gameObject.SetActive(false);
+        nextStageGameObject.SetActive(true);
+    }
     private void OnPickupItem(PickupItemEvent evt)
     {
         KeyItem item = evt.item;

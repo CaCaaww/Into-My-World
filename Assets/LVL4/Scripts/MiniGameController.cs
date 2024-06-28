@@ -11,6 +11,7 @@ public class MiniGameController : MonoBehaviour
     [Header("Listening Event Channels")]
     [SerializeField] private GenericEventChannelSO<MinigameCompleteEvent> MinigameCompleteEventChannel;
     [SerializeField] private GenericEventChannelSO<MinigameOpenedEvent> MinigameOpenedEventChannel;
+    [SerializeField] private GenericEventChannelSO<ToggleCursorEvent> ToggleCursorEventChannel;
     #endregion
 
     #region Private Variables
@@ -25,6 +26,11 @@ public class MiniGameController : MonoBehaviour
         // picks a random minigame and makes it the current game for the lock
         randNum = RandomNumberGenerator.GetInt32(0, miniGames.Count);
         currentGame = Instantiate(miniGames[randNum]);
+    }
+
+    private void OnEnable()
+    {
+        MinigameCompleteEventChannel.OnEventRaised += OnMinigameComplete;
     }
     #endregion
 
@@ -54,7 +60,8 @@ public class MiniGameController : MonoBehaviour
             firstTime = false;
         }
         PlayerManager.instance.TogglePlayerInput(); // locking player input
-        Cursor.visible = true; // freeing the cursor and making it visible
+        //ToggleCursorEventChannel.RaiseEvent(new ToggleCursorEvent());
+        Cursor.visible = true;
         Cursor.lockState = CursorLockMode.None;
     }
     #endregion

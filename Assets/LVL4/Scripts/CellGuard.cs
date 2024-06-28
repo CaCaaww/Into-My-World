@@ -44,6 +44,8 @@ public class CellGuard : MonoBehaviour
     private float correctItemTextTime;
     [SerializeField]
     private float textAlphaFalloffDistance;
+    [Header("Listening Event Channels")]
+    [SerializeField] private GenericEventChannelSO<DoorOpenedEvent> DoorOpenedEventChannel;
     #endregion
 
     #region Private Variables
@@ -51,9 +53,6 @@ public class CellGuard : MonoBehaviour
     private MeshRenderer facePlate;
     private float interactionCooldownTimer;
     private List<KeyItem> items;
-
-    [Header("Listening Event Channels")]
-    [SerializeField] private GenericEventChannelSO<DoorOpenedEvent> DoorOpenedEventChannel;
     #endregion
 
     // Start is called before the first frame update
