@@ -12,6 +12,16 @@ public class PlayerManager : MonoBehaviour
 
     #region Inspector
     [SerializeField]
+    private KeyItemTagsSO presetItemTags;
+    [SerializeField]
+    private PlayerInput playerInput;
+    [SerializeField]
+    private Camera mainCamera;
+    [SerializeField]
+    private int gamesNeededToComplete;
+
+    [Header("Listening Event Channels")]
+    [SerializeField]
     private InteractEventChannel interactEventChannel;
     [SerializeField]
     private PickupItemEventChannel pickupItemEventChannel;
@@ -24,15 +34,9 @@ public class PlayerManager : MonoBehaviour
     [SerializeField]
     private AllPrisonersFreedEventChannel allPrisonersFreedEventChannel;
     [SerializeField]
-    private ToggleCursorEventChannel toggleCursorEventChannel; 
+    private ToggleCursorEventChannel toggleCursorEventChannel;
     [SerializeField]
-    private KeyItemTagsSO presetItemTags;
-    [SerializeField]
-    private PlayerInput playerInput;
-    [SerializeField]
-    private Camera mainCamera;
-    [SerializeField]
-    private int gamesNeededToComplete;
+    private GenericEventChannelSO<GiveGuardItemEvent> GiveGuardItemEventChannel;
     #endregion
 
     #region Private Variables
@@ -61,6 +65,8 @@ public class PlayerManager : MonoBehaviour
         toggleCursorEventChannel.OnEventRaised += OnToggleCursor;
 
         toggleDebugEventChannel.OnEventRaised += (ToggleDebugEvent evt) => { TogglePlayerInput(); };
+
+        GiveGuardItemEventChannel.OnEventRaised += OnGiveGuardItem;
 
         SetItemTags();
         AssignItemsToGuards();
@@ -161,25 +167,6 @@ public class PlayerManager : MonoBehaviour
     }
 
     /// <summary>
-    /// Gives the currently held item to the guard
-    /// </summary>
-    public void ItemWasCorrect()
-    {
-        currentlyHeldItem = null;
-        //itemHeldText.text = "Nothing";
-    }
-
-    /// <summary>
-    /// Returns the currently held item to its original spot
-    /// </summary>
-    public void ItemWasIncorrect()
-    {
-        currentlyHeldItem.ShowItem(true);
-        currentlyHeldItem = null;
-        //itemHeldText.text = "Nothing";
-    }
-
-    /// <summary>
     /// Opens all doors
     /// - Used for debugging purposes in the Unity Editor
     /// </summary>
@@ -277,5 +264,14 @@ public class PlayerManager : MonoBehaviour
                 }
             }
         }
+    }
+
+    public void OnGiveGuardItem(GiveGuardItemEvent evt)
+    {
+        if (!evt.isCorrectItem)
+        {
+            currentlyHeldItem.ShowItem(true);
+        }
+        currentlyHeldItem = null;
     }
 }

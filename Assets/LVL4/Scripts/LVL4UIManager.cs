@@ -8,14 +8,7 @@ using static UnityEditor.Progress;
 
 public class LVL4UIManager : MonoBehaviour
 {
-    [SerializeField]
-    private PickupItemEventChannel pickupItemEventChannel;
-    [SerializeField]
-    private ToggleDebugEventChannel toggleDebugEventChannel;
-    [SerializeField]
-    private DoorOpenedEventChannel doorOpenedEventChannel;
-    [SerializeField]
-    private AllPrisonersFreedEventChannel allPrisonersFreedEventChannel;
+    #region Inspector
     [SerializeField]
     private TMP_Text itemText;
     [SerializeField]
@@ -29,14 +22,30 @@ public class LVL4UIManager : MonoBehaviour
     [SerializeField]
     private GameObject nextStageGameObject;
 
+    [Header("Listening Event Channels")]
+    [SerializeField]
+    private PickupItemEventChannel pickupItemEventChannel;
+    [SerializeField]
+    private ToggleDebugEventChannel toggleDebugEventChannel;
+    [SerializeField]
+    private DoorOpenedEventChannel doorOpenedEventChannel;
+    [SerializeField]
+    private AllPrisonersFreedEventChannel allPrisonersFreedEventChannel;
+    [SerializeField]
+    private GenericEventChannelSO<GiveGuardItemEvent> GiveGuardItemEventChannel;
+    #endregion
+
+    #region Private Variables
     private List<int> DOTweenIDs;
     private bool debugEnabled;
+    #endregion
 
     private void Start()
     {
         pickupItemEventChannel.OnEventRaised += OnPickupItem;
         toggleDebugEventChannel.OnEventRaised += OnToggleDebug;
         allPrisonersFreedEventChannel.OnEventRaised += OnAllPrisonersFreed;
+        GiveGuardItemEventChannel.OnEventRaised += OnGiveGuardItem;
         itemPanel.SetAlpha(0);
         itemText.alpha = 0;
         pickupText.alpha = 0;
@@ -102,5 +111,10 @@ public class LVL4UIManager : MonoBehaviour
     public void OpenDoorsButton()
     {
         doorOpenedEventChannel.RaiseEvent(new DoorOpenedEvent(null, true));
+    }
+
+    public void OnGiveGuardItem(GiveGuardItemEvent evt)
+    {
+        itemHeldText.text = "Nothing";
     }
 }

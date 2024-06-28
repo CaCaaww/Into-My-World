@@ -16,8 +16,6 @@ public class CellGuard : MonoBehaviour
     }
 
     #region Inspector
-    [SerializeField]
-    private InteractWithGuardEventChannel interactWithGuardEventChannel;
     [SerializeField, TextArea]
     private string introDialogue;
     [SerializeField, TextArea]
@@ -44,8 +42,14 @@ public class CellGuard : MonoBehaviour
     private float correctItemTextTime;
     [SerializeField]
     private float textAlphaFalloffDistance;
+
     [Header("Listening Event Channels")]
-    [SerializeField] private GenericEventChannelSO<DoorOpenedEvent> DoorOpenedEventChannel;
+    [SerializeField] 
+    private GenericEventChannelSO<DoorOpenedEvent> DoorOpenedEventChannel;
+    [SerializeField]
+    private InteractWithGuardEventChannel interactWithGuardEventChannel;
+    [SerializeField]
+    private GenericEventChannelSO<GiveGuardItemEvent> GiveGuardItemEventChannel;
     #endregion
 
     #region Private Variables
@@ -170,12 +174,12 @@ public class CellGuard : MonoBehaviour
 
                             if (isItemCorrect)
                             {
+                                
                                 for (int i = items.Count - 1; i >= 0; i--)
                                 {
                                     if (evt.heldItem.CompareItemTags(items[i]))
                                     {
                                         items.RemoveAt(i);
-                                        PlayerManager.instance.ItemWasCorrect();
                                         cellGuardState = CellGuardState.CorrectItemFound;
                                         break;
                                     }
@@ -190,8 +194,8 @@ public class CellGuard : MonoBehaviour
                             else
                             {
                                 cellGuardState = CellGuardState.IncorrectItem;
-                                PlayerManager.instance.ItemWasIncorrect();
                             }
+                            GiveGuardItemEventChannel.RaiseEvent(new GiveGuardItemEvent(isItemCorrect));
                         }
                         break;
                 }

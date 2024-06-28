@@ -376,8 +376,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ec56929d041f143c985566abe4875d6d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  interactWithGuardEventChannel: {fileID: 11400000, guid: 52809e3c5134c4ba0928fb3c215aa385,
-    type: 2}
   introDialogue: Today my boss has requisitioned three objects that are very important
     to me. If you want me to let you through, you have to retrieve them and bring
     them back to me.
@@ -399,6 +397,10 @@ MonoBehaviour:
   correctItemTextTime: 4
   textAlphaFalloffDistance: 10
   DoorOpenedEventChannel: {fileID: 11400000, guid: 1a710d723e1216e4b9f9275a58d26aee,
+    type: 2}
+  interactWithGuardEventChannel: {fileID: 11400000, guid: 52809e3c5134c4ba0928fb3c215aa385,
+    type: 2}
+  GiveGuardItemEventChannel: {fileID: 11400000, guid: 1745fab6558d1824eaf430d9482fd46f,
     type: 2}
 --- !u!95 &2674403688427087086
 Animator:

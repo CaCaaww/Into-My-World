@@ -7,4 +7,11 @@ public class GiveGuardItemEventChannel : GenericEventChannelSO<GiveGuardItemEven
 
 [System.Serializable]
 public struct GiveGuardItemEvent
-{}
+{
+    public bool isCorrectItem;
+
+    public GiveGuardItemEvent(bool isCorrectItem)
+    {
+        this.isCorrectItem = isCorrectItem;
+    }
+}
