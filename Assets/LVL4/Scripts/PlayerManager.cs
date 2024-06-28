@@ -19,6 +19,7 @@ public class PlayerManager : MonoBehaviour
     private ToggleDebugEventChannel toggleDebugEventChannel;
     [SerializeField]
     private InteractWithGuardEventChannel interactWithGuardEventChannel;
+    [SerializeField]
     private MinigameCompleteEventChannel minigameCompleteEventChannel;
     [SerializeField]
     private AllPrisonersFreedEventChannel allPrisonersFreedEventChannel;
