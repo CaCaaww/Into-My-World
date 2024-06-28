@@ -42,7 +42,6 @@ public class PlayerManager : MonoBehaviour
 
     #region Public Variables
     [HideInInspector]
-    public KeyItem currentlyHeldItem;
     public GameObject playerCapsule;
     #endregion
 
@@ -255,7 +254,7 @@ public class PlayerManager : MonoBehaviour
             Debug.Log("Hit: " + hit.collider.gameObject.name);
             if (hit.collider.gameObject.GetComponent<CellGuard>())
             {
-                hit.collider.gameObject.GetComponent<CellGuard>().Interact();
+                interactWithGuardEventChannel.RaiseEvent(new InteractWithGuardEvent(hit.collider.gameObject.GetComponent<CellGuard>(), currentlyHeldItem) );
             }
             if (hit.collider.gameObject.CompareTag("JailCell"))
             {

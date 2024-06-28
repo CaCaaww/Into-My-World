@@ -7,4 +7,5 @@ public class InteractEventChannel : GenericEventChannelSO<InteractEvent> { }
 
 [System.Serializable]
 public struct InteractEvent
-{}
+{
+}
