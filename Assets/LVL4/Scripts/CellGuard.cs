@@ -16,18 +16,16 @@ public class CellGuard : MonoBehaviour
     }
 
     #region Inspector
-    [SerializeField]
-    private InteractWithGuardEventChannel interactWithGuardEventChannel;
     [SerializeField, TextArea]
-    private string introDialogue;
+    private string introDialoge;
     [SerializeField, TextArea]
-    private string itemCheckDialogue;
+    private string itemCheckDialoge;
     [SerializeField, TextArea]
-    private string completeDialogue;
+    private string completeDialoge;
     [SerializeField, TextArea]
-    private string angryDialogue;
+    private string angryDialoge;
     [SerializeField, TextArea]
-    private string correctItemDialogue;
+    private string correctItemDialoge;
     [SerializeField]
     private List<GameObject> cellGuardModels;
     [SerializeField]
@@ -58,8 +56,6 @@ public class CellGuard : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        interactWithGuardEventChannel.OnEventRaised += OnInteract;
-
         cellGuardState = CellGuardState.HasNotTalkedToPlayer;
 
         GameObject model = Instantiate(cellGuardModels[Random.Range(0, cellGuardModels.Count)], this.transform);
@@ -103,11 +99,11 @@ public class CellGuard : MonoBehaviour
             case CellGuardState.HasNotTalkedToPlayer:
                 break;
             case CellGuardState.TalkedToPlayer:
-                guardText.text = introDialogue;
+                guardText.text = introDialoge;
                 break;
             case CellGuardState.AskingForItems:
                 facePlate.material.mainTexture = neutralFace;
-                string fullItemText = itemCheckDialogue + "\n";
+                string fullItemText = itemCheckDialoge + "\n";
                 for (int i = 0; i < items.Count; i++)
                 {
                     fullItemText += "something " + items[i].itemTags[0] + ", " + items[i].itemTags[1] + ", " + items[i].itemTags[2];
@@ -120,11 +116,11 @@ public class CellGuard : MonoBehaviour
                 break;
             case CellGuardState.AllItemsFound:
                 facePlate.material.mainTexture = happyFace;
-                guardText.text = completeDialogue;
+                guardText.text = completeDialoge;
                 break;
             case CellGuardState.IncorrectItem:
                 facePlate.material.mainTexture = angryFace;
-                guardText.text = angryDialogue;
+                guardText.text = angryDialoge;
                 if (interactionCooldownTimer >= angryInteractionCooldown)
                 {
                     cellGuardState = CellGuardState.AskingForItems;
@@ -132,7 +128,7 @@ public class CellGuard : MonoBehaviour
                 break;
             case CellGuardState.CorrectItemFound:
                 facePlate.material.mainTexture = happyFace;
-                guardText.text = correctItemDialogue;
+                guardText.text = correctItemDialoge;
                 if (interactionCooldownTimer >= correctItemTextTime)
                 {
                     cellGuardState = CellGuardState.AskingForItems;
@@ -142,59 +138,57 @@ public class CellGuard : MonoBehaviour
         #endregion
     }
 
-    public void OnInteract(InteractWithGuardEvent evt)
+    public void Interact()
     {
         Debug.Log("Cell Guard Interaction");
-        if (evt.cellGuard == this)
+
+        if (interactionCooldownTimer >= baseInteractionCooldown && cellGuardState != CellGuardState.IncorrectItem && cellGuardState != CellGuardState.CorrectItemFound)
         {
-            if (interactionCooldownTimer >= baseInteractionCooldown && cellGuardState != CellGuardState.IncorrectItem && cellGuardState != CellGuardState.CorrectItemFound)
+            interactionCooldownTimer = 0;
+
+            switch (cellGuardState)
             {
-                interactionCooldownTimer = 0;
-
-                switch (cellGuardState)
-                {
-                    case CellGuardState.HasNotTalkedToPlayer:
-                        cellGuardState = CellGuardState.TalkedToPlayer;
-                        break;
-                    case CellGuardState.TalkedToPlayer:
-                        cellGuardState = CellGuardState.AskingForItems;
-                        break;
-                    case CellGuardState.AskingForItems:
-                        if (evt.heldItem)
+                case CellGuardState.HasNotTalkedToPlayer:
+                    cellGuardState = CellGuardState.TalkedToPlayer;
+                    break;
+                case CellGuardState.TalkedToPlayer:
+                    cellGuardState = CellGuardState.AskingForItems;
+                    break;
+                case CellGuardState.AskingForItems:
+                    if (PlayerManager.instance.currentlyHeldItem)
+                    {
+                        bool isItemCorrect = false;
+                        foreach (KeyItem i in items)
                         {
-                            bool isItemCorrect = false;
-                            foreach (KeyItem i in items)
-                            {
-                                isItemCorrect = isItemCorrect || evt.heldItem.CompareItemTags(i);
-                            }
+                            isItemCorrect = isItemCorrect || PlayerManager.instance.currentlyHeldItem.CompareItemTags(i);
+                        }
 
-                            if (isItemCorrect)
+                        if (isItemCorrect)
+                        {
+                            for (int i = items.Count - 1; i >= 0; i--)
                             {
-                                for (int i = items.Count - 1; i >= 0; i--)
+                                if (PlayerManager.instance.currentlyHeldItem.CompareItemTags(items[i]))
                                 {
-                                    if (evt.heldItem.CompareItemTags(items[i]))
-                                    {
-                                        items.RemoveAt(i);
-                                        PlayerManager.instance.ItemWasCorrect();
-                                        cellGuardState = CellGuardState.CorrectItemFound;
-                                        break;
-                                    }
-                                }
-                                if (items.Count == 0)
-                                {
-                                    cellGuardState = CellGuardState.AllItemsFound;
-                                    DoorOpenedEventChannel.RaiseEvent(new DoorOpenedEvent(GetComponentInParent<DoorController>()));
-                                    //GetComponentInParent<DoorController>().toggleDoor();
+                                    items.RemoveAt(i);
+                                    PlayerManager.instance.ItemWasCorrect();
+                                    cellGuardState = CellGuardState.CorrectItemFound;
+                                    break;
                                 }
                             }
-                            else
+                            if (items.Count == 0)
                             {
-                                cellGuardState = CellGuardState.IncorrectItem;
-                                PlayerManager.instance.ItemWasIncorrect();
+                                cellGuardState = CellGuardState.AllItemsFound;
+                                DoorOpenedEventChannel.RaiseEvent(new DoorOpenedEvent(GetComponentInParent<DoorController>()));
+                                //GetComponentInParent<DoorController>().toggleDoor();
                             }
                         }
-                        break;
-                }
+                        else
+                        {
+                            cellGuardState = CellGuardState.IncorrectItem;
+                            PlayerManager.instance.ItemWasIncorrect();
+                        }
+                    }
+                    break;
             }
         }
     }

@@ -376,16 +376,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ec56929d041f143c985566abe4875d6d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  interactWithGuardEventChannel: {fileID: 11400000, guid: 52809e3c5134c4ba0928fb3c215aa385,
-    type: 2}
-  introDialogue: Today my boss has requisitioned three objects that are very important
+  introDialoge: Today my boss has requisitioned three objects that are very important
     to me. If you want me to let you through, you have to retrieve them and bring
     them back to me.
-  itemCheckDialogue: 'If you want to free your friend, find my objects and bring
-    them back to me. You will have to look for them:'
-  completeDialogue: Thank you for giving me all of the items.
-  angryDialogue: That is not an item I asked for!
-  correctItemDialogue: This item is correct. Thank you!
+  itemCheckDialoge: 'If you want to free your friends bring me:'
+  completeDialoge: Thank you for collecting all of the items!
+  angryDialoge: That is not an item I asked for!
+  correctItemDialoge: That is an item I asked for thank you!
   cellGuardModels:
   - {fileID: 897262184509383712, guid: db4bdeeaaa9b8ab68a87bfc000af5630, type: 3}
   - {fileID: 7306503956860966316, guid: eab4cebcbd41a54579ac4b0b3f7a2a8f, type: 3}
