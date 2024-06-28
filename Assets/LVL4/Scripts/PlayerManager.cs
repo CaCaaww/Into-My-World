@@ -18,6 +18,8 @@ public class PlayerManager : MonoBehaviour
     [SerializeField]
     private ToggleDebugEventChannel toggleDebugEventChannel;
     [SerializeField]
+    private InteractWithGuardEventChannel interactWithGuardEventChannel;
+    [SerializeField]
     private KeyItemTagsSO presetItemTags;
     [SerializeField]
     private PlayerInput playerInput;
@@ -27,11 +29,11 @@ public class PlayerManager : MonoBehaviour
 
     #region Private Variables
     private bool inputsEnabled;
+    private KeyItem currentlyHeldItem;
     #endregion
 
     #region Public Variables
     [HideInInspector]
-    public KeyItem currentlyHeldItem;
     public GameObject playerCapsule;
     #endregion
 
@@ -218,7 +220,7 @@ public class PlayerManager : MonoBehaviour
             Debug.Log("Hit: " + hit.collider.gameObject.name);
             if (hit.collider.gameObject.GetComponent<CellGuard>())
             {
-                hit.collider.gameObject.GetComponent<CellGuard>().Interact();
+                interactWithGuardEventChannel.RaiseEvent(new InteractWithGuardEvent(hit.collider.gameObject.GetComponent<CellGuard>(), currentlyHeldItem) );
             }
             if (hit.collider.gameObject.CompareTag("JailCell"))
             {
