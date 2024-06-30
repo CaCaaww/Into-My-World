@@ -61,6 +61,7 @@ public class LVL4_PipesGameController : MonoBehaviour
     [Header("Listening Event Channels")]
     [SerializeField] private GenericEventChannelSO<MinigameCompleteEvent> MinigameCompleteEventChannel;
     [SerializeField] private GenericEventChannelSO<MinigameOpenedEvent> MinigameOpenedEventChannel;
+    [SerializeField] private GenericEventChannelSO<CloseGameEvent> CloseGameEventChannel;
 
     private MiniGameController currentController;
     #endregion
@@ -114,14 +115,11 @@ public class LVL4_PipesGameController : MonoBehaviour
     }
     private void OnEnable() {
         MinigameOpenedEventChannel.OnEventRaised += OnMinigameOpened;
+        CloseGameEventChannel.OnEventRaised += OnMinigameClosed;
     }
     #endregion
 
     #region Helper Methods
-    private void OnMinigameOpened(MinigameOpenedEvent evt) {
-        if(evt.controller == null) return;
-        currentController = evt.controller;
-    }
     private Side[] getSides(int index) { // returns a list of the sides that the pipe touches
         // used to determine the input and output of the pipes
         if (pattern[index].type == EPipeButtonType.Empty) {
@@ -533,6 +531,24 @@ public class LVL4_PipesGameController : MonoBehaviour
         CheckRotation();
         CheckRotation2();
         CheckIfTheGameIsFinished();
+    }
+
+    private void OnMinigameOpened(MinigameOpenedEvent evt)
+    {
+        if (evt.controller == null) return;
+        currentController = evt.controller;
+    }
+
+    private void OnMinigameClosed(CloseGameEvent evt)
+    {
+        this.gameObject.GetComponent<Canvas>().enabled = false;
+
+        // Enable player inputs
+        PlayerManager.instance.TogglePlayerInput(true);
+
+        // Returning to the level, hide the cursor
+        Cursor.visible = false;
+        Cursor.lockState = CursorLockMode.Locked;
     }
     #endregion
 }

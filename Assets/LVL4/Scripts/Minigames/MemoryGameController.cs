@@ -10,6 +10,7 @@ public class MemoryGameController : MonoBehaviour
     #region Constants
     private const int numberOfGamePuzzles = 16;
     #endregion
+
     #region Inspector
     [Header("UI settings")]
 
@@ -55,6 +56,11 @@ public class MemoryGameController : MonoBehaviour
     private List<Sprite> relatedSprites = new();
     [SerializeField]
     private Button quitButton;
+
+    [Header("Listening Event Channels")]
+    [SerializeField] private GenericEventChannelSO<MinigameCompleteEvent> MinigameCompleteEventChannel;
+    [SerializeField] private GenericEventChannelSO<MinigameOpenedEvent> MinigameOpenedEventChannel;
+    [SerializeField] private GenericEventChannelSO<CloseGameEvent> CloseGameEventChannel;
     #endregion
 
     #region Private Variables
@@ -80,10 +86,6 @@ public class MemoryGameController : MonoBehaviour
     //wait for one second
     private WaitForSeconds waitForOnefSecond = new(1f);
 
-    [Header("Listening Event Channels")]
-    [SerializeField] private GenericEventChannelSO<MinigameCompleteEvent> MinigameCompleteEventChannel;
-    [SerializeField] private GenericEventChannelSO<MinigameOpenedEvent> MinigameOpenedEventChannel;
-
     private MiniGameController currentController;
     #endregion
 
@@ -94,10 +96,22 @@ public class MemoryGameController : MonoBehaviour
     }
     private void OnEnable() {
         MinigameOpenedEventChannel.OnEventRaised += OnMinigameOpened;
+        CloseGameEventChannel.OnEventRaised += OnMinigameClosed;
     }
     private void OnMinigameOpened(MinigameOpenedEvent evt) {
         if (evt.controller == null) return;
         currentController = evt.controller;
+    }
+    private void OnMinigameClosed(CloseGameEvent evt)
+    {
+        this.gameObject.GetComponent<Canvas>().enabled = false;
+
+        // Enable player inputs
+        PlayerManager.instance.TogglePlayerInput(true);
+
+        // Returning to the level, hide the cursor
+        Cursor.visible = false;
+        Cursor.lockState = CursorLockMode.Locked;
     }
     private void Start()
     {

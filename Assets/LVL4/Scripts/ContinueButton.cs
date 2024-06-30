@@ -12,12 +12,6 @@ public class ContinueButton : MonoBehaviour
 
     public void ReturnToLevel()
     {
-        CloseGameEventChannel.RaiseEvent(new CloseGameEvent(GetControllerInRoot()));
+        CloseGameEventChannel.RaiseEvent(new CloseGameEvent());
     }
-
-    public CloseGameController GetControllerInRoot()
-    {
-        return this.gameObject.transform.root.GetComponent<CloseGameController>();
-    }
-
 }

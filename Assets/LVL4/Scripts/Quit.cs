@@ -51,7 +51,7 @@ public class Quit : MonoBehaviour
         NoButton.SetActive(false);
         Backdrop.SetActive(false);
 
-        CloseGameEventChannel.RaiseEvent(new CloseGameEvent(GetControllerInRoot()));
+        CloseGameEventChannel.RaiseEvent(new CloseGameEvent());
     }
 
     /// <summary>
@@ -64,13 +64,6 @@ public class Quit : MonoBehaviour
         YesButton.SetActive(false);
         NoButton.SetActive(false);
         Backdrop.SetActive(false);
-    }
-    #endregion
-
-    #region Helper Methods
-    public CloseGameController GetControllerInRoot()
-    {
-        return this.gameObject.transform.root.GetComponent<CloseGameController>();
     }
     #endregion
 }

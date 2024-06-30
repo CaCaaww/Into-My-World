@@ -88,7 +88,6 @@ GameObject:
   - component: {fileID: 8041929031483695169}
   - component: {fileID: 996142858519721794}
   - component: {fileID: 5900425255920818519}
-  - component: {fileID: 2865403879900661991}
   m_Layer: 5
   m_Name: pipesGameCanvas
   m_TagString: Untagged
@@ -220,18 +219,6 @@ MonoBehaviour:
     type: 2}
   MinigameOpenedEventChannel: {fileID: 11400000, guid: 6589e5421f0fc5445b8117c91606b819,
     type: 2}
---- !u!114 &2865403879900661991
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3446610646011795925}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ad1574d4ce6831141a532c239c40ce40, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
   CloseGameEventChannel: {fileID: 11400000, guid: 912580ad4f98ff14f8a3679bf0dd64c6,
     type: 2}
 --- !u!1 &4590479324097330700

@@ -9,7 +9,7 @@ using UnityEngine.UI;
 
 public class MathWarGameController : MonoBehaviour
 {
-    #region Variables
+    #region Inspector
     [SerializeField, Tooltip("Scriptable Object patterns that hold numbers for the Math Game")]
     private List<LVL4_MathWarGameFloorSO> gameFloorsSO;
     [SerializeField]
@@ -50,7 +50,10 @@ public class MathWarGameController : MonoBehaviour
     [Header("Listening Event Channels")]
     [SerializeField] private GenericEventChannelSO<MinigameCompleteEvent> MinigameCompleteEventChannel;
     [SerializeField] private GenericEventChannelSO<MinigameOpenedEvent> MinigameOpenedEventChannel;
+    [SerializeField] private GenericEventChannelSO<CloseGameEvent> CloseGameEventChannel;
+    #endregion
 
+    #region Public & Private Variables
     private MiniGameController currentController;
 
     public string enemyText;
@@ -58,13 +61,25 @@ public class MathWarGameController : MonoBehaviour
     private int roomNumber;
     #endregion
 
-    #region unity & listener methods
+    #region Unity & Listener methods
     private void OnEnable() {
         MinigameOpenedEventChannel.OnEventRaised += OnMinigameOpened;
+        CloseGameEventChannel.OnEventRaised += OnMinigameClosed;
     }
     private void OnMinigameOpened(MinigameOpenedEvent evt) {
         if (evt.controller == null) return;
         currentController = evt.controller;
+    }
+    private void OnMinigameClosed(CloseGameEvent evt)
+    {
+        this.gameObject.GetComponent<Canvas>().enabled = false;
+
+        // Enable player inputs
+        PlayerManager.instance.TogglePlayerInput(true);
+
+        // Returning to the level, hide the cursor
+        Cursor.visible = false;
+        Cursor.lockState = CursorLockMode.Locked;
     }
     void Start()
     {
