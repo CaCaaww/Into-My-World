@@ -59,10 +59,6 @@ public class MiniGameController : MonoBehaviour
         } else { // else it is no longer the first time
             firstTime = false;
         }
-        PlayerManager.instance.TogglePlayerInput(); // locking player input
-        //ToggleCursorEventChannel.RaiseEvent(new ToggleCursorEvent());
-        Cursor.visible = true;
-        Cursor.lockState = CursorLockMode.None;
     }
     #endregion
 

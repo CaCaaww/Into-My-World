@@ -37,6 +37,8 @@ public class PlayerManager : MonoBehaviour
     private ToggleCursorEventChannel toggleCursorEventChannel;
     [SerializeField]
     private GenericEventChannelSO<GiveGuardItemEvent> GiveGuardItemEventChannel;
+    [SerializeField]
+    private GenericEventChannelSO<MinigameOpenedEvent> MinigameOpenedEventChannel;
     #endregion
 
     #region Private Variables
@@ -67,6 +69,8 @@ public class PlayerManager : MonoBehaviour
         toggleDebugEventChannel.OnEventRaised += (ToggleDebugEvent evt) => { TogglePlayerInput(); };
 
         GiveGuardItemEventChannel.OnEventRaised += OnGiveGuardItem;
+
+        MinigameOpenedEventChannel.OnEventRaised += OnMinigameOpened;
 
         SetItemTags();
         AssignItemsToGuards();
@@ -273,5 +277,12 @@ public class PlayerManager : MonoBehaviour
             currentlyHeldItem.ShowItem(true);
         }
         currentlyHeldItem = null;
+    }
+
+    public void OnMinigameOpened(MinigameOpenedEvent evt)
+    {
+        TogglePlayerInput();
+        Cursor.visible = true;
+        Cursor.lockState = CursorLockMode.None;
     }
 }

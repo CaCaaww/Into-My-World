@@ -21,6 +21,8 @@ public class Quit : MonoBehaviour
     [SerializeField]
     private GameObject Backdrop;
     [Tooltip("Canvas the game is played on")]
+
+    [Header("Listening Event Channels")]
     [SerializeField]
     private GenericEventChannelSO<CloseGameEvent> CloseGameEventChannel;
     #endregion
