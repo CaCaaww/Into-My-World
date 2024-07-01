@@ -208,6 +208,7 @@ public class PlayerManager : MonoBehaviour
     public void InputEnabled(bool enabled)
     {
         inputsEnabled = enabled;
+        Debug.Log("inputsEnabled = " + inputsEnabled);
 
         if (inputsEnabled)
         {
@@ -220,6 +221,7 @@ public class PlayerManager : MonoBehaviour
     }
     #endregion
 
+    #region Listener Methods
     /// <summary>
     /// Increases minigame complete count on event trigger and possibly triggers event to send to next stage.
     /// </summary>
@@ -228,7 +230,6 @@ public class PlayerManager : MonoBehaviour
         gamesCompleted++;
         if (gamesCompleted >= gamesNeededToComplete) {
             allPrisonersFreedEventChannel.RaiseEvent(new AllPrisonersFreedEvent());
-            InputEnabled(true);
             //toggleCursorEventChannel.RaiseEvent(new ToggleCursorEvent());
             Cursor.visible = true;
             Cursor.lockState = CursorLockMode.None;
@@ -301,10 +302,11 @@ public class PlayerManager : MonoBehaviour
     }
     private void OnMinigameClosed(CloseGameEvent evt)
     {
-        InputEnabled(true);
         if (gamesCompleted < gamesNeededToComplete) {
+            InputEnabled(true);
             Cursor.visible = false;
             Cursor.lockState = CursorLockMode.Locked;
         }
     }
+    #endregion
 }
