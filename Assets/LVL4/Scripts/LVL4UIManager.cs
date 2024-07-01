@@ -5,6 +5,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
+//using UnityEngine.UIElements;
 using static UnityEditor.Progress;
 
 public class LVL4UIManager : MonoBehaviour
@@ -23,6 +24,8 @@ public class LVL4UIManager : MonoBehaviour
     [SerializeField]
     private GameObject nextStageGameObject;
     [SerializeField]
+    private GameObject finalStageGameObject;
+    [SerializeField]
     private GameObject gameOverPanel;
 
     [Header("Listening Event Channels")]
@@ -38,6 +41,8 @@ public class LVL4UIManager : MonoBehaviour
     private GameOverEventChannel gameOverEventChannel;
     [SerializeField]
     private GenericEventChannelSO<GiveGuardItemEvent> GiveGuardItemEventChannel;
+    [SerializeField]
+    private GenericEventChannelSO<OpenNextStageEvent> OpenNextStageEventChannel;
     #endregion
 
     #region Private Variables
@@ -47,6 +52,7 @@ public class LVL4UIManager : MonoBehaviour
 
     private void Start()
     {
+        OpenNextStageEventChannel.OnEventRaised += OnOpenNextStage;
         itemPanel.SetAlpha(0);
         itemText.alpha = 0;
         pickupText.alpha = 0;
@@ -59,6 +65,9 @@ public class LVL4UIManager : MonoBehaviour
         DOTweenIDs.Add(-1);
     }
 
+    private void OnOpenNextStage(OpenNextStageEvent evt) {
+        finalStageGameObject.SetActive(true);
+    }
     private void OnEnable(){
         pickupItemEventChannel.OnEventRaised += OnPickupItem;
         toggleDebugEventChannel.OnEventRaised += OnToggleDebug;
@@ -116,8 +125,8 @@ public class LVL4UIManager : MonoBehaviour
         }
         else
         {
-            Cursor.visible = false;
-            Cursor.lockState = CursorLockMode.Locked;
+           Cursor.visible = false;
+           Cursor.lockState = CursorLockMode.Locked;
         }
     }
 

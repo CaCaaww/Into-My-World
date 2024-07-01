@@ -226,8 +226,7 @@ public class PlayerManager : MonoBehaviour
     private void OnMinigameComplete(MinigameCompleteEvent evt)
     {
         gamesCompleted++;
-        if (gamesCompleted == gamesNeededToComplete)
-        {
+        if (gamesCompleted >= gamesNeededToComplete) {
             allPrisonersFreedEventChannel.RaiseEvent(new AllPrisonersFreedEvent());
             InputEnabled(true);
             //toggleCursorEventChannel.RaiseEvent(new ToggleCursorEvent());
@@ -303,5 +302,9 @@ public class PlayerManager : MonoBehaviour
     private void OnMinigameClosed(CloseGameEvent evt)
     {
         InputEnabled(true);
+        if (gamesCompleted < gamesNeededToComplete) {
+            Cursor.visible = false;
+            Cursor.lockState = CursorLockMode.Locked;
+        }
     }
 }

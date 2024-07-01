@@ -107,8 +107,8 @@ public class MemoryGameController : MonoBehaviour
         this.gameObject.GetComponent<Canvas>().enabled = false;
 
         // Returning to the level, hide the cursor
-        Cursor.visible = false;
-        Cursor.lockState = CursorLockMode.Locked;
+        //Cursor.visible = false;
+        //Cursor.lockState = CursorLockMode.Locked;
     }
     private void Start()
     {
