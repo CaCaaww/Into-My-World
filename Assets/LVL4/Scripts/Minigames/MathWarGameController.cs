@@ -74,9 +74,6 @@ public class MathWarGameController : MonoBehaviour
     {
         this.gameObject.GetComponent<Canvas>().enabled = false;
 
-        // Enable player inputs
-        PlayerManager.instance.TogglePlayerInput(true);
-
         // Returning to the level, hide the cursor
         Cursor.visible = false;
         Cursor.lockState = CursorLockMode.Locked;

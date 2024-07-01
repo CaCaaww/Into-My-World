@@ -32,6 +32,8 @@ public class PlayerManager : MonoBehaviour
     [SerializeField]
     private MinigameCompleteEventChannel minigameCompleteEventChannel;
     [SerializeField]
+    private CloseGameEventChannel closeGameEventChannel;
+    [SerializeField]
     private AllPrisonersFreedEventChannel allPrisonersFreedEventChannel;
     [SerializeField]
     private ToggleCursorEventChannel toggleCursorEventChannel;
@@ -71,6 +73,8 @@ public class PlayerManager : MonoBehaviour
         GiveGuardItemEventChannel.OnEventRaised += OnGiveGuardItem;
 
         MinigameOpenedEventChannel.OnEventRaised += OnMinigameOpened;
+
+        closeGameEventChannel.OnEventRaised += OnMinigameClosed;
 
         SetItemTags();
         AssignItemsToGuards();
@@ -284,5 +288,9 @@ public class PlayerManager : MonoBehaviour
         TogglePlayerInput();
         Cursor.visible = true;
         Cursor.lockState = CursorLockMode.None;
+    }
+    private void OnMinigameClosed(CloseGameEvent evt)
+    {
+        TogglePlayerInput(true);
     }
 }
