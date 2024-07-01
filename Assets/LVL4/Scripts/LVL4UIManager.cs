@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.SceneManagement;
 using static UnityEditor.Progress;
 
 public class LVL4UIManager : MonoBehaviour
@@ -101,6 +102,16 @@ public class LVL4UIManager : MonoBehaviour
             Cursor.visible = false;
             Cursor.lockState = CursorLockMode.Locked;
         }
+    }
+
+    /// <summary>
+    /// Restarts level 4
+    /// </summary>
+    public void RetryButton()
+    {
+        SceneManager.LoadSceneAsync("LVL4");
+        Cursor.visible = true;
+        Cursor.lockState = CursorLockMode.Locked;
     }
 
     public void ExitDebugMenuButton() 

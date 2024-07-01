@@ -147,16 +147,6 @@ public class PlayerManager : MonoBehaviour
     #endregion
 
     #region Public Methods
-    /// <summary>
-    /// Restarts level 4
-    /// </summary>
-    public void RetryButton()
-    {
-        SceneManager.LoadSceneAsync("LVL4");
-        Cursor.visible = true;
-        Cursor.lockState = CursorLockMode.Locked;
-    }
-
    
     /// <summary>
     /// Picks up an item and makes the item inactive
