@@ -35,16 +35,14 @@ public class GuardMaster : MonoBehaviour
     private float aggroTime;
     [SerializeField, Tooltip("The speed the guard moves at")]
     private float moveSpeed;
-    [SerializeField, Tooltip("The player's capsule or body")]
-    private GameObject playerBody;
-    [SerializeField, Tooltip("The popup when the player enters the aggro range")]
-    private GameObject warningSprite;
-    [SerializeField, Tooltip("Panel that appears when the player is caught by a guard")]
-    private GameObject gameOverPanel;
     [SerializeField, Tooltip("Male and female guard bodies")]
     private List<GameObject> guardPrefabs;
     [SerializeField, Tooltip("Face textures for the wandering guard")]
     private Texture2D angryFace, neutralFace;
+    [SerializeField, Tooltip("Player transform")]
+    private PlayerTransformSO playerTransform;
+    [SerializeField, Tooltip("Happens when the player is caught")]
+    private GameOverEventChannel gameOverEventChannel;
     #endregion
 
     #region Private Variables
@@ -145,7 +143,7 @@ public class GuardMaster : MonoBehaviour
                     guardBody.transform.position = guardBody.transform.position + normalizedDirection * moveSpeed * Time.deltaTime;
                 }
 
-                if (Vector3.Distance(guardBody.transform.position, playerBody.transform.position) < aggroRange && guardAggroCooldownTimer >= 0.2f)
+                if (Vector3.Distance(guardBody.transform.position, playerTransform.Position) < aggroRange && guardAggroCooldownTimer >= 0.2f)
                 {
                     state = GuardState.Searching;
                     prevState = GuardState.Patrolling;
@@ -162,14 +160,10 @@ public class GuardMaster : MonoBehaviour
                 playerAggroTimer += Time.deltaTime;
                 if (playerAggroTimer >= aggroTime)
                 {
-                    gameOverPanel.SetActive(true);
-                    playerBody.GetComponent<FirstPersonController>().enabled = false;
-
-                    Cursor.visible = true;
-                    Cursor.lockState = CursorLockMode.None;
+                    gameOverEventChannel.RaiseEvent(new GameOverEvent());
                 }
 
-                if (Vector3.Distance(guardBody.transform.position, playerBody.transform.position) > aggroRange)
+                if (Vector3.Distance(guardBody.transform.position, playerTransform.Position) > aggroRange)
                 {
                     if (prevState == GuardState.Stopped)
                     {
@@ -200,7 +194,7 @@ public class GuardMaster : MonoBehaviour
                     animator.SetBool("Walking", true);
                 }
 
-                if (Vector3.Distance(guardBody.transform.position, playerBody.transform.position) < aggroRange && guardAggroCooldownTimer >= 0.2f)
+                if (Vector3.Distance(guardBody.transform.position, playerTransform.Position) < aggroRange && guardAggroCooldownTimer >= 0.2f)
                 {
                     state = GuardState.Searching;
                     prevState = GuardState.Stopped;

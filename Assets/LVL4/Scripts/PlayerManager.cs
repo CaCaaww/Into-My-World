@@ -1,9 +1,6 @@
 using System.Collections.Generic;
-using DG.Tweening;
-using TMPro;
 using UnityEngine;
 using UnityEngine.InputSystem;
-using UnityEngine.SceneManagement;
 
 public class PlayerManager : MonoBehaviour
 {
@@ -53,8 +50,18 @@ public class PlayerManager : MonoBehaviour
     {
         transformSO.Set(playerInput.gameObject.transform);
 
+        Cursor.visible = false;
+
+        Cursor.lockState = CursorLockMode.Locked;
+
         inputsEnabled = true;
 
+        SetItemTags();
+        AssignItemsToGuards();
+    }
+
+    private void OnEnable()
+    {
         interactEventChannel.OnEventRaised += OnPlayerPressInteract;
 
         pickupItemEventChannel.OnEventRaised += OnPickupItem;
@@ -71,10 +78,27 @@ public class PlayerManager : MonoBehaviour
 
         closeGameEventChannel.OnEventRaised += OnMinigameClosed;
 
-        SetItemTags();
-        AssignItemsToGuards();
     }
 
+    private void OnDisable()
+    {
+        interactEventChannel.OnEventRaised -= OnPlayerPressInteract;
+
+        pickupItemEventChannel.OnEventRaised -= OnPickupItem;
+
+        minigameCompleteEventChannel.OnEventRaised -= OnMinigameComplete;
+
+        toggleCursorEventChannel.OnEventRaised -= OnToggleCursor;
+
+        toggleDebugEventChannel.OnEventRaised -= (ToggleDebugEvent evt) => { InputEnabled(!inputsEnabled); };
+
+        GiveGuardItemEventChannel.OnEventRaised -= OnGiveGuardItem;
+
+        MinigameOpenedEventChannel.OnEventRaised -= OnMinigameOpened;
+
+        closeGameEventChannel.OnEventRaised -= OnMinigameClosed;
+
+    }
     private void Update()
     {
         transformSO.Set(playerInput.gameObject.transform);
@@ -149,7 +173,7 @@ public class PlayerManager : MonoBehaviour
     #endregion
 
     #region Public Methods
-   
+
     /// <summary>
     /// Picks up an item and makes the item inactive
     /// </summary>
@@ -199,9 +223,11 @@ public class PlayerManager : MonoBehaviour
     /// <summary>
     /// Increases minigame complete count on event trigger and possibly triggers event to send to next stage.
     /// </summary>
-    private void OnMinigameComplete(MinigameCompleteEvent evt) {
+    private void OnMinigameComplete(MinigameCompleteEvent evt)
+    {
         gamesCompleted++;
-        if (gamesCompleted == gamesNeededToComplete) {
+        if (gamesCompleted == gamesNeededToComplete)
+        {
             allPrisonersFreedEventChannel.RaiseEvent(new AllPrisonersFreedEvent());
             InputEnabled(true);
             //toggleCursorEventChannel.RaiseEvent(new ToggleCursorEvent());
@@ -209,11 +235,15 @@ public class PlayerManager : MonoBehaviour
             Cursor.lockState = CursorLockMode.None;
         }
     }
-    private void OnToggleCursor(ToggleCursorEvent evt) {
-        if (Cursor.visible) {
-            Cursor.visible = false; 
+    private void OnToggleCursor(ToggleCursorEvent evt)
+    {
+        if (Cursor.visible)
+        {
+            Cursor.visible = false;
             Cursor.lockState = CursorLockMode.Locked;
-        } else {
+        }
+        else
+        {
             Cursor.visible = true;
             Cursor.lockState = CursorLockMode.None;
         }
@@ -231,7 +261,7 @@ public class PlayerManager : MonoBehaviour
             Debug.Log("Hit: " + hit.collider.gameObject.name);
             if (hit.collider.gameObject.GetComponent<CellGuard>())
             {
-                interactWithGuardEventChannel.RaiseEvent(new InteractWithGuardEvent(hit.collider.gameObject.GetComponent<CellGuard>(), currentlyHeldItem) );
+                interactWithGuardEventChannel.RaiseEvent(new InteractWithGuardEvent(hit.collider.gameObject.GetComponent<CellGuard>(), currentlyHeldItem));
             }
             if (hit.collider.gameObject.CompareTag("JailCell"))
             {

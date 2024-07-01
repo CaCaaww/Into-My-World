@@ -22,6 +22,8 @@ public class LVL4UIManager : MonoBehaviour
     private CanvasRenderer DEBUG_PANEL;
     [SerializeField]
     private GameObject nextStageGameObject;
+    [SerializeField]
+    private GameObject gameOverPanel;
 
     [Header("Listening Event Channels")]
     [SerializeField]
@@ -33,6 +35,8 @@ public class LVL4UIManager : MonoBehaviour
     [SerializeField]
     private AllPrisonersFreedEventChannel allPrisonersFreedEventChannel;
     [SerializeField]
+    private GameOverEventChannel gameOverEventChannel;
+    [SerializeField]
     private GenericEventChannelSO<GiveGuardItemEvent> GiveGuardItemEventChannel;
     #endregion
 
@@ -43,10 +47,6 @@ public class LVL4UIManager : MonoBehaviour
 
     private void Start()
     {
-        pickupItemEventChannel.OnEventRaised += OnPickupItem;
-        toggleDebugEventChannel.OnEventRaised += OnToggleDebug;
-        allPrisonersFreedEventChannel.OnEventRaised += OnAllPrisonersFreed;
-        GiveGuardItemEventChannel.OnEventRaised += OnGiveGuardItem;
         itemPanel.SetAlpha(0);
         itemText.alpha = 0;
         pickupText.alpha = 0;
@@ -59,7 +59,24 @@ public class LVL4UIManager : MonoBehaviour
         DOTweenIDs.Add(-1);
     }
 
-    private void OnAllPrisonersFreed(AllPrisonersFreedEvent evt) {
+    private void OnEnable(){
+        pickupItemEventChannel.OnEventRaised += OnPickupItem;
+        toggleDebugEventChannel.OnEventRaised += OnToggleDebug;
+        allPrisonersFreedEventChannel.OnEventRaised += OnAllPrisonersFreed;
+        gameOverEventChannel.OnEventRaised += OnGameOver;
+        GiveGuardItemEventChannel.OnEventRaised += OnGiveGuardItem;
+    }
+    
+    private void OnDisable(){
+        pickupItemEventChannel.OnEventRaised -= OnPickupItem;
+        toggleDebugEventChannel.OnEventRaised -= OnToggleDebug;
+        allPrisonersFreedEventChannel.OnEventRaised -= OnAllPrisonersFreed;
+        gameOverEventChannel.OnEventRaised -= OnGameOver;
+        GiveGuardItemEventChannel.OnEventRaised -= OnGiveGuardItem;
+    }
+
+    private void OnAllPrisonersFreed(AllPrisonersFreedEvent evt)
+    {
         Debug.Log("Moving to next stage");
         itemPanel.gameObject.SetActive(false);
         nextStageGameObject.SetActive(true);
@@ -114,7 +131,7 @@ public class LVL4UIManager : MonoBehaviour
         Cursor.lockState = CursorLockMode.Locked;
     }
 
-    public void ExitDebugMenuButton() 
+    public void ExitDebugMenuButton()
     {
         toggleDebugEventChannel.RaiseEvent(new ToggleDebugEvent());
     }
@@ -128,4 +145,12 @@ public class LVL4UIManager : MonoBehaviour
     {
         itemHeldText.text = "Nothing";
     }
+
+    private void OnGameOver(GameOverEvent evt)
+    {
+        gameOverPanel.SetActive(true);
+        Cursor.visible = true;
+        Cursor.lockState = CursorLockMode.None;
+    }
 }
+
