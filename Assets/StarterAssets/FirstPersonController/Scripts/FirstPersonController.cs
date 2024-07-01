@@ -109,14 +109,6 @@ namespace StarterAssets
 			// reset our timeouts on start
 			_jumpTimeoutDelta = JumpTimeout;
 			_fallTimeoutDelta = FallTimeout;
-			_input.onClickCall = () =>
-			{
-				SphereCast();
-			};
-			_input.onToggleDebugCall = () =>
-			{
-				LVL4Manager.instance.ToggleDebug();
-			};
 		}
 
 		private void Update()
@@ -136,42 +128,6 @@ namespace StarterAssets
 			// set sphere position, with offset
 			Vector3 spherePosition = new Vector3(transform.position.x, transform.position.y - GroundedOffset, transform.position.z);
 			Grounded = Physics.CheckSphere(spherePosition, GroundedRadius, GroundLayers, QueryTriggerInteraction.Ignore);
-		}
-		private void SphereCast()
-		{
-			Vector3 cameraPosition = Camera.main.transform.position;
-			Vector3 forwardDirection = Camera.main.transform.forward;
-
-			RaycastHit hit;
-			// float maxDistance = 1.2F;
-			if (Physics.SphereCast(cameraPosition, 0.3f, forwardDirection, out hit, 5.0F))
-			{
-				// If the ray hits something, you can access the hit information
-				Debug.Log("Hit: " + hit.collider.gameObject.name);
-				if (hit.collider.gameObject.GetComponent<CellGuard>())
-				{
-					hit.collider.gameObject.GetComponent<CellGuard>().Interact();
-				}
-				if (hit.collider.gameObject.CompareTag("JailCell"))
-				{
-					hit.collider.gameObject.GetComponent<MiniGameController>().lockClicked();
-				}
-
-				if (hit.collider.gameObject.GetComponent<KeyItem>())
-				{
-					if (hit.collider.gameObject.GetComponent<KeyItem>().CanPickUp())
-					{
-						LVL4Manager.instance.PickUpItem(hit.collider.gameObject.GetComponent<KeyItem>());
-					}
-				}
-				else if (hit.collider.gameObject.GetComponentInParent<KeyItem>())
-				{
-					if (hit.collider.gameObject.GetComponentInParent<KeyItem>().CanPickUp())
-					{
-						LVL4Manager.instance.PickUpItem(hit.collider.gameObject.GetComponentInParent<KeyItem>());
-					}
-				}
-			}
 		}
 
 		private void CameraRotation()

@@ -17,17 +17,19 @@ public class CellGuard : MonoBehaviour
 
     #region Inspector
     [SerializeField, TextArea]
-    private string introDialoge;
+    private string introDialogue;
     [SerializeField, TextArea]
-    private string itemCheckDialoge;
+    private string itemCheckDialogue;
     [SerializeField, TextArea]
-    private string completeDialoge;
+    private string completeDialogue;
     [SerializeField, TextArea]
-    private string angryDialoge;
+    private string angryDialogue;
     [SerializeField, TextArea]
-    private string correctItemDialoge;
+    private string correctItemDialogue;
     [SerializeField]
     private List<GameObject> cellGuardModels;
+    [SerializeField]
+    private PlayerTransformSO playerTransform;
     [SerializeField]
     private TMP_Text guardText;
     [SerializeField]
@@ -42,6 +44,14 @@ public class CellGuard : MonoBehaviour
     private float correctItemTextTime;
     [SerializeField]
     private float textAlphaFalloffDistance;
+
+    [Header("Listening Event Channels")]
+    [SerializeField] 
+    private GenericEventChannelSO<DoorOpenedEvent> DoorOpenedEventChannel;
+    [SerializeField]
+    private InteractWithGuardEventChannel interactWithGuardEventChannel;
+    [SerializeField]
+    private GenericEventChannelSO<GiveGuardItemEvent> GiveGuardItemEventChannel;
     #endregion
 
     #region Private Variables
@@ -49,14 +59,13 @@ public class CellGuard : MonoBehaviour
     private MeshRenderer facePlate;
     private float interactionCooldownTimer;
     private List<KeyItem> items;
-
-    [Header("Listening Event Channels")]
-    [SerializeField] private GenericEventChannelSO<DoorOpenedEvent> DoorOpenedEventChannel;
     #endregion
 
     // Start is called before the first frame update
     void Start()
     {
+        interactWithGuardEventChannel.OnEventRaised += OnInteract;
+
         cellGuardState = CellGuardState.HasNotTalkedToPlayer;
 
         GameObject model = Instantiate(cellGuardModels[Random.Range(0, cellGuardModels.Count)], this.transform);
@@ -80,7 +89,7 @@ public class CellGuard : MonoBehaviour
     {
         interactionCooldownTimer += Time.deltaTime;
 
-        float distance = Vector3.Distance(this.transform.position, LVL4Manager.instance.playerCapsule.transform.position);
+        float distance = Vector3.Distance(this.transform.position, playerTransform.Position);
         float alpha = 1 - ((distance - textAlphaFalloffDistance / 2) / (textAlphaFalloffDistance / 2));
         alpha = Mathf.Clamp(alpha, 0, 1);
         guardText.alpha = alpha;
@@ -100,11 +109,11 @@ public class CellGuard : MonoBehaviour
             case CellGuardState.HasNotTalkedToPlayer:
                 break;
             case CellGuardState.TalkedToPlayer:
-                guardText.text = introDialoge;
+                guardText.text = introDialogue;
                 break;
             case CellGuardState.AskingForItems:
                 facePlate.material.mainTexture = neutralFace;
-                string fullItemText = itemCheckDialoge + "\n";
+                string fullItemText = itemCheckDialogue + "\n";
                 for (int i = 0; i < items.Count; i++)
                 {
                     fullItemText += "something " + items[i].itemTags[0] + ", " + items[i].itemTags[1] + ", " + items[i].itemTags[2];
@@ -117,11 +126,11 @@ public class CellGuard : MonoBehaviour
                 break;
             case CellGuardState.AllItemsFound:
                 facePlate.material.mainTexture = happyFace;
-                guardText.text = completeDialoge;
+                guardText.text = completeDialogue;
                 break;
             case CellGuardState.IncorrectItem:
                 facePlate.material.mainTexture = angryFace;
-                guardText.text = angryDialoge;
+                guardText.text = angryDialogue;
                 if (interactionCooldownTimer >= angryInteractionCooldown)
                 {
                     cellGuardState = CellGuardState.AskingForItems;
@@ -129,7 +138,7 @@ public class CellGuard : MonoBehaviour
                 break;
             case CellGuardState.CorrectItemFound:
                 facePlate.material.mainTexture = happyFace;
-                guardText.text = correctItemDialoge;
+                guardText.text = correctItemDialogue;
                 if (interactionCooldownTimer >= correctItemTextTime)
                 {
                     cellGuardState = CellGuardState.AskingForItems;
@@ -139,57 +148,59 @@ public class CellGuard : MonoBehaviour
         #endregion
     }
 
-    public void Interact()
+    public void OnInteract(InteractWithGuardEvent evt)
     {
         Debug.Log("Cell Guard Interaction");
-
-        if (interactionCooldownTimer >= baseInteractionCooldown && cellGuardState != CellGuardState.IncorrectItem && cellGuardState != CellGuardState.CorrectItemFound)
+        if (evt.cellGuard == this)
         {
-            interactionCooldownTimer = 0;
-
-            switch (cellGuardState)
+            if (interactionCooldownTimer >= baseInteractionCooldown && cellGuardState != CellGuardState.IncorrectItem && cellGuardState != CellGuardState.CorrectItemFound)
             {
-                case CellGuardState.HasNotTalkedToPlayer:
-                    cellGuardState = CellGuardState.TalkedToPlayer;
-                    break;
-                case CellGuardState.TalkedToPlayer:
-                    cellGuardState = CellGuardState.AskingForItems;
-                    break;
-                case CellGuardState.AskingForItems:
-                    if (LVL4Manager.instance.currentlyHeldItem)
-                    {
-                        bool isItemCorrect = false;
-                        foreach (KeyItem i in items)
-                        {
-                            isItemCorrect = isItemCorrect || LVL4Manager.instance.currentlyHeldItem.CompareItemTags(i);
-                        }
+                interactionCooldownTimer = 0;
 
-                        if (isItemCorrect)
+                switch (cellGuardState)
+                {
+                    case CellGuardState.HasNotTalkedToPlayer:
+                        cellGuardState = CellGuardState.TalkedToPlayer;
+                        break;
+                    case CellGuardState.TalkedToPlayer:
+                        cellGuardState = CellGuardState.AskingForItems;
+                        break;
+                    case CellGuardState.AskingForItems:
+                        if (evt.heldItem)
                         {
-                            for (int i = items.Count - 1; i >= 0; i--)
+                            bool isItemCorrect = false;
+                            foreach (KeyItem i in items)
                             {
-                                if (LVL4Manager.instance.currentlyHeldItem.CompareItemTags(items[i]))
+                                isItemCorrect = isItemCorrect || evt.heldItem.CompareItemTags(i);
+                            }
+
+                            if (isItemCorrect)
+                            {
+                                
+                                for (int i = items.Count - 1; i >= 0; i--)
                                 {
-                                    items.RemoveAt(i);
-                                    LVL4Manager.instance.ItemWasCorrect();
-                                    cellGuardState = CellGuardState.CorrectItemFound;
-                                    break;
+                                    if (evt.heldItem.CompareItemTags(items[i]))
+                                    {
+                                        items.RemoveAt(i);
+                                        cellGuardState = CellGuardState.CorrectItemFound;
+                                        break;
+                                    }
+                                }
+                                if (items.Count == 0)
+                                {
+                                    cellGuardState = CellGuardState.AllItemsFound;
+                                    DoorOpenedEventChannel.RaiseEvent(new DoorOpenedEvent(GetComponentInParent<DoorController>()));
+                                    //GetComponentInParent<DoorController>().toggleDoor();
                                 }
                             }
-                            if (items.Count == 0)
+                            else
                             {
-                                cellGuardState = CellGuardState.AllItemsFound;
-                                DoorOpenedEventChannel.RaiseEvent(new DoorOpenedEvent(GetComponentInParent<DoorController>()));
-                                //GetComponentInParent<DoorController>().toggleDoor();
+                                cellGuardState = CellGuardState.IncorrectItem;
                             }
+                            GiveGuardItemEventChannel.RaiseEvent(new GiveGuardItemEvent(isItemCorrect));
                         }
-                        else
-                        {
-                            cellGuardState = CellGuardState.IncorrectItem;
-                            LVL4Manager.instance.ItemWasIncorrect();
-                        }
-                    }
-                    break;
+                        break;
+                }
             }
         }
     }

@@ -23,112 +23,112 @@ MonoBehaviour:
   helmet:
     tag1: Metal
     tag2: Wearable
-    tag3: Hard
+    tag3: Multicolor
   banner:
     tag1: Cloth
-    tag2: Decoration
+    tag2: Decorative
     tag3: Red
   bowl:
-    tag1: Tool
-    tag2: Wooden
+    tag1: Brown
+    tag2: Ceramic
     tag3: Round
   brazier:
-    tag1: Hot
-    tag2: Wearable
-    tag3: Red
+    tag1: Gold
+    tag2: Large
+    tag3: Fillable
   goblet:
     tag1: Gold
-    tag2: Tool
-    tag3: Round
+    tag2: Fillable
+    tag3: Drinkable
   jar:
-    tag1: Cloth
-    tag2: Wearable
-    tag3: Red
+    tag1: Brown
+    tag2: Fillable
+    tag3: Round
   loom:
     tag1: Cloth
-    tag2: Wearable
-    tag3: Red
+    tag2: Tool
+    tag3: Wooden
   lyre:
-    tag1: Cloth
-    tag2: Wearable
-    tag3: Red
+    tag1: Musical
+    tag2: Wooden
+    tag3: Stringed
   pillow:
     tag1: Cloth
-    tag2: Wearable
-    tag3: Red
+    tag2: Red
+    tag3: Comfortable
   plate:
-    tag1: Cloth
-    tag2: Wearable
-    tag3: Red
+    tag1: Ceramic
+    tag2: Brown
+    tag3: Flat
   sack:
     tag1: Cloth
-    tag2: Wearable
-    tag3: Red
+    tag2: Brown
+    tag3: Fillable
   scroll:
-    tag1: Cloth
-    tag2: Wearable
-    tag3: Red
+    tag1: Round
+    tag2: Beige
+    tag3: Paper
   scythe:
-    tag1: Cloth
-    tag2: Wearable
-    tag3: Red
+    tag1: Large
+    tag2: Wooden
+    tag3: Tool
   chair:
-    tag1: Cloth
-    tag2: Wearable
-    tag3: Red
+    tag1: Brown
+    tag2: Comfortable
+    tag3: Wooden
   censer:
-    tag1: Cloth
-    tag2: Wearable
-    tag3: Red
+    tag1: Gold
+    tag2: Conical
+    tag3: Round
   sickle:
-    tag1: Cloth
-    tag2: Wearable
-    tag3: Red
+    tag1: Gray
+    tag2: Curved
+    tag3: Tool
   hammer:
-    tag1: Cloth
-    tag2: Wearable
-    tag3: Red
+    tag1: Small
+    tag2: Gray
+    tag3: Tool
   axe:
-    tag1: Cloth
-    tag2: Wearable
-    tag3: Red
+    tag1: Sharp
+    tag2: Multicolor
+    tag3: Metal
   shield:
-    tag1: Cloth
-    tag2: Wearable
-    tag3: Red
+    tag1: Red
+    tag2: Metal
+    tag3: Protective
   spear:
-    tag1: Cloth
-    tag2: Wearable
-    tag3: Red
+    tag1: Long
+    tag2: Wooden
+    tag3: Metal
   sword:
-    tag1: Cloth
-    tag2: Wearable
-    tag3: Red
+    tag1: Metal
+    tag2: Sharp
+    tag3: Gray
   scabbard:
-    tag1: Cloth
-    tag2: Wearable
-    tag3: Red
+    tag1: Red
+    tag2: Gold
+    tag3: Protective
   flower:
-    tag1: Cloth
-    tag2: Wearable
-    tag3: Red
+    tag1: Decorative
+    tag2: Gold
+    tag3: Heptagonal
   lionStatue:
-    tag1: Cloth
-    tag2: Wearable
-    tag3: Red
+    tag1: Wooden
+    tag2: Decorative
+    tag3: Animal
   lionHead:
-    tag1: Cloth
-    tag2: Wearable
-    tag3: Red
+    tag1: Gold
+    tag2: Decorative
+    tag3: Animal
   pergola:
-    tag1: Cloth
-    tag2: Wearable
-    tag3: Red
+    tag1: White
+    tag2: Round
+    tag3: Building
   anvil:
-    tag1: Cloth
-    tag2: Wearable
-    tag3: Red
+    tag1: Large
+    tag2: Metal
+    tag3: Tool
   basket:
-    tag1: Cloth
-    tag2: Wearable
-    tag3: Red
+    tag1: Small
+    tag2: Wicker
+    tag3: Fillable

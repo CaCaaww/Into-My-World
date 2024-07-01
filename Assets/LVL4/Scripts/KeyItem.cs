@@ -54,7 +54,7 @@ public class KeyItem : MonoBehaviour
     [HideInInspector]
     public string[] itemTags = new string[3];
 
-    public bool HasOverride { get; set; }
+    public bool HasOverride { get; }
 
     #region Unity Methods
     // Start is called before the first frame update
@@ -101,7 +101,8 @@ public class KeyItem : MonoBehaviour
     /// Checks if an item can be picked up
     /// </summary>
     /// <returns></returns>
-    public bool CanPickUp(){
+    public bool CanPickUp()
+    {
         if (hasOverride)
         {
             return itemObjectOverride.activeSelf;

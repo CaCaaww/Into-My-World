@@ -6,12 +6,8 @@ using UnityEngine;
 public class CloseGameEventChannel : GenericEventChannelSO<CloseGameEvent>
 {
 }
+
 [System.Serializable]
 public struct CloseGameEvent {
-    public CloseGameController controller;
-
-    public CloseGameEvent(CloseGameController controller)
-    {
-        this.controller = controller;
-    }
+    
 }
