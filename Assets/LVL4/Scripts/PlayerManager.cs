@@ -51,6 +51,8 @@ public class PlayerManager : MonoBehaviour
     #region Unity Methods
     void Start()
     {
+        transformSO.Set(playerInput.gameObject.transform);
+
         inputsEnabled = true;
 
         interactEventChannel.OnEventRaised += OnPlayerPressInteract;
@@ -61,7 +63,7 @@ public class PlayerManager : MonoBehaviour
 
         toggleCursorEventChannel.OnEventRaised += OnToggleCursor;
 
-        toggleDebugEventChannel.OnEventRaised += (ToggleDebugEvent evt) => { TogglePlayerInput(); };
+        toggleDebugEventChannel.OnEventRaised += (ToggleDebugEvent evt) => { InputEnabled(!inputsEnabled); };
 
         GiveGuardItemEventChannel.OnEventRaised += OnGiveGuardItem;
 
@@ -179,9 +181,9 @@ public class PlayerManager : MonoBehaviour
     /// <summary>
     /// Toggles the input action map
     /// </summary>
-    public void TogglePlayerInput()
+    public void InputEnabled(bool enabled)
     {
-        inputsEnabled = !inputsEnabled;
+        inputsEnabled = enabled;
 
         if (inputsEnabled)
         {
@@ -192,15 +194,6 @@ public class PlayerManager : MonoBehaviour
             playerInput.currentActionMap.Disable();
         }
     }
-
-    /// <summary>
-    /// Toggles the input action map
-    /// </summary>
-    public void TogglePlayerInput(bool enabled)
-    {
-        inputsEnabled = !enabled;
-        TogglePlayerInput();
-    }
     #endregion
 
     /// <summary>
@@ -210,7 +203,7 @@ public class PlayerManager : MonoBehaviour
         gamesCompleted++;
         if (gamesCompleted == gamesNeededToComplete) {
             allPrisonersFreedEventChannel.RaiseEvent(new AllPrisonersFreedEvent());
-            TogglePlayerInput();
+            InputEnabled(true);
             //toggleCursorEventChannel.RaiseEvent(new ToggleCursorEvent());
             Cursor.visible = true;
             Cursor.lockState = CursorLockMode.None;
@@ -273,12 +266,12 @@ public class PlayerManager : MonoBehaviour
 
     public void OnMinigameOpened(MinigameOpenedEvent evt)
     {
-        TogglePlayerInput();
+        InputEnabled(false);
         Cursor.visible = true;
         Cursor.lockState = CursorLockMode.None;
     }
     private void OnMinigameClosed(CloseGameEvent evt)
     {
-        TogglePlayerInput(true);
+        InputEnabled(true);
     }
 }
