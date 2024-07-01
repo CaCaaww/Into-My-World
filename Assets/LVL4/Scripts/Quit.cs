@@ -34,11 +34,7 @@ public class Quit : MonoBehaviour
     /// </summary>
     public void RedXButtonClicked()
     {
-        // Opening the quit screen
-        AreYouSure.SetActive(!AreYouSure.activeSelf);
-        YesButton.SetActive(!YesButton.activeSelf);
-        NoButton.SetActive(!NoButton.activeSelf);
-        Backdrop.SetActive(!Backdrop.activeSelf);
+        ToggleQuitScreen();
     }
 
     /// <summary>
@@ -46,24 +42,20 @@ public class Quit : MonoBehaviour
     /// </summary>
     public void YesButtonClicked()
     {
-        AreYouSure.SetActive(false);
-        YesButton.SetActive(false);
-        NoButton.SetActive(false);
-        Backdrop.SetActive(false);
+        ToggleQuitScreen();
 
         CloseGameEventChannel.RaiseEvent(new CloseGameEvent());
     }
 
-    /// <summary>
-    /// Closes the quit menu and resumes the minigame
-    /// </summary>
-    public void NoButtonClicked()
+    #endregion
+
+    #region Helper Methods
+    private void ToggleQuitScreen()
     {
-        // Close the quit screen and continue playing the minigame
-        AreYouSure.SetActive(false);
-        YesButton.SetActive(false);
-        NoButton.SetActive(false);
-        Backdrop.SetActive(false);
+        AreYouSure.SetActive(!AreYouSure.activeSelf);
+        YesButton.SetActive(!YesButton.activeSelf);
+        NoButton.SetActive(!NoButton.activeSelf);
+        Backdrop.SetActive(!Backdrop.activeSelf);
     }
     #endregion
 }
