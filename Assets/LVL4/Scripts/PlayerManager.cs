@@ -7,9 +7,6 @@ using UnityEngine.SceneManagement;
 
 public class PlayerManager : MonoBehaviour
 {
-    [HideInInspector]
-    public static PlayerManager instance;
-
     #region Inspector
     [SerializeField]
     private KeyItemTagsSO presetItemTags;
@@ -19,6 +16,8 @@ public class PlayerManager : MonoBehaviour
     private Camera mainCamera;
     [SerializeField]
     private int gamesNeededToComplete;
+    [SerializeField]
+    private PlayerTransformSO transformSO;
 
     [Header("Listening Event Channels")]
     [SerializeField]
@@ -49,15 +48,9 @@ public class PlayerManager : MonoBehaviour
     private int gamesCompleted = 0;
     #endregion
 
-    #region Public Variables
-    [HideInInspector]
-    public GameObject playerCapsule;
-    #endregion
-
     #region Unity Methods
     void Start()
     {
-        instance = this;
         inputsEnabled = true;
 
         interactEventChannel.OnEventRaised += OnPlayerPressInteract;
@@ -78,6 +71,11 @@ public class PlayerManager : MonoBehaviour
 
         SetItemTags();
         AssignItemsToGuards();
+    }
+
+    private void Update()
+    {
+        transformSO.Set(playerInput.gameObject.transform);
     }
     #endregion
 

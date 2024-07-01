@@ -387,6 +387,7 @@ MonoBehaviour:
   cellGuardModels:
   - {fileID: 897262184509383712, guid: db4bdeeaaa9b8ab68a87bfc000af5630, type: 3}
   - {fileID: 7306503956860966316, guid: eab4cebcbd41a54579ac4b0b3f7a2a8f, type: 3}
+  playerTransform: {fileID: 11400000, guid: f402a5fab4c450c4e960e506545d0fec, type: 2}
   guardText: {fileID: 4251210047682867049}
   textBackground: {fileID: 2315749037287094212}
   angryFace: {fileID: 2800000, guid: dd27650165883338daae4d68c069c51f, type: 3}

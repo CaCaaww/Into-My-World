@@ -29,6 +29,8 @@ public class CellGuard : MonoBehaviour
     [SerializeField]
     private List<GameObject> cellGuardModels;
     [SerializeField]
+    private PlayerTransformSO playerTransform;
+    [SerializeField]
     private TMP_Text guardText;
     [SerializeField]
     private SpriteRenderer textBackground;
@@ -87,7 +89,7 @@ public class CellGuard : MonoBehaviour
     {
         interactionCooldownTimer += Time.deltaTime;
 
-        float distance = Vector3.Distance(this.transform.position, PlayerManager.instance.playerCapsule.transform.position);
+        float distance = Vector3.Distance(this.transform.position, playerTransform.Position);
         float alpha = 1 - ((distance - textAlphaFalloffDistance / 2) / (textAlphaFalloffDistance / 2));
         alpha = Mathf.Clamp(alpha, 0, 1);
         guardText.alpha = alpha;
