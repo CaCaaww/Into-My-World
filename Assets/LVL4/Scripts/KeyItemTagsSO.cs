@@ -80,7 +80,7 @@ public class KeyItemTagsSO : ScriptableObject
     {
         TagsHolder holder;
         itemDictionary.TryGetValue(item.itemType, out holder);
-        if (holder.tag1 != "" && holder.tag2 != "" &&  holder.tag3 != "")
+        if (holder.tag1 != "" && holder.tag2 != "" && holder.tag3 != "")
         {
             string[] tags = new string[] { holder.tag1, holder.tag2, holder.tag3 };
             item.itemTags = tags;
@@ -101,7 +101,7 @@ public class KeyItemTagsSO : ScriptableObject
         public string tag1, tag2, tag3;
     }
 
-    #if UNITY_EDITOR
+#if UNITY_EDITOR
     [CustomPropertyDrawer(typeof(TagsHolder))]
     private class ItemDrawer : PropertyDrawer
     {
@@ -134,5 +134,5 @@ public class KeyItemTagsSO : ScriptableObject
             EditorGUI.EndProperty();
         }
     }
-    #endif  
+#endif
 }

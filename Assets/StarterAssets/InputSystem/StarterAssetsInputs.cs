@@ -50,12 +50,12 @@ namespace StarterAssets
 
         public void OnClick(InputValue value)
         {
-            interactEventChannel.RaiseEvent(new InteractEvent());
+            interactEventChannel.RaiseEvent();
         }
 
         public void OnToggleDebug(InputValue value)
         {
-            toggleDebugEventChannel.RaiseEvent(new ToggleDebugEvent());
+            toggleDebugEventChannel.RaiseEvent();
         }
 
         public delegate void OnClickDelegate();

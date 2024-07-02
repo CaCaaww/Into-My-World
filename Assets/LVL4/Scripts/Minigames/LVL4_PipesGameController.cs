@@ -1,14 +1,9 @@
-using DG.Tweening;
-using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using Unity.VisualScripting;
-using UnityEditor;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class LVL4_PipesGameController : MonoBehaviour
+public class LVL4_PipesGameController : Minigame
 {
     #region Inspector
     [Header("Debug")]
@@ -58,37 +53,36 @@ public class LVL4_PipesGameController : MonoBehaviour
     private int winIndexesLength;
     List<LVL4_PipesGameSpawnableItem> pattern;
 
-    [Header("Listening Event Channels")]
-    [SerializeField] private GenericEventChannelSO<MinigameCompleteEvent> MinigameCompleteEventChannel;
-    [SerializeField] private GenericEventChannelSO<MinigameOpenedEvent> MinigameOpenedEventChannel;
-    [SerializeField] private GenericEventChannelSO<CloseGameEvent> CloseGameEventChannel;
-
-    private MiniGameController currentController;
+    private MinigameController currentController;
     #endregion
 
     #region constructor
-    public class LVL4_PipesGameSpawnableItem {
+    public class LVL4_PipesGameSpawnableItem
+    {
         public GameObject button;
         public EPipesButtonRotation rotation;
         public EPipeButtonType type;
     }
     #endregion
-   
+
     #region Unity Methods
     void Start()
     {
         //winIndexes = (int[]) gamePatternsSO[patternIndex].WinIndexes.Clone();
         pattern = new List<LVL4_PipesGameSpawnableItem>(); //instantiate the list for the pattern
-        for (int i = 0; i < 16; i++) { // filling it with blank objects
+        for (int i = 0; i < 16; i++)
+        { // filling it with blank objects
             LVL4_PipesGameSpawnableItem adding = new LVL4_PipesGameSpawnableItem();
             pattern.Add(adding);
         }
         MazeGenerator pipePattern = new MazeGenerator(); // generating a random pattern
         winIndexes = pipePattern.getWinIndices(); // getting the winIndexes for that.
-        for (int i = 0; i < pattern.Count; i++) { // go through each item in the pattern list and grab the information for that.
+        for (int i = 0; i < pattern.Count; i++)
+        { // go through each item in the pattern list and grab the information for that.
             pattern[i].rotation = pipePattern.getButtonRotation(i); // getting the rotation
             EPipeButtonType buttonType = pipePattern.getButton(i); // getting the button type
-            switch (buttonType) { // setting the right prefab for that.
+            switch (buttonType)
+            { // setting the right prefab for that.
                 case EPipeButtonType.Angled:
                     pattern[i].button = angledPrefab;
                     pattern[i].type = EPipeButtonType.Angled;
@@ -111,24 +105,24 @@ public class LVL4_PipesGameController : MonoBehaviour
         AddListeners();
         CheckRotation();
         CheckRotation2();
-        
-    }
-    private void OnEnable() {
-        MinigameOpenedEventChannel.OnEventRaised += OnMinigameOpened;
-        CloseGameEventChannel.OnEventRaised += OnMinigameClosed;
+
     }
     #endregion
 
     #region Helper Methods
-    private Side[] getSides(int index) { // returns a list of the sides that the pipe touches
+    private Side[] getSides(int index)
+    { // returns a list of the sides that the pipe touches
         // used to determine the input and output of the pipes
-        if (pattern[index].type == EPipeButtonType.Empty) {
+        if (pattern[index].type == EPipeButtonType.Empty)
+        {
             return null;
         }
         Side[] sides = new Side[2];
         int rotation = (int)buttons[index].Pivot.transform.eulerAngles.z;
-        if (pattern[index].type == EPipeButtonType.Angled) {
-            switch (rotation) {
+        if (pattern[index].type == EPipeButtonType.Angled)
+        {
+            switch (rotation)
+            {
                 case 0:
                     sides[0] = Side.Bottom;
                     sides[1] = Side.Left;
@@ -146,8 +140,11 @@ public class LVL4_PipesGameController : MonoBehaviour
                     sides[1] = Side.Top;
                     return sides;
             }
-        } else {
-            switch (rotation) {
+        }
+        else
+        {
+            switch (rotation)
+            {
                 case 0:
                     sides[0] = Side.Bottom;
                     sides[1] = Side.Top;
@@ -162,35 +159,49 @@ public class LVL4_PipesGameController : MonoBehaviour
         return null;
 
     }
-    private int getIndexFromInput(int index, Side side) { // take an index and side of a pipe to get the index of the pipe attached to that
+    private int getIndexFromInput(int index, Side side)
+    { // take an index and side of a pipe to get the index of the pipe attached to that
         // side. Return -10 if out of bounds or other error.
-        switch (side) {
+        switch (side)
+        {
             case Side.Left:
                 index--;
-                if (index == 3 || index == 7 || index == 11 || index == 15) {
+                if (index == 3 || index == 7 || index == 11 || index == 15)
+                {
                     return -10;
-                } else {
+                }
+                else
+                {
                     return index;
                 }
             case Side.Right:
                 index++;
-                if (index == 4 || index == 8 || index == 12 || index == 16) {
+                if (index == 4 || index == 8 || index == 12 || index == 16)
+                {
                     return -10;
-                } else {
+                }
+                else
+                {
                     return index;
                 }
             case Side.Top:
                 index -= 4;
-                if (index < 0) {
+                if (index < 0)
+                {
                     return -10;
-                } else {
+                }
+                else
+                {
                     return index;
                 }
             case Side.Bottom:
                 index += 4;
-                if (index > 15) {
+                if (index > 15)
+                {
                     return -10;
-                } else {
+                }
+                else
+                {
                     return index;
                 }
             case Side.None:
@@ -208,7 +219,7 @@ public class LVL4_PipesGameController : MonoBehaviour
             btn.Button.onClick.AddListener(() => OnClick(btn));
         }
     }
-    
+
     /// <summary>
     /// Add the buttons to the grid
     /// </summary>
@@ -218,23 +229,23 @@ public class LVL4_PipesGameController : MonoBehaviour
         {
             //Debug.Log(pattern[i].rotation);
             GameObject button = Instantiate(pattern[i].button, gameGrid);
-            
+
             buttons.Add(button.GetComponent<LVL4_PipesButtonController>());
             button.name += i;
-            
+
             // Add a random rotation based on the type of pipe
             switch (buttons[i].PipeButtonType)
             {
                 // Angled pipes have 4 possible rotations
                 case EPipeButtonType.Angled:
                     {
-                        #if UNITY_EDITOR
+#if UNITY_EDITOR
                         if (enableDebug)
                         {
                             buttons[i].Pivot.Rotate(0, 0, (int)pattern[i].rotation * 90f);
                             continue;
                         }
-                        #endif
+#endif
 
                         // Assign to rotationIndex a random value[0,4) 
                         int rotationIndex = UnityEngine.Random.Range(0, 4);
@@ -243,19 +254,19 @@ public class LVL4_PipesGameController : MonoBehaviour
                         {
                             rotationIndex = UnityEngine.Random.Range(0, 4);
                         }
-                        buttons[i].Pivot.Rotate(0, 0, rotationIndex*90f);
+                        buttons[i].Pivot.Rotate(0, 0, rotationIndex * 90f);
                     }
                     break;
                 // Straight pipes have 2 possible rotations
                 case EPipeButtonType.Straight:
                     {
-                        #if UNITY_EDITOR
+#if UNITY_EDITOR
                         if (enableDebug)
                         {
                             buttons[i].Pivot.Rotate(0, 0, (int)pattern[i].rotation * 90f);
                             continue;
                         }
-                        #endif
+#endif
 
                         int rotationIndex = UnityEngine.Random.Range(0, 2);
                         buttons[i].Pivot.eulerAngles = Vector3.zero;
@@ -270,7 +281,7 @@ public class LVL4_PipesGameController : MonoBehaviour
             }
         }
     }
-   
+
     /// <summary>
     /// Add or remove the water for a section
     /// </summary>
@@ -287,7 +298,7 @@ public class LVL4_PipesGameController : MonoBehaviour
             buttonController.SpriteNoWater();
         }
     }
-    
+
     /// <summary>
     /// Check the rotation for all the buttons
     /// </summary>
@@ -320,12 +331,12 @@ public class LVL4_PipesGameController : MonoBehaviour
                 // Debug.Log("["+ i + "] " + (int)gamePatternsSO[patternIndex]gamePatternsSO[patternIndex].Pattern[i].rotation * 90);
                 if ((int)buttons[winIndexes[i]].Pivot.transform.eulerAngles.z == (int)pattern[winIndexes[i]].rotation * 90)
                 {
-                    
+
                     /*if (buttons[winIndexes[previousWinIndex]].HasWater)
                     {
                         AddOrRemoveWater(buttons[winIndexes[i]], true);
                     }*/
-                    
+
                     buttons[winIndexes[i]].HasCorrectRotation = true;
                 }
                 else
@@ -345,77 +356,104 @@ public class LVL4_PipesGameController : MonoBehaviour
                     }
                 }
             }*/
-            
+
         }
     }
-    private void removeRestOfWater(int index) { // removes water from winIndexes List past a certin index. Exclusive
-        for (int i = 0; i < winIndexes.Length; i++) {
-            if (index == winIndexes[i]) {
+    private void removeRestOfWater(int index)
+    { // removes water from winIndexes List past a certin index. Exclusive
+        for (int i = 0; i < winIndexes.Length; i++)
+        {
+            if (index == winIndexes[i])
+            {
                 index = i;
                 break;
             }
         }
-        for (int j = index; j < winIndexes.Length-1; j++) {
-            if (buttons[winIndexes[j+1]].HasWater) {
-                AddOrRemoveWater(buttons[winIndexes[j+1]], false);
+        for (int j = index; j < winIndexes.Length - 1; j++)
+        {
+            if (buttons[winIndexes[j + 1]].HasWater)
+            {
+                AddOrRemoveWater(buttons[winIndexes[j + 1]], false);
             }
         }
     }
-    void CheckRotation2() { //Adds the Water For the pipes
+    void CheckRotation2()
+    { //Adds the Water For the pipes
         List<int> visitedIndexes = new List<int>();
         int index = 0;
         int indexLast = 0;
-        while (index > -10) { //uses index of -10 if the index is out of bounds, null, or an empty tile
+        while (index > -10)
+        { //uses index of -10 if the index is out of bounds, null, or an empty tile
             // Essentially, this program sneaks through the pipes using their input and outputs to add water to
             // all the pipes that are connected to the water source.
-            if (index == 0) {
+            if (index == 0)
+            {
                 Side[] sides = getSides(index);
-                if (sides[0] == Side.Left) {
+                if (sides[0] == Side.Left)
+                {
                     visitedIndexes.Add(index);
                     AddOrRemoveWater(buttons[index], true);
                     indexLast = index;
                     index = getIndexFromInput(index, sides[1]);
-                    if (visitedIndexes.Contains(index)) {
+                    if (visitedIndexes.Contains(index))
+                    {
                         index = -10;
                     }
-                } else if (sides[1] == Side.Left) {
+                }
+                else if (sides[1] == Side.Left)
+                {
                     visitedIndexes.Add(index);
                     AddOrRemoveWater(buttons[index], true);
                     indexLast = index;
                     index = getIndexFromInput(index, sides[0]);
-                    if (visitedIndexes.Contains(index)) {
+                    if (visitedIndexes.Contains(index))
+                    {
                         index = -10;
                     }
-                } else {
+                }
+                else
+                {
                     AddOrRemoveWater(buttons[index], false);
                     removeRestOfWater(index);
                     index = -10;
                 }
-            } else {
+            }
+            else
+            {
                 Side[] sides = getSides(index);
-                if (sides != null) {
-                    if (getIndexFromInput(index, sides[0]) == visitedIndexes[visitedIndexes.Count -1]) {
+                if (sides != null)
+                {
+                    if (getIndexFromInput(index, sides[0]) == visitedIndexes[visitedIndexes.Count - 1])
+                    {
                         visitedIndexes.Add(index);
                         AddOrRemoveWater(buttons[index], true);
                         indexLast = index;
                         index = getIndexFromInput(index, sides[1]);
-                        if (visitedIndexes.Contains(index)) {
+                        if (visitedIndexes.Contains(index))
+                        {
                             index = -10;
                         }
-                    } else if (getIndexFromInput(index, sides[1]) == visitedIndexes[visitedIndexes.Count - 1]) {
+                    }
+                    else if (getIndexFromInput(index, sides[1]) == visitedIndexes[visitedIndexes.Count - 1])
+                    {
                         visitedIndexes.Add(index);
                         AddOrRemoveWater(buttons[index], true);
                         indexLast = index;
                         index = getIndexFromInput(index, sides[0]);
-                        if (visitedIndexes.Contains(index)) {
+                        if (visitedIndexes.Contains(index))
+                        {
                             index = -10;
                         }
-                    } else {
+                    }
+                    else
+                    {
                         AddOrRemoveWater(buttons[index], false);
                         removeRestOfWater(index);
                         index = -10;
                     }
-                } else {
+                }
+                else
+                {
                     index = -10;
                 }
             }
@@ -425,7 +463,7 @@ public class LVL4_PipesGameController : MonoBehaviour
     /// <summary>
     /// Check if the game is finished
     /// </summary>
-    public bool CheckIfTheGameIsFinished()
+    public override bool IsFinished()
     {
         int withCorrectRotation = 0;
 
@@ -435,45 +473,53 @@ public class LVL4_PipesGameController : MonoBehaviour
                 withCorrectRotation += 1;
         }
 
-        if (withCorrectRotation == winIndexesLength) {   
+        if (withCorrectRotation == winIndexesLength)
+        {
             GameObject gameComplete = Instantiate(GameCompletePrefab);
-            gameComplete.transform.SetParent(canvas,false);
+            gameComplete.transform.SetParent(canvas, false);
 
             // Instantiate the continue button prefab
             // The index of continue button in the Unity hierarchy
             continueButton.SetActive(true);
             backdrop.SetActive(true);
             quitButton.enabled = false;
-            MinigameCompleteEventChannel.RaiseEvent(new MinigameCompleteEvent(currentController));
+            minigameCompleteEventChannel.RaiseEvent(new MinigameCompleteEvent(this));
             return true;
         }
         return false;
         //Debug.Log(withCorrectRotation == winIndexesLength ? "Game Finished" : "Not Finished");
     }
-    public void restartPipeGame() { 
+    public override void Restart()
+    {
         // rotate all the pipes
-        for (int i = 0; i < 16; i++) {
+        for (int i = 0; i < 16; i++)
+        {
             // Add a random rotation based on the type of pipe
-            switch (buttons[i].PipeButtonType) {
+            switch (buttons[i].PipeButtonType)
+            {
                 // Angled pipes have 4 possible rotations
-                case EPipeButtonType.Angled: {
-                    // Assign to rotationIndex a random value[0,4) 
-                    int rotationIndex = UnityEngine.Random.Range(0, 4);
-                    // Keep doing it until the generated value it's different from the correct pattern rotation
-                    while (rotationIndex == (int)pattern[i].rotation) {
-                        rotationIndex = UnityEngine.Random.Range(0, 4);
-                    }
-                    buttons[i].Pivot.Rotate(0, 0, rotationIndex * 90f);
+                case EPipeButtonType.Angled:
+                    {
+                        // Assign to rotationIndex a random value[0,4) 
+                        int rotationIndex = UnityEngine.Random.Range(0, 4);
+                        // Keep doing it until the generated value it's different from the correct pattern rotation
+                        while (rotationIndex == (int)pattern[i].rotation)
+                        {
+                            rotationIndex = UnityEngine.Random.Range(0, 4);
+                        }
+                        buttons[i].Pivot.Rotate(0, 0, rotationIndex * 90f);
                     }
                     break;
                 // Straight pipes have 2 possible rotations
-                case EPipeButtonType.Straight: {
+                case EPipeButtonType.Straight:
+                    {
                         int rotationIndex = UnityEngine.Random.Range(0, 2);
                         buttons[i].Pivot.eulerAngles = Vector3.zero;
                     }
                     break;
                 // The empty button CAN NOT rotate
-                default: {
+                default:
+                    {
                         buttons[i].Pivot.Rotate(0, 0, 0);
                     }
                     break;
@@ -497,7 +543,7 @@ public class LVL4_PipesGameController : MonoBehaviour
                     //Debug.Log(buttonController.Pivot.transform.rotation.z);
                     if (buttonController.Pivot.transform.eulerAngles.z >= 270)
                     {
-                        buttonController.Pivot.rotation = Quaternion.Euler(new Vector3(0,0,0));
+                        buttonController.Pivot.rotation = Quaternion.Euler(new Vector3(0, 0, 0));
                     }
                     else
                     {
@@ -512,7 +558,7 @@ public class LVL4_PipesGameController : MonoBehaviour
                     //Debug.Log(buttonController.Pivot.transform.rotation.z);
                     if (buttonController.Pivot.transform.eulerAngles.z >= 90)
                     {
-                        buttonController.Pivot.rotation = Quaternion.Euler(new Vector3(0,0,0));
+                        buttonController.Pivot.rotation = Quaternion.Euler(new Vector3(0, 0, 0));
                     }
                     else
                     {
@@ -530,22 +576,7 @@ public class LVL4_PipesGameController : MonoBehaviour
         }
         CheckRotation();
         CheckRotation2();
-        CheckIfTheGameIsFinished();
-    }
-
-    private void OnMinigameOpened(MinigameOpenedEvent evt)
-    {
-        if (evt.controller == null) return;
-        currentController = evt.controller;
-    }
-
-    private void OnMinigameClosed(CloseGameEvent evt)
-    {
-        this.gameObject.GetComponent<Canvas>().enabled = false;
-
-        // Returning to the level, hide the cursor
-        //Cursor.visible = false;
-        //Cursor.lockState = CursorLockMode.Locked;
+        IsFinished();
     }
     #endregion
 }

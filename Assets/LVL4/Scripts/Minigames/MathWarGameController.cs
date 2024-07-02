@@ -1,13 +1,9 @@
-using System.Collections;
 using System.Collections.Generic;
-using System.Drawing.Text;
-using System.Linq;
 using TMPro;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class MathWarGameController : MonoBehaviour
+public class MathWarGameController : Minigame
 {
     #region Inspector
     [SerializeField, Tooltip("Scriptable Object patterns that hold numbers for the Math Game")]
@@ -34,7 +30,7 @@ public class MathWarGameController : MonoBehaviour
     private GameObject floor8;
     [SerializeField]
     private List<MathWarGameButtonController> buttons;
-[   SerializeField]
+    [SerializeField]
     private TextMeshProUGUI enemyScoreRef;
     private List<GameObject> floors = new();
 
@@ -46,38 +42,16 @@ public class MathWarGameController : MonoBehaviour
     private GameObject thumb;
     [SerializeField]
     private GameObject continueButton;
-
-    [Header("Listening Event Channels")]
-    [SerializeField] private GenericEventChannelSO<MinigameCompleteEvent> MinigameCompleteEventChannel;
-    [SerializeField] private GenericEventChannelSO<MinigameOpenedEvent> MinigameOpenedEventChannel;
-    [SerializeField] private GenericEventChannelSO<CloseGameEvent> CloseGameEventChannel;
     #endregion
 
     #region Public & Private Variables
-    private MiniGameController currentController;
 
     public string enemyText;
     public HashSet<int> aliveEnemies = new();
     private int roomNumber;
     #endregion
 
-    #region Unity & Listener methods
-    private void OnEnable() {
-        MinigameOpenedEventChannel.OnEventRaised += OnMinigameOpened;
-        CloseGameEventChannel.OnEventRaised += OnMinigameClosed;
-    }
-    private void OnMinigameOpened(MinigameOpenedEvent evt) {
-        if (evt.controller == null) return;
-        currentController = evt.controller;
-    }
-    private void OnMinigameClosed(CloseGameEvent evt)
-    {
-        this.gameObject.GetComponent<Canvas>().enabled = false;
-
-        // Returning to the level, hide the cursor
-        //Cursor.visible = false;
-        //Cursor.lockState = CursorLockMode.Locked;
-    }
+    #region Unity & Listener 
     void Start()
     {
         // enemyText = floor.GetComponentInChildren<TextMeshProUGUI>().ToString();
@@ -102,18 +76,21 @@ public class MathWarGameController : MonoBehaviour
     #endregion
 
     #region game methods
-    public void restartMathsGame() { 
-        for (int i = 0; i < buttons.Count; i++) {
+    public override void Restart()
+    {
+        for (int i = 0; i < buttons.Count; i++)
+        {
             buttons[i].GetComponentInChildren<MathWarGameButtonController>().isDefeated = false;
             buttons[i].reviveEnemy();
             buttons[i].setPlayerToStart();
         }
         aliveEnemies.Clear();
-        for (int i = 0; i < 9; i++) {
+        for (int i = 0; i < 9; i++)
+        {
             aliveEnemies.Add(i);
         }
         buttons[0].resetPlayerScore();
-        
+
     }
 
     // Update is called once per frame
@@ -138,7 +115,7 @@ public class MathWarGameController : MonoBehaviour
                 // Debug.Log(j);
 
                 // Get the floor text from list of floors and set to scriptable object data
-                enemyScoreRef = floors[floorNumber].GetComponentInChildren<TextMeshProUGUI>(); 
+                enemyScoreRef = floors[floorNumber].GetComponentInChildren<TextMeshProUGUI>();
                 enemyText = gameFloorsSO[roomNumber].stages[i].floors[j].ToString();
                 enemyScoreRef.text = enemyText;
                 floorNumber++;
@@ -148,9 +125,10 @@ public class MathWarGameController : MonoBehaviour
         }
     }
 
-    public bool checkIfGameWon(){
-        
-        
+    public override bool IsFinished()
+    {
+
+
         int defeated = 0;
         for (int i = 0; i < buttons.Count; i++)
         {
@@ -167,7 +145,7 @@ public class MathWarGameController : MonoBehaviour
             backdrop.SetActive(true);
             thumb.SetActive(true);
             continueButton.SetActive(true);
-            MinigameCompleteEventChannel.RaiseEvent(new MinigameCompleteEvent(currentController));
+            minigameCompleteEventChannel.RaiseEvent(new MinigameCompleteEvent(this));
             return true;
         }
         return false;

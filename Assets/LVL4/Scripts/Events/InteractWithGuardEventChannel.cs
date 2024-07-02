@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "Interact With Guard Event Channel", menuName = "Events/Interact With Guard Event Channel")]
@@ -7,7 +5,7 @@ public class InteractWithGuardEventChannel : GenericEventChannelSO<InteractWithG
 
 [System.Serializable]
 public struct InteractWithGuardEvent
-{   
+{
     public CellGuard cellGuard;
     public KeyItem heldItem;
 

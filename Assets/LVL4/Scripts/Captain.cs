@@ -1,9 +1,4 @@
-using System.Collections.Generic;
-using StarterAssets;
 using UnityEngine;
-
-using UnityEngine.Audio;
-using UnityEngine.InputSystem;
 
 public class Captain : MonoBehaviour
 {
@@ -50,8 +45,6 @@ public class Captain : MonoBehaviour
 
         // Set the timer to zero
         playerAggroTimer = 0.0f;
-
-        this.gameObject.GetComponent<Animator>().SetBool("Sitting", true);
     }
 
     void Update()
@@ -59,7 +52,6 @@ public class Captain : MonoBehaviour
         switch (state)
         {
             case CaptainState.Sitting:
-                this.gameObject.GetComponent<Animator>().SetBool("Sitting", true);
                 facePlate.material.mainTexture = neutralFace;
                 playerAggroTimer = 0.0f;
                 guardAggroCooldownTimer += Time.deltaTime;
@@ -76,12 +68,11 @@ public class Captain : MonoBehaviour
                 }
                 break;
             case CaptainState.Searching:
-                this.gameObject.GetComponent<Animator>().SetBool("Sitting", true);
                 facePlate.material.mainTexture = angryFace;
                 playerAggroTimer += Time.deltaTime;
                 if (playerAggroTimer >= aggroTime)
                 {
-                    gameOverEventChannel.RaiseEvent(new GameOverEvent());
+                    gameOverEventChannel.RaiseEvent();
                 }
 
                 if (Vector3.Distance(this.transform.position, playerTransform.Position) > aggroRange)

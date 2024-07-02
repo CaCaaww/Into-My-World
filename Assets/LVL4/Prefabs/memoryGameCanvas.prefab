@@ -217,6 +217,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2285ed5acb283024fb3d7fa02f33336f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  minigameCompleteEventChannel: {fileID: 11400000, guid: 1e52d80abb71ff048ad937dda99daee2,
+    type: 2}
+  closeMinigameEventChannel: {fileID: 11400000, guid: 912580ad4f98ff14f8a3679bf0dd64c6,
+    type: 2}
   thumbUpPrefab: {fileID: 1460846584609454709, guid: e7c9595d1ec35474cb827a7bd6eeac58,
     type: 3}
   thumbDownPrefab: {fileID: 1180951942622440678, guid: e9320925acbb6194288676a9d4d8fcb5,
@@ -242,12 +246,6 @@ MonoBehaviour:
   buttons: []
   relatedSprites: []
   quitButton: {fileID: 2171375570525944323}
-  MinigameCompleteEventChannel: {fileID: 11400000, guid: 1e52d80abb71ff048ad937dda99daee2,
-    type: 2}
-  MinigameOpenedEventChannel: {fileID: 11400000, guid: 6589e5421f0fc5445b8117c91606b819,
-    type: 2}
-  CloseGameEventChannel: {fileID: 11400000, guid: 912580ad4f98ff14f8a3679bf0dd64c6,
-    type: 2}
 --- !u!1001 &4839489656635607924
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -498,6 +496,21 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7708798550076916570, guid: 5a0c3a5e77cfb3e41a294da29cba585b,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 5266069294543780607}
+    - target: {fileID: 7708798550076916570, guid: 5a0c3a5e77cfb3e41a294da29cba585b,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: ReturnToLevel
+      objectReference: {fileID: 0}
+    - target: {fileID: 7708798550076916570, guid: 5a0c3a5e77cfb3e41a294da29cba585b,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: Minigame, Assembly-CSharp
+      objectReference: {fileID: 0}
     - target: {fileID: 8339683385549130488, guid: 5a0c3a5e77cfb3e41a294da29cba585b,
         type: 3}
       propertyPath: m_Name
@@ -508,7 +521,8 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 2368004981977661821, guid: 5a0c3a5e77cfb3e41a294da29cba585b, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []

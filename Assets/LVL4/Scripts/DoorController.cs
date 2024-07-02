@@ -12,7 +12,7 @@ public class DoorController : MonoBehaviour
     [SerializeField] private bool onLeftSideOfHall;
 
     [Header("Listening Event Channels")]
-    [SerializeField] private GenericEventChannelSO<DoorOpenedEvent> DoorOpenedEventChannel;
+    [SerializeField] private DoorOpenedEventChannel doorOpenedEventChannel;
     #endregion
 
     #region Private Variables
@@ -25,14 +25,16 @@ public class DoorController : MonoBehaviour
     #endregion
 
     #region Unity Methods
-    private void OnEnable() {
-        DoorOpenedEventChannel.OnEventRaised += OnDoorOpened;
+    private void OnEnable()
+    {
+        doorOpenedEventChannel.OnEventRaised += OnDoorOpened;
         toggleDoor();
     }
     #endregion
 
     #region Callbacks
-    private void OnDoorOpened(DoorOpenedEvent evt) {
+    private void OnDoorOpened(DoorOpenedEvent evt)
+    {
         if (evt.controller == this || evt.debugCall == true) { toggleDoor(); }
     }
     #endregion

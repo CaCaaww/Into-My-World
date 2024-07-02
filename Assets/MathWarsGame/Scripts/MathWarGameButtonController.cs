@@ -52,7 +52,7 @@ public class MathWarGameButtonController : MonoBehaviour
             player.transform.position = new Vector3(300, 300, 0);
 
         }    
-        mathWarGameController.checkIfGameWon();
+        mathWarGameController.IsFinished();
     }
     public void setPlayerToStart() {
         player.transform.position = new Vector3(300, 300, 0);

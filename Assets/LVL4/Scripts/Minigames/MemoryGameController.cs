@@ -1,11 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Security.Policy;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class MemoryGameController : MonoBehaviour
+public class MemoryGameController : Minigame
 {
     #region Constants
     private const int numberOfGamePuzzles = 16;
@@ -56,11 +54,6 @@ public class MemoryGameController : MonoBehaviour
     private List<Sprite> relatedSprites = new();
     [SerializeField]
     private Button quitButton;
-
-    [Header("Listening Event Channels")]
-    [SerializeField] private GenericEventChannelSO<MinigameCompleteEvent> MinigameCompleteEventChannel;
-    [SerializeField] private GenericEventChannelSO<MinigameOpenedEvent> MinigameOpenedEventChannel;
-    [SerializeField] private GenericEventChannelSO<CloseGameEvent> CloseGameEventChannel;
     #endregion
 
     #region Private Variables
@@ -85,34 +78,12 @@ public class MemoryGameController : MonoBehaviour
     private WaitForSeconds waitForHalfSecond = new(.5f);
     //wait for one second
     private WaitForSeconds waitForOnefSecond = new(1f);
-
-    private MiniGameController currentController;
     #endregion
 
     #region Unity & listener Methods
-    private void OnDisable()
-    {
-        //RemoveListeners();
-    }
-    private void OnEnable() {
-        MinigameOpenedEventChannel.OnEventRaised += OnMinigameOpened;
-        CloseGameEventChannel.OnEventRaised += OnMinigameClosed;
-    }
-    private void OnMinigameOpened(MinigameOpenedEvent evt) {
-        if (evt.controller == null) return;
-        currentController = evt.controller;
-    }
-    private void OnMinigameClosed(CloseGameEvent evt)
-    {
-        this.gameObject.GetComponent<Canvas>().enabled = false;
-
-        // Returning to the level, hide the cursor
-        //Cursor.visible = false;
-        //Cursor.lockState = CursorLockMode.Locked;
-    }
     private void Start()
     {
-        
+
         AddButtons();
         AddListeners();
         AddGamePuzzles();
@@ -123,8 +94,10 @@ public class MemoryGameController : MonoBehaviour
     #endregion
 
     #region Helper Methods
-    public void restartMemoryGame() {
-        foreach (Button b in buttons) { // make all the buttons interactable again and turn them face down
+    public override void Restart()
+    {
+        foreach (Button b in buttons)
+        { // make all the buttons interactable again and turn them face down
             b.interactable = true;
             b.image.enabled = true;
             b.image.sprite = cardCover;
@@ -192,7 +165,7 @@ public class MemoryGameController : MonoBehaviour
     }
 
     // Check if the game is finished checking if the number of guesses is equal to the number of guesses required
-    public bool CheckIfTheGameISFinished()
+    public override bool IsFinished()
     {
         countCorrectGuesses++;
 
@@ -203,7 +176,7 @@ public class MemoryGameController : MonoBehaviour
             continueButton.SetActive(true);
             quitButton.interactable = false;
             backdrop.SetActive(true);
-            MinigameCompleteEventChannel.RaiseEvent(new MinigameCompleteEvent(currentController));
+            minigameCompleteEventChannel.RaiseEvent(new MinigameCompleteEvent(this));
             //Debug.Log("It took you " + countGuesses + " many guesses to finish the game");
             return true;
         }
@@ -247,9 +220,9 @@ public class MemoryGameController : MonoBehaviour
             if (secondGuessIndex == firstGuessIndex)
             {
                 secondGuess = false;
-                
+
             }
-            else 
+            else
             {
                 secondGuessPuzzle = relatedSprites[secondGuessIndex].name;
                 buttons[secondGuessIndex].image.sprite = relatedSprites[secondGuessIndex];
@@ -286,9 +259,9 @@ public class MemoryGameController : MonoBehaviour
             thumbUp.transform.SetParent(canvas, false);
             yield return waitForOnefSecond;
             Destroy(thumbUp);
-            
 
-            CheckIfTheGameISFinished();
+
+            IsFinished();
 
         }
         else
@@ -313,5 +286,5 @@ public class MemoryGameController : MonoBehaviour
 
 
 
-    
+
 }

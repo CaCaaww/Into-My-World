@@ -19,12 +19,6 @@ public class GuardMaster : MonoBehaviour
     private GameObject guardBody;
     [SerializeField, Tooltip("The animator to control guard body animations")]
     private Animator animator;
-    /*
-    [SerializeField, Tooltip("The preset animation that controls how the guard body walks")]
-    private AnimatorController walkingAnimation;
-    [SerializeField, Tooltip("The preset animation that controls how the guard body is displayed when it pauses walking")]
-    private AnimatorController standingAnimation;
-    */
     [SerializeField, Tooltip("The points that the guard stops at")]
     private List<GameObject> stoppingPoints;
     [SerializeField, Tooltip("The lowest to highest amount of time that the guard can stop for")]
@@ -160,7 +154,7 @@ public class GuardMaster : MonoBehaviour
                 playerAggroTimer += Time.deltaTime;
                 if (playerAggroTimer >= aggroTime)
                 {
-                    gameOverEventChannel.RaiseEvent(new GameOverEvent());
+                    gameOverEventChannel.RaiseEvent();
                 }
 
                 if (Vector3.Distance(guardBody.transform.position, playerTransform.Position) > aggroRange)

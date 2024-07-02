@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class Billboard : MonoBehaviour
@@ -8,16 +6,20 @@ public class Billboard : MonoBehaviour
     private GameObject objectToLookAt;
     [SerializeField]
     private bool flip;
-        [SerializeField]
+    [SerializeField]
     private bool rotateX;
 
     void Update()
     {
         this.gameObject.transform.LookAt(objectToLookAt.transform);
-        if(flip){
-            this.gameObject.transform.Rotate(0,180,0);
+
+        if (flip)
+        {
+            this.gameObject.transform.Rotate(0, 180, 0);
         }
-        if(!rotateX){
+
+        if (!rotateX)
+        {
             this.gameObject.transform.rotation = Quaternion.Euler(0, this.gameObject.transform.rotation.eulerAngles.y, this.gameObject.transform.rotation.eulerAngles.z);
         }
     }

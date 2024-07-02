@@ -28,15 +28,13 @@ public class PlayerManager : MonoBehaviour
     [SerializeField]
     private MinigameCompleteEventChannel minigameCompleteEventChannel;
     [SerializeField]
-    private CloseGameEventChannel closeGameEventChannel;
+    private CloseMinigameEventChannel closeGameEventChannel;
     [SerializeField]
     private AllPrisonersFreedEventChannel allPrisonersFreedEventChannel;
     [SerializeField]
-    private ToggleCursorEventChannel toggleCursorEventChannel;
+    private GiveGuardItemEventChannel giveGuardItemEventChannel;
     [SerializeField]
-    private GenericEventChannelSO<GiveGuardItemEvent> GiveGuardItemEventChannel;
-    [SerializeField]
-    private GenericEventChannelSO<MinigameOpenedEvent> MinigameOpenedEventChannel;
+    private MinigameOpenedEventChannel minigameOpenedEventChannel;
     #endregion
 
     #region Private Variables
@@ -68,13 +66,11 @@ public class PlayerManager : MonoBehaviour
 
         minigameCompleteEventChannel.OnEventRaised += OnMinigameComplete;
 
-        toggleCursorEventChannel.OnEventRaised += OnToggleCursor;
+        toggleDebugEventChannel.OnEventRaised += OnToggleDebug;
 
-        toggleDebugEventChannel.OnEventRaised += (ToggleDebugEvent evt) => { InputEnabled(!inputsEnabled); };
+        giveGuardItemEventChannel.OnEventRaised += OnGiveGuardItem;
 
-        GiveGuardItemEventChannel.OnEventRaised += OnGiveGuardItem;
-
-        MinigameOpenedEventChannel.OnEventRaised += OnMinigameOpened;
+        minigameOpenedEventChannel.OnEventRaised += OnMinigameOpened;
 
         closeGameEventChannel.OnEventRaised += OnMinigameClosed;
 
@@ -88,13 +84,11 @@ public class PlayerManager : MonoBehaviour
 
         minigameCompleteEventChannel.OnEventRaised -= OnMinigameComplete;
 
-        toggleCursorEventChannel.OnEventRaised -= OnToggleCursor;
+        toggleDebugEventChannel.OnEventRaised -= OnToggleDebug;
 
-        toggleDebugEventChannel.OnEventRaised -= (ToggleDebugEvent evt) => { InputEnabled(!inputsEnabled); };
+        giveGuardItemEventChannel.OnEventRaised -= OnGiveGuardItem;
 
-        GiveGuardItemEventChannel.OnEventRaised -= OnGiveGuardItem;
-
-        MinigameOpenedEventChannel.OnEventRaised -= OnMinigameOpened;
+        minigameOpenedEventChannel.OnEventRaised -= OnMinigameOpened;
 
         closeGameEventChannel.OnEventRaised -= OnMinigameClosed;
 
@@ -175,34 +169,6 @@ public class PlayerManager : MonoBehaviour
     #region Public Methods
 
     /// <summary>
-    /// Picks up an item and makes the item inactive
-    /// </summary>
-    public void OnPickupItem(PickupItemEvent evt)
-    {
-        KeyItem item = evt.item;
-        if (currentlyHeldItem)
-        {
-            currentlyHeldItem.ShowItem(true);
-        }
-        currentlyHeldItem = item;
-        item.ShowItem(false);
-    }
-
-    /// <summary>
-    /// Opens all doors
-    /// - Used for debugging purposes in the Unity Editor
-    /// </summary>
-    public void ToggleAllDoors()
-    {
-        List<DoorController> doors = new List<DoorController>();
-        doors.AddRange(Object.FindObjectsOfType<DoorController>());
-        foreach (DoorController i in doors)
-        {
-            i.toggleDoor();
-        }
-    }
-
-    /// <summary>
     /// Toggles the input action map
     /// </summary>
     public void InputEnabled(bool enabled)
@@ -228,27 +194,15 @@ public class PlayerManager : MonoBehaviour
     private void OnMinigameComplete(MinigameCompleteEvent evt)
     {
         gamesCompleted++;
-        if (gamesCompleted >= gamesNeededToComplete) {
-            allPrisonersFreedEventChannel.RaiseEvent(new AllPrisonersFreedEvent());
-            //toggleCursorEventChannel.RaiseEvent(new ToggleCursorEvent());
+        if (gamesCompleted >= gamesNeededToComplete)
+        {
+            allPrisonersFreedEventChannel.RaiseEvent();
             Cursor.visible = true;
             Cursor.lockState = CursorLockMode.None;
         }
     }
-    private void OnToggleCursor(ToggleCursorEvent evt)
-    {
-        if (Cursor.visible)
-        {
-            Cursor.visible = false;
-            Cursor.lockState = CursorLockMode.Locked;
-        }
-        else
-        {
-            Cursor.visible = true;
-            Cursor.lockState = CursorLockMode.None;
-        }
-    }
-    private void OnPlayerPressInteract(InteractEvent evt)
+
+    private void OnPlayerPressInteract()
     {
         Vector3 cameraPosition = mainCamera.transform.position;
         Vector3 forwardDirection = mainCamera.transform.forward;
@@ -265,7 +219,7 @@ public class PlayerManager : MonoBehaviour
             }
             if (hit.collider.gameObject.CompareTag("JailCell"))
             {
-                hit.collider.gameObject.GetComponent<MiniGameController>().lockClicked();
+                hit.collider.gameObject.GetComponent<MinigameController>().LockClicked();
             }
 
             if (hit.collider.gameObject.GetComponent<KeyItem>())
@@ -300,13 +254,34 @@ public class PlayerManager : MonoBehaviour
         Cursor.visible = true;
         Cursor.lockState = CursorLockMode.None;
     }
-    private void OnMinigameClosed(CloseGameEvent evt)
+
+    private void OnMinigameClosed()
     {
-        if (gamesCompleted < gamesNeededToComplete) {
+        if (gamesCompleted < gamesNeededToComplete)
+        {
             InputEnabled(true);
             Cursor.visible = false;
             Cursor.lockState = CursorLockMode.Locked;
         }
+    }
+
+    private void OnToggleDebug()
+    {
+        InputEnabled(!inputsEnabled);
+    }
+
+    /// <summary>
+    /// Picks up an item and makes the item inactive
+    /// </summary>
+    public void OnPickupItem(PickupItemEvent evt)
+    {
+        KeyItem item = evt.item;
+        if (currentlyHeldItem)
+        {
+            currentlyHeldItem.ShowItem(true);
+        }
+        currentlyHeldItem = item;
+        item.ShowItem(false);
     }
     #endregion
 }

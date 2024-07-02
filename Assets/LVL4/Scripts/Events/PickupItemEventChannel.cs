@@ -1,9 +1,7 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "Pickup Item Event Channel", menuName = "Events/Pickup Item Event Channel")]
-public class PickupItemEventChannel : GenericEventChannelSO<PickupItemEvent>{}
+public class PickupItemEventChannel : GenericEventChannelSO<PickupItemEvent> { }
 
 [System.Serializable]
 public struct PickupItemEvent

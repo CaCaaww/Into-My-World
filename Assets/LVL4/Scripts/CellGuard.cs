@@ -46,12 +46,12 @@ public class CellGuard : MonoBehaviour
     private float textAlphaFalloffDistance;
 
     [Header("Listening Event Channels")]
-    [SerializeField] 
-    private GenericEventChannelSO<DoorOpenedEvent> DoorOpenedEventChannel;
+    [SerializeField]
+    private DoorOpenedEventChannel DoorOpenedEventChannel;
     [SerializeField]
     private InteractWithGuardEventChannel interactWithGuardEventChannel;
     [SerializeField]
-    private GenericEventChannelSO<GiveGuardItemEvent> GiveGuardItemEventChannel;
+    private GiveGuardItemEventChannel GiveGuardItemEventChannel;
     #endregion
 
     #region Private Variables
@@ -176,7 +176,7 @@ public class CellGuard : MonoBehaviour
 
                             if (isItemCorrect)
                             {
-                                
+
                                 for (int i = items.Count - 1; i >= 0; i--)
                                 {
                                     if (evt.heldItem.CompareItemTags(items[i]))

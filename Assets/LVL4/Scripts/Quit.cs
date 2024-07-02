@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class Quit : MonoBehaviour
@@ -24,7 +22,7 @@ public class Quit : MonoBehaviour
 
     [Header("Listening Event Channels")]
     [SerializeField]
-    private GenericEventChannelSO<CloseGameEvent> CloseGameEventChannel;
+    private GenericEventChannelSO CloseGameEventChannel;
     #endregion
 
     #region Public Methods
@@ -44,9 +42,8 @@ public class Quit : MonoBehaviour
     {
         ToggleQuitScreen();
 
-        CloseGameEventChannel.RaiseEvent(new CloseGameEvent());
+        CloseGameEventChannel.RaiseEvent();
     }
-
     #endregion
 
     #region Helper Methods
