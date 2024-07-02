@@ -39,6 +39,8 @@ public class LVL4UIManager : MonoBehaviour
     private GiveGuardItemEventChannel giveGuardItemEventChannel;
     [SerializeField]
     private OpenNextStageEventChannel openNextStageEventChannel;
+    [SerializeField]
+    private MinigameCompleteEventChannel minigameCompleteEventChannel;
     #endregion
 
     #region Private Variables
@@ -149,6 +151,11 @@ public class LVL4UIManager : MonoBehaviour
     public void OpenDoorsButton()
     {
         doorOpenedEventChannel.RaiseEvent(new DoorOpenedEvent(null, true));
+    }
+
+    public void CompleteMinigamesButton()
+    {
+        minigameCompleteEventChannel.RaiseEvent(new MinigameCompleteEvent(null, true));
     }
 
     public void OnGiveGuardItem(GiveGuardItemEvent evt)
