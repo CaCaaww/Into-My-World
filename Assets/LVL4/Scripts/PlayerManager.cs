@@ -194,6 +194,12 @@ public class PlayerManager : MonoBehaviour
     private void OnMinigameComplete(MinigameCompleteEvent evt)
     {
         gamesCompleted++;
+
+        if (evt.isDebug)
+        {
+            gamesCompleted = gamesNeededToComplete;
+        }
+
         if (gamesCompleted >= gamesNeededToComplete)
         {
             allPrisonersFreedEventChannel.RaiseEvent();

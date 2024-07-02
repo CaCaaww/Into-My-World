@@ -7,10 +7,12 @@ public class MinigameCompleteEventChannel : GenericEventChannelSO<MinigameComple
 public struct MinigameCompleteEvent
 {
     public Minigame game;
+    public bool isDebug;
 
-    public MinigameCompleteEvent(Minigame game)
+    public MinigameCompleteEvent(Minigame game, bool isDebug = false)
     {
         this.game = game;
+        this.isDebug = isDebug;
     }
 }
 
