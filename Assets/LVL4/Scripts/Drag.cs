@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine.UI;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEditor.Build;
 
 public class Drag : MonoBehaviour, IBeginDragHandler, IEndDragHandler, IDragHandler {
     [SerializeField] private Canvas canvas;
@@ -10,6 +11,8 @@ public class Drag : MonoBehaviour, IBeginDragHandler, IEndDragHandler, IDragHand
     private Vector3 startPosition;
     private CanvasGroup canvasGroup;
     private bool foundDrop = false;
+    private GameObject matchingPair;
+    private GameObject currentlyAttached;
     [Header("Listening Event Channels")]
     [SerializeField] private GenericEventChannelSO<FoundDropEvent> foundDropEventChannel;
     public void OnBeginDrag(PointerEventData eventData) {
@@ -36,6 +39,13 @@ public class Drag : MonoBehaviour, IBeginDragHandler, IEndDragHandler, IDragHand
     public void OnFoundDrop(FoundDropEvent evt) {
         if (evt.current == rectTransform.anchoredPosition) {
             foundDrop = true;
+            currentlyAttached = evt.pair;
         }    
+    }
+    public bool checkMatchesWithPair() {
+        return matchingPair.Equals(currentlyAttached);
+    }
+    public void setMatchingPair(GameObject pair) {
+        matchingPair = pair;
     }
 }

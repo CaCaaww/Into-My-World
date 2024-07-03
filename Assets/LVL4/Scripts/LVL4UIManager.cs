@@ -174,5 +174,6 @@ public class LVL4UIManager : MonoBehaviour
     {
         openNextStageEventChannel.RaiseEvent();
     }
+    
 }
 

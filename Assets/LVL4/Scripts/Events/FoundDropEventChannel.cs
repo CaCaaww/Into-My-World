@@ -8,9 +8,11 @@ public class FoundDropEventChannel : GenericEventChannelSO<FoundDropEvent> {
 [System.Serializable]
 public struct FoundDropEvent {
     public Vector2 current;
+    public GameObject pair;
 
-    public FoundDropEvent(Vector3 current) {
+    public FoundDropEvent(Vector3 current, GameObject pair) {
         this.current = current;
+        this.pair = pair;
     }
 }
 

@@ -8,7 +8,7 @@ public class Drop : MonoBehaviour, IDropHandler {
     [SerializeField] private GenericEventChannelSO<FoundDropEvent> foundDropEventChannel;
     public void OnDrop(PointerEventData eventData) {
         if (eventData.pointerDrag != null) {
-            foundDropEventChannel.RaiseEvent(new FoundDropEvent(eventData.pointerDrag.GetComponent<RectTransform>().anchoredPosition));
+            foundDropEventChannel.RaiseEvent(new FoundDropEvent(eventData.pointerDrag.GetComponent<RectTransform>().anchoredPosition, this.gameObject));
             eventData.pointerDrag.GetComponent<RectTransform>().anchoredPosition = GetComponent<RectTransform>().anchoredPosition;
         }
     }
