@@ -4,6 +4,7 @@ using UnityEngine.UI;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEditor.Build;
+using Unity.VisualScripting;
 
 public class Drag : MonoBehaviour, IBeginDragHandler, IEndDragHandler, IDragHandler {
     [SerializeField] private Canvas canvas;
@@ -25,7 +26,9 @@ public class Drag : MonoBehaviour, IBeginDragHandler, IEndDragHandler, IDragHand
         canvasGroup.blocksRaycasts=true;
         if (!foundDrop) {
             rectTransform.anchoredPosition = startPosition;
-        }
+            GetComponentInParent<finalStageManager>().removeFromTakenList(currentlyAttached);
+            currentlyAttached = null;
+        } 
     }
     public void OnDrag(PointerEventData eventData) {
         rectTransform.anchoredPosition += eventData.delta / canvas.scaleFactor;
@@ -38,12 +41,22 @@ public class Drag : MonoBehaviour, IBeginDragHandler, IEndDragHandler, IDragHand
     }
     public void OnFoundDrop(FoundDropEvent evt) {
         if (evt.current == rectTransform.anchoredPosition) {
-            foundDrop = true;
-            currentlyAttached = evt.pair;
+            if (GetComponentInParent<finalStageManager>().checkNotInTakenList(evt.pair)) {
+                foundDrop = true;
+                if (currentlyAttached != null) {
+                    GetComponentInParent<finalStageManager>().removeFromTakenList(currentlyAttached);
+                }
+                currentlyAttached = evt.pair;
+                GetComponentInParent<finalStageManager>().addToTakenList(evt.pair);
+            }        
         }    
     }
     public bool checkMatchesWithPair() {
-        return matchingPair.Equals(currentlyAttached);
+        if (currentlyAttached != null && matchingPair != null) {
+            return matchingPair == currentlyAttached;
+        } else {
+            return false;
+        }
     }
     public void setMatchingPair(GameObject pair) {
         matchingPair = pair;

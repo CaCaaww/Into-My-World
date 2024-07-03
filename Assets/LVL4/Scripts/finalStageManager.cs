@@ -7,6 +7,7 @@ using UnityEngine.Rendering;
 
 public class finalStageManager : MonoBehaviour
 {
+    private List<GameObject> takenList = new List<GameObject>();
     [SerializeField] private List<string> stringsForTextBoxes;
     [SerializeField] private List<GameObject> dragableTextBoxes;
     [SerializeField] private List<GameObject> dropableBoxHolders;
@@ -23,13 +24,13 @@ public class finalStageManager : MonoBehaviour
     }
     private void setMatchingPairs() {
         for (int i = 0; i < correctIndexOrder.Count; i++) {
-            dragableTextBoxes[correctIndexOrder[i]].GetComponent<Drag>().setMatchingPair(dragableTextBoxes[i]);
+            dragableTextBoxes[correctIndexOrder[i]].GetComponent<Drag>().setMatchingPair(dropableBoxHolders[i]);
         }
     }
     public void checkOrder() {
         bool correctOrder = true;
         foreach(GameObject textBox in dragableTextBoxes) {
-            if (!textBox.GetComponent<Drag>().checkMatchesWithPair()) {
+            if (!(textBox.GetComponent<Drag>().checkMatchesWithPair())) {
                 correctOrder = false; break;
             }
         }
@@ -38,5 +39,19 @@ public class finalStageManager : MonoBehaviour
         } else {
             Debug.Log("Not Correct");
         }
+    }
+    public bool checkNotInTakenList(GameObject checkAgainst) {
+        int check = takenList.IndexOf(checkAgainst);
+        if (check == -1) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+    public void addToTakenList(GameObject add) {
+        takenList.Add(add);
+    }
+    public void removeFromTakenList(GameObject remove) {
+        takenList.Remove(remove);
     }
 }
