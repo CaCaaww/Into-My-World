@@ -13,6 +13,8 @@ public class finalStageManager : MonoBehaviour
     [SerializeField] private List<GameObject> dropableBoxHolders;
     [Header("The indexes of the dragable text boxes in the order which they need to be placed in to be correct.\nIe: if the 3rd index dragable has to be the first box in the pattern, then the first number of this list is 3")]
     [SerializeField] private List<int> correctIndexOrder;
+    [Header("Event Channels")]
+    [SerializeField] private GenericEventChannelSO<FinalStageCompleteEvent> finalStageCompleteEventChannel;
     
     private void Start() {
         int index = 0;
@@ -36,6 +38,7 @@ public class finalStageManager : MonoBehaviour
         }
         if (correctOrder) {
             Debug.Log("You won!!!");
+            finalStageCompleteEventChannel.RaiseEvent(new FinalStageCompleteEvent());
         } else {
             Debug.Log("Not Correct");
         }

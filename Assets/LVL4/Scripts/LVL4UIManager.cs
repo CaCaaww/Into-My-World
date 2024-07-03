@@ -41,6 +41,8 @@ public class LVL4UIManager : MonoBehaviour
     private OpenNextStageEventChannel openNextStageEventChannel;
     [SerializeField]
     private MinigameCompleteEventChannel minigameCompleteEventChannel;
+    [SerializeField]
+    private GenericEventChannelSO<FinalStageCompleteEvent> finalStageCompleteEventChannel;
     #endregion
 
     #region Private Variables
@@ -70,6 +72,7 @@ public class LVL4UIManager : MonoBehaviour
         allPrisonersFreedEventChannel.OnEventRaised += OnAllPrisonersFreed;
         gameOverEventChannel.OnEventRaised += OnGameOver;
         giveGuardItemEventChannel.OnEventRaised += OnGiveGuardItem;
+        finalStageCompleteEventChannel.OnEventRaised += OnFinalStageComplete;
     }
 
     private void OnDisable()
@@ -168,6 +171,9 @@ public class LVL4UIManager : MonoBehaviour
         gameOverPanel.SetActive(true);
         Cursor.visible = true;
         Cursor.lockState = CursorLockMode.None;
+    }
+    private void OnFinalStageComplete(FinalStageCompleteEvent evt) { 
+    
     }
 
     public void OpenNextStageButton()

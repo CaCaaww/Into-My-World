@@ -28,7 +28,6 @@ public class DoorController : MonoBehaviour
     private void OnEnable()
     {
         doorOpenedEventChannel.OnEventRaised += OnDoorOpened;
-        toggleDoor();
     }
     #endregion
 
