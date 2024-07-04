@@ -39,7 +39,11 @@ public class finalStageManager : MonoBehaviour
         if (correctOrder) {
             Debug.Log("You won!!!");
             finalStageCompleteEventChannel.RaiseEvent(new FinalStageCompleteEvent());
-        } else {
+
+            /* ========================== SEND DATA TO SERVER HERE ==============================*/
+
+        }
+        else {
             Debug.Log("Not Correct");
         }
     }

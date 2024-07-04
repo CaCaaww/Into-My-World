@@ -35,6 +35,8 @@ public class GuardMaster : MonoBehaviour
     private Texture2D angryFace, neutralFace;
     [SerializeField, Tooltip("Player transform")]
     private PlayerTransformSO playerTransform;
+
+    [Header("Listening Event Channels")]
     [SerializeField, Tooltip("Happens when the player is caught")]
     private GameOverEventChannel gameOverEventChannel;
     #endregion
@@ -155,6 +157,8 @@ public class GuardMaster : MonoBehaviour
                 if (playerAggroTimer >= aggroTime)
                 {
                     gameOverEventChannel.RaiseEvent();
+
+                    /* ========================== SEND DATA TO SERVER HERE ==============================*/
                 }
 
                 if (Vector3.Distance(guardBody.transform.position, playerTransform.Position) > aggroRange)

@@ -73,6 +73,8 @@ public class Captain : MonoBehaviour
                 if (playerAggroTimer >= aggroTime)
                 {
                     gameOverEventChannel.RaiseEvent();
+
+                    /* ========================== SEND DATA TO SERVER HERE ==============================*/
                 }
 
                 if (Vector3.Distance(this.transform.position, playerTransform.Position) > aggroRange)

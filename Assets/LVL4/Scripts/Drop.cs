@@ -10,6 +10,9 @@ public class Drop : MonoBehaviour, IDropHandler {
         if (eventData.pointerDrag != null) {
             foundDropEventChannel.RaiseEvent(new FoundDropEvent(eventData.pointerDrag.GetComponent<RectTransform>().anchoredPosition, this.gameObject));
             eventData.pointerDrag.GetComponent<RectTransform>().anchoredPosition = GetComponent<RectTransform>().anchoredPosition;
+
+            /* ========================== SEND DATA TO SERVER HERE ==============================*/
+
         }
     }
 }

@@ -43,8 +43,6 @@ public class Quit : MonoBehaviour
         ToggleQuitScreen();
 
         CloseGameEventChannel.RaiseEvent();
-
-        /* ========================== SEND DATA TO SERVER HERE ==============================*/
     }
     #endregion
 
