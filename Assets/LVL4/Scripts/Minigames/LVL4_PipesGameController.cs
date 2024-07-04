@@ -484,6 +484,9 @@ public class LVL4_PipesGameController : Minigame
             backdrop.SetActive(true);
             quitButton.enabled = false;
             minigameCompleteEventChannel.RaiseEvent(new MinigameCompleteEvent(this));
+
+            /* ========================== SEND DATA TO SERVER HERE ==============================*/
+
             return true;
         }
         return false;
@@ -528,6 +531,9 @@ public class LVL4_PipesGameController : Minigame
         // check rotation and add water
         CheckRotation();
         CheckRotation2();
+
+        /* ========================== SEND DATA TO SERVER HERE ==============================*/
+
     }
     #endregion
 

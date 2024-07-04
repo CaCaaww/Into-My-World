@@ -14,5 +14,7 @@ public abstract class Minigame : MonoBehaviour
     public void ReturnToLevel()
     {
         closeMinigameEventChannel.RaiseEvent();
+
+        /* ========================== SEND DATA TO SERVER HERE ==============================*/
     }
 }

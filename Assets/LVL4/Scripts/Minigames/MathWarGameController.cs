@@ -91,6 +91,8 @@ public class MathWarGameController : Minigame
         }
         buttons[0].resetPlayerScore();
 
+        /* ========================== SEND DATA TO SERVER HERE ==============================*/
+
     }
 
     // Update is called once per frame
@@ -146,6 +148,9 @@ public class MathWarGameController : Minigame
             thumb.SetActive(true);
             continueButton.SetActive(true);
             minigameCompleteEventChannel.RaiseEvent(new MinigameCompleteEvent(this));
+
+            /* ========================== SEND DATA TO SERVER HERE ==============================*/
+
             return true;
         }
         return false;

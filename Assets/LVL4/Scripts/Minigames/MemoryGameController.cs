@@ -105,6 +105,8 @@ public class MemoryGameController : Minigame
         //reset the guesses
         countCorrectGuesses = countGuesses = 0;
         gameGuesses = numberOfGamePuzzles / 2;
+
+        /* ========================== SEND DATA TO SERVER HERE ==============================*/
     }
 
     //Populate the panel whit the selected ammount of buttons 
@@ -178,6 +180,8 @@ public class MemoryGameController : Minigame
             backdrop.SetActive(true);
             minigameCompleteEventChannel.RaiseEvent(new MinigameCompleteEvent(this));
             //Debug.Log("It took you " + countGuesses + " many guesses to finish the game");
+
+            /* ========================== SEND DATA TO SERVER HERE ==============================*/
             return true;
         }
         return false;

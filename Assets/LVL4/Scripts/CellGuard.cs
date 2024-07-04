@@ -190,6 +190,9 @@ public class CellGuard : MonoBehaviour
                                 {
                                     cellGuardState = CellGuardState.AllItemsFound;
                                     DoorOpenedEventChannel.RaiseEvent(new DoorOpenedEvent(GetComponentInParent<DoorController>()));
+
+                                    /* ========================== SEND DATA TO SERVER HERE ==============================*/
+
                                     //GetComponentInParent<DoorController>().toggleDoor();
                                 }
                             }
@@ -198,6 +201,8 @@ public class CellGuard : MonoBehaviour
                                 cellGuardState = CellGuardState.IncorrectItem;
                             }
                             GiveGuardItemEventChannel.RaiseEvent(new GiveGuardItemEvent(isItemCorrect));
+
+                            /* ========================== SEND DATA TO SERVER HERE ==============================*/
                         }
                         break;
                 }
