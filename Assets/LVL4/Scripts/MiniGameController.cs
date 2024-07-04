@@ -46,6 +46,9 @@ public class MinigameController : MonoBehaviour
     {
         game.gameObject.GetComponent<Canvas>().enabled = true; // sets the canvas to be visible so the game can be seen
         minigameOpenedEventChannel.RaiseEvent(new MinigameOpenedEvent(this));
+
+        /* ========================== SEND DATA TO SERVER HERE ==============================*/
+
         if (!firstTime)
         { // if this is not the first time playing the game, the game is reset to its original state
             if (!game.IsFinished())

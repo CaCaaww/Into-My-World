@@ -203,6 +203,9 @@ public class PlayerManager : MonoBehaviour
         if (gamesCompleted >= gamesNeededToComplete)
         {
             allPrisonersFreedEventChannel.RaiseEvent();
+
+            /* ========================== SEND DATA TO SERVER HERE ==============================*/
+
             Cursor.visible = true;
             Cursor.lockState = CursorLockMode.None;
         }
@@ -222,10 +225,13 @@ public class PlayerManager : MonoBehaviour
             if (hit.collider.gameObject.GetComponent<CellGuard>())
             {
                 interactWithGuardEventChannel.RaiseEvent(new InteractWithGuardEvent(hit.collider.gameObject.GetComponent<CellGuard>(), currentlyHeldItem));
+                /* ========================== SEND DATA TO SERVER HERE ==============================*/
             }
             if (hit.collider.gameObject.CompareTag("JailCell"))
             {
+                // We can probably use an event here to lower coupling
                 hit.collider.gameObject.GetComponent<MinigameController>().LockClicked();
+                /* ========================== SEND DATA TO SERVER HERE ==============================*/
             }
 
             if (hit.collider.gameObject.GetComponent<KeyItem>())
@@ -233,6 +239,7 @@ public class PlayerManager : MonoBehaviour
                 if (hit.collider.gameObject.GetComponent<KeyItem>().CanPickUp())
                 {
                     pickupItemEventChannel.RaiseEvent(new PickupItemEvent(hit.collider.gameObject.GetComponent<KeyItem>()));
+                    /* ========================== SEND DATA TO SERVER HERE ==============================*/
                 }
             }
             else if (hit.collider.gameObject.GetComponentInParent<KeyItem>())
@@ -240,6 +247,7 @@ public class PlayerManager : MonoBehaviour
                 if (hit.collider.gameObject.GetComponentInParent<KeyItem>().CanPickUp())
                 {
                     pickupItemEventChannel.RaiseEvent(new PickupItemEvent(hit.collider.gameObject.GetComponentInParent<KeyItem>()));
+                    /* ========================== SEND DATA TO SERVER HERE ==============================*/
                 }
             }
         }

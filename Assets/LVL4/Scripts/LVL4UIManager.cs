@@ -154,6 +154,8 @@ public class LVL4UIManager : MonoBehaviour
     public void OpenDoorsButton()
     {
         doorOpenedEventChannel.RaiseEvent(new DoorOpenedEvent(null, true));
+
+        /* ========================== SEND DATA TO SERVER HERE ==============================*/
     }
 
     public void CompleteMinigamesButton()
@@ -179,7 +181,9 @@ public class LVL4UIManager : MonoBehaviour
     public void OpenNextStageButton()
     {
         openNextStageEventChannel.RaiseEvent();
+
+        /* ========================== SEND DATA TO SERVER HERE ==============================*/
     }
-    
+
 }
 
