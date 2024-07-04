@@ -1,10 +1,5 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine.UI;
 using UnityEngine;
 using UnityEngine.EventSystems;
-using UnityEditor.Build;
-using Unity.VisualScripting;
 
 public class Drag : MonoBehaviour, IBeginDragHandler, IEndDragHandler, IDragHandler {
     [SerializeField] private Canvas canvas;
