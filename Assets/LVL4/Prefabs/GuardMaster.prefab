@@ -304,10 +304,10 @@ MonoBehaviour:
   - {fileID: 1159370475106929526}
   - {fileID: 1405443780509772647}
   - {fileID: 6444903969933009415}
-  stopTimeRange: {x: 2, y: 5}
-  aggroRange: 3
+  stopTimeRange: {x: 2, y: 4}
+  aggroRange: 7
   aggroTime: 5
-  moveSpeed: 1
+  moveSpeed: 2.75
   guardPrefabs:
   - {fileID: 7306503956860966316, guid: eab4cebcbd41a54579ac4b0b3f7a2a8f, type: 3}
   - {fileID: 897262184509383712, guid: db4bdeeaaa9b8ab68a87bfc000af5630, type: 3}
@@ -343,7 +343,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: -1.32, z: 0}
-  m_LocalScale: {x: 1.5, y: 1.5, z: 1.5}
+  m_LocalScale: {x: 1.75, y: 1.75, z: 1.75}
   m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 2131791514375412201}

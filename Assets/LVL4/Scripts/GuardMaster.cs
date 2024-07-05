@@ -56,6 +56,8 @@ public class GuardMaster : MonoBehaviour
     private MeshRenderer facePlate;
     #endregion
 
+    private const float turnAnimationTime = 0.5f;
+
     void Start()
     {
         // Log an error and destroy the guard if the stopping points is less than two
@@ -109,6 +111,7 @@ public class GuardMaster : MonoBehaviour
         {
             case GuardState.Patrolling:
                 animator.SetBool("Walking", true);
+                animator.SetBool("Turning", false);
                 facePlate.material.mainTexture = neutralFace;
                 playerAggroTimer = 0.0f;
                 guardAggroCooldownTimer += Time.deltaTime;
@@ -152,6 +155,7 @@ public class GuardMaster : MonoBehaviour
                 break;
             case GuardState.Searching:
                 animator.SetBool("Walking", false);
+                animator.SetBool("Turning", false);
                 facePlate.material.mainTexture = angryFace;
                 playerAggroTimer += Time.deltaTime;
                 if (playerAggroTimer >= aggroTime)
@@ -163,11 +167,6 @@ public class GuardMaster : MonoBehaviour
 
                 if (Vector3.Distance(guardBody.transform.position, playerTransform.Position) > aggroRange)
                 {
-                    if (prevState == GuardState.Stopped)
-                    {
-                        guardStopTimer += 0.2f;
-                    }
-
                     state = prevState;
                     guardAggroCooldownTimer = 0.0f;
 
@@ -176,20 +175,27 @@ public class GuardMaster : MonoBehaviour
                 break;
             case GuardState.Stopped:
                 animator.SetBool("Walking", false);
+                if (guardStopTimer <= turnAnimationTime)
+                {
+                    animator.SetBool("Turning", true);
+                }
+                else
+                {
+                    animator.SetBool("Turning", false);
+                }
                 facePlate.material.mainTexture = neutralFace;
                 playerAggroTimer = 0.0f;
                 guardAggroCooldownTimer += Time.deltaTime;
                 guardStopTimer += Time.deltaTime;
                 guardLerpTimer += Time.deltaTime;
 
-                Quaternion newRotation = Quaternion.Lerp(Quaternion.Euler(curRotation), Quaternion.Euler(targetRotation), guardLerpTimer / stopTime);
+                Quaternion newRotation = Quaternion.Lerp(Quaternion.Euler(curRotation), Quaternion.Euler(targetRotation), guardLerpTimer / turnAnimationTime);
                 guardBody.transform.rotation = newRotation;
 
                 if (guardStopTimer >= stopTime)
                 {
                     state = GuardState.Patrolling;
                     guardStopTimer = 0.0f;
-                    animator.SetBool("Walking", true);
                 }
 
                 if (Vector3.Distance(guardBody.transform.position, playerTransform.Position) < aggroRange && guardAggroCooldownTimer >= 0.2f)
