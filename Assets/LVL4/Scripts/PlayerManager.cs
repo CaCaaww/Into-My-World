@@ -241,7 +241,7 @@ public class PlayerManager : MonoBehaviour
 
         RaycastHit hit;
         // float maxDistance = 1.2F;
-        if (Physics.SphereCast(cameraPosition, 0.3f, forwardDirection, out hit, 5.0F))
+        if (Physics.Raycast(cameraPosition, forwardDirection, out hit, 5.0F))
         {
             // If the ray hits something, you can access the hit information
             Debug.Log("Hit: " + hit.collider.gameObject.name);
