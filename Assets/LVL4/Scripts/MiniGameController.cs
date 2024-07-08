@@ -6,7 +6,9 @@ using UnityEngine;
 public class MinigameController : MonoBehaviour
 {
     #region Inspector
+    [SerializeField] private GameObject completeCageObject;
     [SerializeField] private List<Minigame> miniGames; // list containing the miniGames
+    
 
     [Header("Listening Event Channels")]
     [SerializeField] protected MinigameCompleteEventChannel minigameCompleteEventChannel;
@@ -68,7 +70,7 @@ public class MinigameController : MonoBehaviour
     {
         if (evt.game == game)
         {
-            //gameObject.SetActive(false);
+            completeCageObject.SetActive(false);
         }
     }
 

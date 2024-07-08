@@ -253,7 +253,7 @@ public class PlayerManager : MonoBehaviour
             if (hit.collider.gameObject.CompareTag("JailCell"))
             {
                 // We can probably use an event here to lower coupling
-                hit.collider.gameObject.GetComponent<MinigameController>().LockClicked();
+                hit.collider.gameObject.GetComponentInParent<MinigameController>().LockClicked();
                 /* ========================== SEND DATA TO SERVER HERE ==============================*/
             }
 
