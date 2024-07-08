@@ -299,6 +299,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   guardBody: {fileID: 1048242537379653591}
   animator: {fileID: 2633603852982277231}
+  animationSpeed: 1
   stoppingPoints:
   - {fileID: 147855303659052343}
   - {fileID: 1159370475106929526}
