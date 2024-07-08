@@ -35,6 +35,8 @@ public class PlayerManager : MonoBehaviour
     private GiveGuardItemEventChannel giveGuardItemEventChannel;
     [SerializeField]
     private MinigameOpenedEventChannel minigameOpenedEventChannel;
+    [SerializeField]
+    private GameOverEventChannel gameOverEventChannel;
     #endregion
 
     #region Private Variables
@@ -74,6 +76,7 @@ public class PlayerManager : MonoBehaviour
 
         closeGameEventChannel.OnEventRaised += OnMinigameClosed;
 
+        gameOverEventChannel.OnEventRaised += OnGameOver;
     }
 
     private void OnDisable()
@@ -91,6 +94,8 @@ public class PlayerManager : MonoBehaviour
         minigameOpenedEventChannel.OnEventRaised -= OnMinigameOpened;
 
         closeGameEventChannel.OnEventRaised -= OnMinigameClosed;
+
+        gameOverEventChannel.OnEventRaised -= OnGameOver;
 
     }
     private void Update()
@@ -319,6 +324,11 @@ public class PlayerManager : MonoBehaviour
         }
         currentlyHeldItem = item;
         item.ShowItem(false);
+    }
+
+    public void OnGameOver() 
+    {
+        InputEnabled(false);
     }
     #endregion
 }

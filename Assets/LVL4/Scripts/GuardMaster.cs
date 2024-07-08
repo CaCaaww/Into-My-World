@@ -56,6 +56,7 @@ public class GuardMaster : MonoBehaviour
     private Vector3 targetRotation;
     private float stopTime;
     private MeshRenderer facePlate;
+    private bool isGameOver = false;
     #endregion
 
     private const float turnAnimationTime = 0.5f;
@@ -153,8 +154,6 @@ public class GuardMaster : MonoBehaviour
 
                     Debug.Log("Play guard audio");
                     guardBody.GetComponent<AudioSource>().Play();
-
-                    // warningSprite.SetActive(true);
                 }
                 break;
             case GuardState.Searching:
@@ -162,10 +161,10 @@ public class GuardMaster : MonoBehaviour
                 animator.SetBool("Turning", false);
                 facePlate.material.mainTexture = angryFace;
                 playerAggroTimer += Time.deltaTime;
-                if (playerAggroTimer >= aggroTime)
+                if (playerAggroTimer >= aggroTime && !isGameOver)
                 {
                     gameOverEventChannel.RaiseEvent();
-
+                    isGameOver = true;
                     /* ========================== SEND DATA TO SERVER HERE ==============================*/
                 }
 

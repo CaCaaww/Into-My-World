@@ -16,6 +16,8 @@ public class LVL4UIManager : MonoBehaviour
     [SerializeField]
     private CanvasRenderer itemPanel;
     [SerializeField]
+    private GameObject itemDisplays;
+    [SerializeField]
     private CanvasRenderer DEBUG_PANEL;
     [SerializeField]
     private GameObject nextStageGameObject;
@@ -96,9 +98,10 @@ public class LVL4UIManager : MonoBehaviour
     private void OnAllPrisonersFreed()
     {
         Debug.Log("Moving to next stage");
-        itemPanel.gameObject.SetActive(false);
+        itemDisplays.gameObject.SetActive(false);
         nextStageGameObject.SetActive(true);
     }
+
     private void OnPickupItem(PickupItemEvent evt)
     {
         KeyItem item = evt.item;
@@ -140,13 +143,11 @@ public class LVL4UIManager : MonoBehaviour
     }
 
     /// <summary>
-    /// Restarts level 4
+    /// Exits level 4
     /// </summary>
-    public void RetryButton()
+    public void ExitButton()
     {
-        SceneManager.LoadSceneAsync("LVL4");
-        Cursor.visible = true;
-        Cursor.lockState = CursorLockMode.Locked;
+        // Needs to be implemented to return player to start of the game
     }
 
     public void ExitDebugMenuButton()
@@ -174,9 +175,11 @@ public class LVL4UIManager : MonoBehaviour
     private void OnGameOver()
     {
         gameOverPanel.SetActive(true);
+        itemDisplays.SetActive(false);
         Cursor.visible = true;
         Cursor.lockState = CursorLockMode.None;
     }
+
     private void OnFinalStageComplete(FinalStageCompleteEvent evt) { 
         finalStageGameObject.SetActive(false);
         VictoryScreen.SetActive(true);
