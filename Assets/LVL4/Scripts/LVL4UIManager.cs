@@ -23,6 +23,8 @@ public class LVL4UIManager : MonoBehaviour
     private GameObject finalStageGameObject;
     [SerializeField]
     private GameObject gameOverPanel;
+    [SerializeField]
+    private GameObject VictoryScreen;
 
     [Header("Listening Event Channels")]
     [SerializeField]
@@ -87,6 +89,7 @@ public class LVL4UIManager : MonoBehaviour
 
     private void OnOpenNextStage()
     {
+        nextStageGameObject.SetActive(false);
         finalStageGameObject.SetActive(true);
     }
 
@@ -175,7 +178,8 @@ public class LVL4UIManager : MonoBehaviour
         Cursor.lockState = CursorLockMode.None;
     }
     private void OnFinalStageComplete(FinalStageCompleteEvent evt) { 
-    
+        finalStageGameObject.SetActive(false);
+        VictoryScreen.SetActive(true);
     }
 
     public void OpenNextStageButton()
