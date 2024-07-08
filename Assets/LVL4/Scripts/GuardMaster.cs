@@ -19,6 +19,8 @@ public class GuardMaster : MonoBehaviour
     private GameObject guardBody;
     [SerializeField, Tooltip("The animator to control guard body animations")]
     private Animator animator;
+    [SerializeField, Tooltip("The speed of the guard's animations")]
+    private float animationSpeed = 1;
     [SerializeField, Tooltip("The points that the guard stops at")]
     private List<GameObject> stoppingPoints;
     [SerializeField, Tooltip("The lowest to highest amount of time that the guard can stop for")]
@@ -107,6 +109,8 @@ public class GuardMaster : MonoBehaviour
 
     void Update()
     {
+        animator.SetFloat("AnimationSpeed", animationSpeed);
+
         switch (state)
         {
             case GuardState.Patrolling:
@@ -169,8 +173,6 @@ public class GuardMaster : MonoBehaviour
                 {
                     state = prevState;
                     guardAggroCooldownTimer = 0.0f;
-
-                    // warningSprite.SetActive(false);
                 }
                 break;
             case GuardState.Stopped:

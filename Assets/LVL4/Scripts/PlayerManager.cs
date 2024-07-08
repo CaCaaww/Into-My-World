@@ -11,7 +11,7 @@ public class PlayerManager : MonoBehaviour
     private PlayerInput playerInput;
     [SerializeField]
     private Camera mainCamera;
-    [SerializeField]
+    [SerializeField, Range(1, 10)]
     private int gamesNeededToComplete;
     [SerializeField]
     private PlayerTransformSO transformSO;
@@ -55,7 +55,7 @@ public class PlayerManager : MonoBehaviour
         inputsEnabled = true;
 
         SetItemTags();
-        AssignItemsToGuards();
+        SetUpGuards();
     }
 
     private void OnEnable()
@@ -114,7 +114,7 @@ public class PlayerManager : MonoBehaviour
         }
     }
 
-    private void AssignItemsToGuards()
+    private void SetUpGuards()
     {
         List<KeyItem> allItems = new List<KeyItem>();
         allItems.AddRange(Object.FindObjectsOfType<KeyItem>());
@@ -162,6 +162,29 @@ public class PlayerManager : MonoBehaviour
             + item2.itemType.ToString().Replace("_", " ") + ", "
             + item3.itemType.ToString().Replace("_", " ")
             );
+        }
+
+        List<int> activeGuardIndicies = new List<int>();
+        List<int> possibleGuardIndicies = new List<int>();
+
+        for (int i = 0; i < allCellGuards.Count; i++)
+        {
+            possibleGuardIndicies.Add(i);
+        }
+
+        for (int i = gamesNeededToComplete-1; i >= 0; i--)
+        {
+            int index = Random.Range(0, possibleGuardIndicies.Count);
+            activeGuardIndicies.Add(possibleGuardIndicies[index]);
+            possibleGuardIndicies.RemoveAt(index);
+        }
+
+        for (int i = 0; i < allCellGuards.Count; i++)
+        {
+            if (!activeGuardIndicies.Contains(i))
+            {
+                allCellGuards[i].gameObject.SetActive(false);
+            }
         }
     }
     #endregion
