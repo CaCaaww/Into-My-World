@@ -25,13 +25,14 @@ public class MinigameController : MonoBehaviour
     private int randNum; // the random number which is the index of which game of the list we are using
     private bool firstTime = true; // true if this is the first time the lock on the cell is being clicked
     private MeshRenderer facePlate;
+    private GameObject prisonerModel;
     #endregion
 
     #region Unity Methods
     void Start()
     {
-        GameObject model = Instantiate(prisonerModels[Random.Range(0, prisonerModels.Count)], this.transform);
-        foreach (MeshRenderer i in model.GetComponentsInChildren<MeshRenderer>()) {
+        prisonerModel = Instantiate(prisonerModels[Random.Range(0, prisonerModels.Count)], this.transform);
+        foreach (MeshRenderer i in prisonerModel.GetComponentsInChildren<MeshRenderer>()) {
             if (i.gameObject.name.Contains("Face_Plate") || i.gameObject.name.Contains("FacePlate") ) {
                 facePlate = i;
                 break;
@@ -85,7 +86,7 @@ public class MinigameController : MonoBehaviour
     {
         if (evt.game == game)
         {
-            completeCageObject.SetActive(false);
+            prisonerModel.transform.localPosition -= new Vector3(2f, 0f, 0f);
             facePlate.material.mainTexture = happyFace;
         }
     }
