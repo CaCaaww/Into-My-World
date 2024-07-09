@@ -14,7 +14,7 @@ public class PlayerManager : MonoBehaviour
     [SerializeField, Range(1, 10)]
     private int gamesNeededToComplete;
     [SerializeField]
-    private PlayerTransformSO transformSO;
+    private PlayerDataSO data;
 
     [Header("Listening Event Channels")]
     [SerializeField]
@@ -48,7 +48,8 @@ public class PlayerManager : MonoBehaviour
     #region Unity Methods
     void Start()
     {
-        transformSO.Set(playerInput.gameObject.transform);
+        data.Transform = playerInput.gameObject.transform;
+        data.LookingAt = null;
 
         Cursor.visible = false;
 
@@ -100,7 +101,19 @@ public class PlayerManager : MonoBehaviour
     }
     private void Update()
     {
-        transformSO.Set(playerInput.gameObject.transform);
+        data.Transform = playerInput.gameObject.transform;
+
+        Vector3 cameraPosition = mainCamera.transform.position;
+        Vector3 forwardDirection = mainCamera.transform.forward;
+        RaycastHit hit;
+        if (Physics.Raycast(cameraPosition, forwardDirection, out hit, 5.0F))
+        {
+            data.LookingAt = hit.collider.gameObject;
+        }
+        else 
+        {
+            data.LookingAt = null;
+        }
     }
     #endregion
 
@@ -245,7 +258,6 @@ public class PlayerManager : MonoBehaviour
         Vector3 forwardDirection = mainCamera.transform.forward;
 
         RaycastHit hit;
-        // float maxDistance = 1.2F;
         if (Physics.Raycast(cameraPosition, forwardDirection, out hit, 5.0F))
         {
             // If the ray hits something, you can access the hit information

@@ -35,8 +35,8 @@ public class GuardMaster : MonoBehaviour
     private List<GameObject> guardPrefabs;
     [SerializeField, Tooltip("Face textures for the wandering guard")]
     private Texture2D angryFace, neutralFace;
-    [SerializeField, Tooltip("Player transform")]
-    private PlayerTransformSO playerTransform;
+    [SerializeField, Tooltip("Player data")]
+    private PlayerDataSO playerData;
 
     [Header("Listening Event Channels")]
     [SerializeField, Tooltip("Happens when the player is caught")]
@@ -147,7 +147,7 @@ public class GuardMaster : MonoBehaviour
                     guardBody.transform.position = guardBody.transform.position + normalizedDirection * moveSpeed * Time.deltaTime;
                 }
 
-                if (Vector3.Distance(guardBody.transform.position, playerTransform.Position) < aggroRange && guardAggroCooldownTimer >= 0.2f)
+                if (Vector3.Distance(guardBody.transform.position, playerData.Transform.position) < aggroRange && guardAggroCooldownTimer >= 0.2f)
                 {
                     state = GuardState.Searching;
                     prevState = GuardState.Patrolling;
@@ -168,7 +168,7 @@ public class GuardMaster : MonoBehaviour
                     /* ========================== SEND DATA TO SERVER HERE ==============================*/
                 }
 
-                if (Vector3.Distance(guardBody.transform.position, playerTransform.Position) > aggroRange)
+                if (Vector3.Distance(guardBody.transform.position, playerData.Transform.position) > aggroRange)
                 {
                     state = prevState;
                     guardAggroCooldownTimer = 0.0f;
@@ -199,7 +199,7 @@ public class GuardMaster : MonoBehaviour
                     guardStopTimer = 0.0f;
                 }
 
-                if (Vector3.Distance(guardBody.transform.position, playerTransform.Position) < aggroRange && guardAggroCooldownTimer >= 0.2f)
+                if (Vector3.Distance(guardBody.transform.position, playerData.Transform.position) < aggroRange && guardAggroCooldownTimer >= 0.2f)
                 {
                     state = GuardState.Searching;
                     prevState = GuardState.Stopped;

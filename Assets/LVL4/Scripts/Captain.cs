@@ -14,7 +14,7 @@ public class Captain : MonoBehaviour
     [SerializeField, Tooltip("The time it takes for the captain to cause the player to lose")]
     private float aggroTime;
     [SerializeField]
-    private PlayerTransformSO playerTransform;
+    private PlayerDataSO playerData;
     [SerializeField]
     private GameOverEventChannel gameOverEventChannel;
     [SerializeField, Tooltip("Face textures for the captain")]
@@ -56,7 +56,7 @@ public class Captain : MonoBehaviour
                 playerAggroTimer = 0.0f;
                 guardAggroCooldownTimer += Time.deltaTime;
 
-                if (Vector3.Distance(this.transform.position, playerTransform.Position) < aggroRange && guardAggroCooldownTimer >= 0.2f)
+                if (Vector3.Distance(this.transform.position, playerData.Transform.position) < aggroRange && guardAggroCooldownTimer >= 0.2f)
                 {
                     state = CaptainState.Searching;
                     prevState = CaptainState.Sitting;
@@ -77,7 +77,7 @@ public class Captain : MonoBehaviour
                     /* ========================== SEND DATA TO SERVER HERE ==============================*/
                 }
 
-                if (Vector3.Distance(this.transform.position, playerTransform.Position) > aggroRange)
+                if (Vector3.Distance(this.transform.position, playerData.Transform.position) > aggroRange)
                 {
                     state = prevState;
                     guardAggroCooldownTimer = 0.0f;

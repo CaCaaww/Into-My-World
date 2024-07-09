@@ -2,7 +2,7 @@ using DG.Tweening;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
-using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class LVL4UIManager : MonoBehaviour
 {
@@ -27,6 +27,11 @@ public class LVL4UIManager : MonoBehaviour
     private GameObject gameOverPanel;
     [SerializeField]
     private GameObject VictoryScreen;
+    [SerializeField]
+    private Image neutralCrosshair, interactCrosshair, talkCrosshair;
+
+    [SerializeField]
+    private PlayerDataSO playerData;
 
     [Header("Listening Event Channels")]
     [SerializeField]
@@ -66,6 +71,46 @@ public class LVL4UIManager : MonoBehaviour
         DOTweenIDs.Add(-1);
         DOTweenIDs.Add(-1);
         DOTweenIDs.Add(-1);
+    }
+
+    private void Update()
+    {
+        // Updating the crosshair
+        neutralCrosshair.enabled = true;
+        interactCrosshair.enabled = false;
+        talkCrosshair.enabled = false;
+
+        if (playerData.LookingAt)
+        {
+            if (playerData.LookingAt.GetComponent<CellGuard>())
+            {
+                talkCrosshair.enabled = true;
+                neutralCrosshair.enabled = false;
+            }
+
+            if (playerData.LookingAt.CompareTag("JailCell"))
+            {
+                interactCrosshair.enabled = true;
+                neutralCrosshair.enabled = false;
+            }
+
+            if (playerData.LookingAt.GetComponent<KeyItem>())
+            {
+                if (playerData.LookingAt.GetComponent<KeyItem>().CanPickUp())
+                {
+                    interactCrosshair.enabled = true;
+                    neutralCrosshair.enabled = false;
+                }
+            }
+            else if (playerData.LookingAt.GetComponentInParent<KeyItem>())
+            {
+                if (playerData.LookingAt.GetComponentInParent<KeyItem>().CanPickUp())
+                {
+                    interactCrosshair.enabled = true;
+                    neutralCrosshair.enabled = false;
+                }
+            }
+        }
     }
 
     private void OnEnable()
@@ -180,7 +225,8 @@ public class LVL4UIManager : MonoBehaviour
         Cursor.lockState = CursorLockMode.None;
     }
 
-    private void OnFinalStageComplete(FinalStageCompleteEvent evt) { 
+    private void OnFinalStageComplete(FinalStageCompleteEvent evt)
+    {
         finalStageGameObject.SetActive(false);
         VictoryScreen.SetActive(true);
     }

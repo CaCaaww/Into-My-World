@@ -314,7 +314,7 @@ MonoBehaviour:
   - {fileID: 897262184509383712, guid: db4bdeeaaa9b8ab68a87bfc000af5630, type: 3}
   angryFace: {fileID: 2800000, guid: dd27650165883338daae4d68c069c51f, type: 3}
   neutralFace: {fileID: 2800000, guid: 96768fb6f63d148d595cb94ca8eb1e15, type: 3}
-  playerTransform: {fileID: 11400000, guid: f402a5fab4c450c4e960e506545d0fec, type: 2}
+  playerData: {fileID: 11400000, guid: 49dc2c45c93197742b4172cd5a5228a9, type: 2}
   gameOverEventChannel: {fileID: 11400000, guid: e43417a6e77474fc8b3a2ec97b832a74,
     type: 2}
 --- !u!1 &3546315769021402196

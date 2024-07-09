@@ -1,17 +1,12 @@
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "Player Transform", menuName = "IMW/Player Transform")]
-public class PlayerTransformSO : ScriptableObject
+[CreateAssetMenu(fileName = "Player Data", menuName = "IMW/Player Data")]
+public class PlayerDataSO : ScriptableObject
 {
-    private Transform playerTransform;
+    private Transform transform;
+    private GameObject lookingAt;
 
-    public void Set(Transform transform)
-    {
-        playerTransform = transform;
-    }
+    public Transform Transform { get; set; }
 
-    public Vector3 Position
-    {
-        get { return playerTransform.position; }
-    }
+    public GameObject LookingAt { get; set; }
 }
