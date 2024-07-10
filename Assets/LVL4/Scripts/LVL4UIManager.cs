@@ -1,5 +1,7 @@
 using DG.Tweening;
 using System.Collections.Generic;
+using System.Linq;
+using System.Runtime.CompilerServices;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -29,6 +31,9 @@ public class LVL4UIManager : MonoBehaviour
     private GameObject VictoryScreen;
     [SerializeField]
     private Image neutralCrosshair, interactCrosshair, talkCrosshair;
+    [SerializeField]
+    private GameObject inventoryGameObject;
+    [SerializeField] private List<TextMeshProUGUI> questItems;
 
     [SerializeField]
     private PlayerDataSO playerData;
@@ -52,6 +57,10 @@ public class LVL4UIManager : MonoBehaviour
     private MinigameCompleteEventChannel minigameCompleteEventChannel;
     [SerializeField]
     private GenericEventChannelSO<FinalStageCompleteEvent> finalStageCompleteEventChannel;
+    [SerializeField]
+    private GenericEventChannelSO<ToggleInventoryEvent> toggleInventoryEventChannel;
+    [SerializeField]
+    private GenericEventChannelSO<QuestGivenEvent> questGivenEventChannel;
     #endregion
 
     #region Private Variables
@@ -71,6 +80,9 @@ public class LVL4UIManager : MonoBehaviour
         DOTweenIDs.Add(-1);
         DOTweenIDs.Add(-1);
         DOTweenIDs.Add(-1);
+        questItems[0].SetText("");
+        questItems[1].SetText("");
+        questItems[2].SetText("");
     }
 
     private void Update()
@@ -122,6 +134,8 @@ public class LVL4UIManager : MonoBehaviour
         gameOverEventChannel.OnEventRaised += OnGameOver;
         giveGuardItemEventChannel.OnEventRaised += OnGiveGuardItem;
         finalStageCompleteEventChannel.OnEventRaised += OnFinalStageComplete;
+        toggleInventoryEventChannel.OnEventRaised += OnToggleInventory;
+        questGivenEventChannel.OnEventRaised += OnQuestGiven;
     }
 
     private void OnDisable()
@@ -132,8 +146,23 @@ public class LVL4UIManager : MonoBehaviour
         allPrisonersFreedEventChannel.OnEventRaised -= OnAllPrisonersFreed;
         gameOverEventChannel.OnEventRaised -= OnGameOver;
         giveGuardItemEventChannel.OnEventRaised -= OnGiveGuardItem;
+        toggleInventoryEventChannel.OnEventRaised -= OnToggleInventory;
+        questGivenEventChannel.OnEventRaised -= OnQuestGiven;
     }
 
+    public void OnQuestGiven(QuestGivenEvent evt) {
+        for (int i = 0; i < 3; i++) {
+            if (evt.questItems[i] != null) {
+                questItems[i].enabled = true;
+                questItems[i].SetText(evt.questItems[i]);
+            } else {
+                questItems[i].enabled = false;
+            }
+        }
+    }
+    private void OnToggleInventory(ToggleInventoryEvent evt) {
+        inventoryGameObject.SetActive(evt.isOpen);
+    }
     private void OnOpenNextStage()
     {
         nextStageGameObject.SetActive(false);

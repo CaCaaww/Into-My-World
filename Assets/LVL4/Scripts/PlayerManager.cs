@@ -37,6 +37,8 @@ public class PlayerManager : MonoBehaviour
     private MinigameOpenedEventChannel minigameOpenedEventChannel;
     [SerializeField]
     private GameOverEventChannel gameOverEventChannel;
+    [SerializeField]
+    private GenericEventChannelSO<ToggleInventoryEvent> toggleInventoryEventChannel;
     #endregion
 
     #region Private Variables
@@ -78,6 +80,8 @@ public class PlayerManager : MonoBehaviour
         closeGameEventChannel.OnEventRaised += OnMinigameClosed;
 
         gameOverEventChannel.OnEventRaised += OnGameOver;
+
+        //toggleInventoryEventChannel.OnEventRaised += OnToggleInventory;
     }
 
     private void OnDisable()
@@ -97,6 +101,8 @@ public class PlayerManager : MonoBehaviour
         closeGameEventChannel.OnEventRaised -= OnMinigameClosed;
 
         gameOverEventChannel.OnEventRaised -= OnGameOver;
+
+        //toggleInventoryEventChannel.OnEventRaised -= OnToggleInventory;
 
     }
     private void Update()
@@ -322,6 +328,13 @@ public class PlayerManager : MonoBehaviour
     private void OnToggleDebug()
     {
         InputEnabled(!inputsEnabled);
+    }
+    private void OnToggleInventory(ToggleInventoryEvent evt) {
+        if (evt.isOpen) { 
+            InputEnabled(false); 
+        } else {
+            InputEnabled(true);
+        }
     }
 
     /// <summary>

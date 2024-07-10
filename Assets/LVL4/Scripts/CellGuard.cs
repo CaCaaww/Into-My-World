@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using TMPro;
 using UnityEditor;
 using UnityEngine;
@@ -52,6 +53,8 @@ public class CellGuard : MonoBehaviour
     private InteractWithGuardEventChannel interactWithGuardEventChannel;
     [SerializeField]
     private GiveGuardItemEventChannel GiveGuardItemEventChannel;
+    [SerializeField]
+    private GenericEventChannelSO<QuestGivenEvent> questGivenEventChannel;
     #endregion
 
     #region Private Variables
@@ -59,6 +62,7 @@ public class CellGuard : MonoBehaviour
     private MeshRenderer facePlate;
     private float interactionCooldownTimer;
     private List<KeyItem> items;
+    private string[] questItems = new string[3];
     #endregion
 
     // Start is called before the first frame update
@@ -164,6 +168,7 @@ public class CellGuard : MonoBehaviour
                         break;
                     case CellGuardState.TalkedToPlayer:
                         cellGuardState = CellGuardState.AskingForItems;
+                        questGivenEventChannel.RaiseEvent(new QuestGivenEvent(questItems));
                         break;
                     case CellGuardState.AskingForItems:
                         if (evt.heldItem)
@@ -182,6 +187,16 @@ public class CellGuard : MonoBehaviour
                                     if (evt.heldItem.CompareItemTags(items[i]))
                                     {
                                         items.RemoveAt(i);
+                                        int j = 0;
+                                        for (j = 0; j < items.Count; j++) {
+                                            if (items[j] != null) {
+                                                questItems[j] = "something " + items[j].itemTags[0] + ", " + items[j].itemTags[1] + ", " + items[j].itemTags[2];
+                                            }
+                                        }
+                                        for (j = j; j < 3; j++) {
+                                            questItems[j] = null;
+                                        }
+                                        questGivenEventChannel.RaiseEvent(new QuestGivenEvent(questItems));
                                         cellGuardState = CellGuardState.CorrectItemFound;
                                         break;
                                     }
@@ -218,6 +233,10 @@ public class CellGuard : MonoBehaviour
             item2,
             item3
         };
+        for (int i = 0; i < items.Count; i++) {
+            questItems[i] = ("something " + items[i].itemTags[0] + ", " + items[i].itemTags[1] + ", " + items[i].itemTags[2]);
+        }
+        
     }
 
 #if UNITY_EDITOR
