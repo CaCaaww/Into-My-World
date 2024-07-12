@@ -56,6 +56,7 @@ public class GuardMaster : MonoBehaviour
     private Vector3 targetRotation;
     private float stopTime;
     private MeshRenderer facePlate;
+    private Transform guardHead;
     private bool isGameOver = false;
     #endregion
 
@@ -78,6 +79,15 @@ public class GuardMaster : MonoBehaviour
             if (i.gameObject.name.Contains("Face_Plate"))
             {
                 facePlate = i;
+                break;
+            }
+        }
+
+        foreach (Transform i in model.GetComponentsInChildren<Transform>())
+        {
+            if (i.gameObject.name.Contains("Head"))
+            {
+                guardHead = i;
                 break;
             }
         }
@@ -115,6 +125,7 @@ public class GuardMaster : MonoBehaviour
         switch (state)
         {
             case GuardState.Patrolling:
+                
                 animator.SetBool("Walking", true);
                 animator.SetBool("Turning", false);
                 facePlate.material.mainTexture = neutralFace;
@@ -125,6 +136,7 @@ public class GuardMaster : MonoBehaviour
                 Vector3 guardPos = new Vector3(guardBody.transform.position.x, 0, guardBody.transform.position.z);
                 Vector3 targetPos = new Vector3(nextPoint.transform.position.x, 0, nextPoint.transform.position.z);
                 Vector3 normalizedDirection = (targetPos - guardPos).normalized;
+                guardBody.transform.rotation = Quaternion.Slerp(guardBody.transform.rotation, Quaternion.LookRotation(normalizedDirection), Time.deltaTime * 5f);
                 if (Vector3.Distance(guardPos, targetPos) <= moveSpeed * Time.deltaTime)
                 {
                     // Finds the next point to move to and removes it from the possible points
@@ -161,6 +173,13 @@ public class GuardMaster : MonoBehaviour
                 animator.SetBool("Turning", false);
                 facePlate.material.mainTexture = angryFace;
                 playerAggroTimer += Time.deltaTime;
+
+                Vector3 playerDirection = (playerData.Transform.position - guardBody.transform.position).normalized;
+                Quaternion lookRotation = Quaternion.LookRotation(new Vector3(playerDirection.x, 0, playerDirection.z));
+                guardBody.transform.rotation = Quaternion.Slerp(guardBody.transform.rotation, lookRotation, Time.deltaTime * 5f);
+
+                GetComponentInChildren<LVL4_GuardLookAt>().lookAt = true;
+
                 if (playerAggroTimer >= aggroTime && !isGameOver)
                 {
                     gameOverEventChannel.RaiseEvent();
@@ -171,6 +190,7 @@ public class GuardMaster : MonoBehaviour
                 if (Vector3.Distance(guardBody.transform.position, playerData.Transform.position) > aggroRange)
                 {
                     state = prevState;
+                    GetComponentInChildren<LVL4_GuardLookAt>().lookAt = false;
                     guardAggroCooldownTimer = 0.0f;
                 }
                 break;
