@@ -314,6 +314,7 @@ MonoBehaviour:
   - {fileID: 897262184509383712, guid: db4bdeeaaa9b8ab68a87bfc000af5630, type: 3}
   angryFace: {fileID: 2800000, guid: dd27650165883338daae4d68c069c51f, type: 3}
   neutralFace: {fileID: 2800000, guid: 96768fb6f63d148d595cb94ca8eb1e15, type: 3}
+  warningSprite: {fileID: 8580745555287719484}
   playerData: {fileID: 11400000, guid: 49dc2c45c93197742b4172cd5a5228a9, type: 2}
   gameOverEventChannel: {fileID: 11400000, guid: e43417a6e77474fc8b3a2ec97b832a74,
     type: 2}
@@ -383,6 +384,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e441596e99ce34a6689b2a76b06b332e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  lookAt: 0
 --- !u!1 &6444903969933009415
 GameObject:
   m_ObjectHideFlags: 0
@@ -442,8 +444,8 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 2.32, z: 0}
-  m_LocalScale: {x: 0.25, y: 0.25, z: 0.25}
-  m_ConstrainProportionsScale: 0
+  m_LocalScale: {x: 0.15, y: 0.15, z: 0.15}
+  m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 2131791514375412201}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -511,6 +513,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: abdc115a308b542c6891721f311f80cf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  objectToLookAt: {fileID: 0}
+  objectToLookAt: {fileID: 8616685848737228372, guid: c5efc39a8aaf6e64ea40e9ad573e9b47,
+    type: 3}
   flip: 0
   rotateX: 0

@@ -35,6 +35,8 @@ public class GuardMaster : MonoBehaviour
     private List<GameObject> guardPrefabs;
     [SerializeField, Tooltip("Face textures for the wandering guard")]
     private Texture2D angryFace, neutralFace;
+    [SerializeField, Tooltip("Sprite to display above guard head when player is in aggro range")]
+    private GameObject warningSprite;
     [SerializeField, Tooltip("Player data")]
     private PlayerDataSO playerData;
 
@@ -83,15 +85,6 @@ public class GuardMaster : MonoBehaviour
             }
         }
 
-        foreach (Transform i in model.GetComponentsInChildren<Transform>())
-        {
-            if (i.gameObject.name.Contains("Head"))
-            {
-                guardHead = i;
-                break;
-            }
-        }
-
         animator.Rebind();
 
         // Make the guard start at the first stopping point
@@ -125,7 +118,7 @@ public class GuardMaster : MonoBehaviour
         switch (state)
         {
             case GuardState.Patrolling:
-                
+
                 animator.SetBool("Walking", true);
                 animator.SetBool("Turning", false);
                 facePlate.material.mainTexture = neutralFace;
@@ -166,6 +159,9 @@ public class GuardMaster : MonoBehaviour
 
                     Debug.Log("Play guard audio");
                     guardBody.GetComponent<AudioSource>().Play();
+
+                    warningSprite.SetActive(true);
+
                 }
                 break;
             case GuardState.Searching:
@@ -192,6 +188,7 @@ public class GuardMaster : MonoBehaviour
                     state = prevState;
                     GetComponentInChildren<LVL4_GuardLookAt>().lookAt = false;
                     guardAggroCooldownTimer = 0.0f;
+                    warningSprite.SetActive(false);
                 }
                 break;
             case GuardState.Stopped:
@@ -227,7 +224,7 @@ public class GuardMaster : MonoBehaviour
                     Debug.Log("Play guard audio");
                     guardBody.GetComponent<AudioSource>().Play();
 
-                    // warningSprite.SetActive(true);
+                    warningSprite.SetActive(true);
                 }
                 break;
         }

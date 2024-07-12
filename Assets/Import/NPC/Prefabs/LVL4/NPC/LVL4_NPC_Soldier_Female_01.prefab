@@ -231,6 +231,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5731078023323081549}
   - component: {fileID: 1253054402046409726}
+  - component: {fileID: 7784203242689858713}
   m_Layer: 11
   m_Name: LVL4_NPC_Soldier_Female_01
   m_TagString: NPC
@@ -277,6 +278,19 @@ CapsuleCollider:
   m_Height: 1.825
   m_Direction: 1
   m_Center: {x: 0, y: 0.9, z: 0}
+--- !u!114 &7784203242689858713
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 897262184509383712}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e441596e99ce34a6689b2a76b06b332e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  lookAt: 0
 --- !u!1 &1258592109638471890
 GameObject:
   m_ObjectHideFlags: 0

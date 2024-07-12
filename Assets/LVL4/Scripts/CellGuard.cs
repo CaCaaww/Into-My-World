@@ -45,6 +45,8 @@ public class CellGuard : MonoBehaviour
     private float correctItemTextTime;
     [SerializeField]
     private float textAlphaFalloffDistance;
+    [SerializeField, Tooltip("The guard looks at the player if the player is in this range")]
+    private float aggroRange;
 
     [Header("Listening Event Channels")]
     [SerializeField]
@@ -63,6 +65,7 @@ public class CellGuard : MonoBehaviour
     private float interactionCooldownTimer;
     private List<KeyItem> items;
     private string[] questItems = new string[3];
+    private GameObject model;
     #endregion
 
     // Start is called before the first frame update
@@ -72,7 +75,7 @@ public class CellGuard : MonoBehaviour
 
         cellGuardState = CellGuardState.HasNotTalkedToPlayer;
 
-        GameObject model = Instantiate(cellGuardModels[Random.Range(0, cellGuardModels.Count)], this.transform);
+        model = Instantiate(cellGuardModels[Random.Range(0, cellGuardModels.Count)], this.transform);
         foreach (MeshRenderer i in model.GetComponentsInChildren<MeshRenderer>())
         {
             if (i.gameObject.name.Contains("Face_Plate"))
@@ -91,6 +94,12 @@ public class CellGuard : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (Vector3.Distance(model.transform.position, playerData.Transform.position) < aggroRange) {
+            GetComponentInChildren<LVL4_GuardLookAt>().lookAt = true;
+        } else {
+            GetComponentInChildren<LVL4_GuardLookAt>().lookAt = false;
+        }
+
         interactionCooldownTimer += Time.deltaTime;
 
         float distance = Vector3.Distance(this.transform.position, playerData.Transform.position);
@@ -188,12 +197,15 @@ public class CellGuard : MonoBehaviour
                                     {
                                         items.RemoveAt(i);
                                         int j = 0;
-                                        for (j = 0; j < items.Count; j++) {
-                                            if (items[j] != null) {
+                                        for (j = 0; j < items.Count; j++)
+                                        {
+                                            if (items[j] != null)
+                                            {
                                                 questItems[j] = "something " + items[j].itemTags[0] + ", " + items[j].itemTags[1] + ", " + items[j].itemTags[2];
                                             }
                                         }
-                                        for (j = j; j < 3; j++) {
+                                        for (j = j; j < 3; j++)
+                                        {
                                             questItems[j] = null;
                                         }
                                         questGivenEventChannel.RaiseEvent(new QuestGivenEvent(questItems));
@@ -233,10 +245,11 @@ public class CellGuard : MonoBehaviour
             item2,
             item3
         };
-        for (int i = 0; i < items.Count; i++) {
+        for (int i = 0; i < items.Count; i++)
+        {
             questItems[i] = ("something " + items[i].itemTags[0] + ", " + items[i].itemTags[1] + ", " + items[i].itemTags[2]);
         }
-        
+
     }
 
 #if UNITY_EDITOR
