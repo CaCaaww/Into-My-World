@@ -66,11 +66,15 @@ public class CellGuard : MonoBehaviour
     private List<KeyItem> items;
     private string[] questItems = new string[3];
     private GameObject model;
+    private static bool questAccepted;
+    private bool thisGuardIsQuest;
     #endregion
 
     // Start is called before the first frame update
     void Start()
     {
+        questAccepted = false;
+        thisGuardIsQuest = false;
         interactWithGuardEventChannel.OnEventRaised += OnInteract;
 
         cellGuardState = CellGuardState.HasNotTalkedToPlayer;
@@ -164,7 +168,7 @@ public class CellGuard : MonoBehaviour
     public void OnInteract(InteractWithGuardEvent evt)
     {
         Debug.Log("Cell Guard Interaction");
-        if (evt.cellGuard == this)
+        if (evt.cellGuard == this && (!questAccepted || thisGuardIsQuest))
         {
             if (interactionCooldownTimer >= baseInteractionCooldown && cellGuardState != CellGuardState.IncorrectItem && cellGuardState != CellGuardState.CorrectItemFound)
             {
@@ -173,6 +177,8 @@ public class CellGuard : MonoBehaviour
                 switch (cellGuardState)
                 {
                     case CellGuardState.HasNotTalkedToPlayer:
+                        questAccepted = true;
+                        thisGuardIsQuest = true;
                         cellGuardState = CellGuardState.TalkedToPlayer;
                         break;
                     case CellGuardState.TalkedToPlayer:
@@ -216,6 +222,8 @@ public class CellGuard : MonoBehaviour
                                 if (items.Count == 0)
                                 {
                                     cellGuardState = CellGuardState.AllItemsFound;
+                                    questAccepted = false;
+                                    thisGuardIsQuest = false;
                                     DoorOpenedEventChannel.RaiseEvent(new DoorOpenedEvent(GetComponentInParent<DoorController>()));
 
                                     /* ========================== SEND DATA TO SERVER HERE ==============================*/
