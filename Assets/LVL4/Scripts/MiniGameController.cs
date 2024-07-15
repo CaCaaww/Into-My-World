@@ -88,6 +88,7 @@ public class MinigameController : MonoBehaviour
         {
             prisonerModel.transform.localPosition -= new Vector3(2f, 0f, 0f);
             facePlate.material.mainTexture = happyFace;
+            GetComponent<Animator>().SetBool("prisonerFreed", true);
         }
     }
 
