@@ -15,6 +15,7 @@ public class CellGuard : MonoBehaviour
         AllItemsFound,
         CorrectItemFound
     }
+    [SerializeField] private GameObject player;
 
     #region Inspector
     [SerializeField, TextArea]
@@ -66,14 +67,15 @@ public class CellGuard : MonoBehaviour
     private List<KeyItem> items;
     private string[] questItems = new string[3];
     private GameObject model;
-    private static bool questAccepted;
+    //private static bool questAccepted;
     private bool thisGuardIsQuest;
+    
     #endregion
 
     // Start is called before the first frame update
     void Start()
     {
-        questAccepted = false;
+        //questAccepted = false;
         thisGuardIsQuest = false;
         interactWithGuardEventChannel.OnEventRaised += OnInteract;
 
@@ -168,7 +170,7 @@ public class CellGuard : MonoBehaviour
     public void OnInteract(InteractWithGuardEvent evt)
     {
         Debug.Log("Cell Guard Interaction");
-        if (evt.cellGuard == this && (!questAccepted || thisGuardIsQuest))
+        if (evt.cellGuard == this && (!player.GetComponent<PlayerManager>().isDoingQuest || thisGuardIsQuest))
         {
             if (interactionCooldownTimer >= baseInteractionCooldown && cellGuardState != CellGuardState.IncorrectItem && cellGuardState != CellGuardState.CorrectItemFound)
             {
@@ -177,7 +179,7 @@ public class CellGuard : MonoBehaviour
                 switch (cellGuardState)
                 {
                     case CellGuardState.HasNotTalkedToPlayer:
-                        questAccepted = true;
+                        player.GetComponent<PlayerManager>().isDoingQuest = true;
                         thisGuardIsQuest = true;
                         cellGuardState = CellGuardState.TalkedToPlayer;
                         break;
@@ -222,7 +224,7 @@ public class CellGuard : MonoBehaviour
                                 if (items.Count == 0)
                                 {
                                     cellGuardState = CellGuardState.AllItemsFound;
-                                    questAccepted = false;
+                                    player.GetComponent<PlayerManager>().isDoingQuest = false;
                                     thisGuardIsQuest = false;
                                     DoorOpenedEventChannel.RaiseEvent(new DoorOpenedEvent(GetComponentInParent<DoorController>()));
 

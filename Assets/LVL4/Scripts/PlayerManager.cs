@@ -5,6 +5,7 @@ using UnityEngine.InputSystem;
 public class PlayerManager : MonoBehaviour
 {
     #region Inspector
+    public bool isDoingQuest;
     [SerializeField]
     private KeyItemTagsSO presetItemTags;
     [SerializeField]
@@ -50,6 +51,7 @@ public class PlayerManager : MonoBehaviour
     #region Unity Methods
     void Start()
     {
+        isDoingQuest = false;
         data.Transform = playerInput.gameObject.transform;
         data.LookingAt = null;
 

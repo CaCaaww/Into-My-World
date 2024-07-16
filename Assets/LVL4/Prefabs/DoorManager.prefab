@@ -378,6 +378,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ec56929d041f143c985566abe4875d6d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  player: {fileID: 0}
   introDialogue: Today my boss has requisitioned three objects that are very important
     to me. If you want me to let you through, you have to retrieve them and bring
     them back to me.
