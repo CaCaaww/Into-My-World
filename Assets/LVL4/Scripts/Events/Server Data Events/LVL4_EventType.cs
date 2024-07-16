@@ -4,7 +4,7 @@ public enum LVL4_EventType
     LevelCompleteEvent,
     //GiveItemToGuardEvent,
     CorrectItemGivenEvent,
-    WrongItemGivenEvent
+    WrongItemGivenEvent,
     MinigameStartEvent,
     MinigameCompleteEvent,
     //MinigameExitEvent,

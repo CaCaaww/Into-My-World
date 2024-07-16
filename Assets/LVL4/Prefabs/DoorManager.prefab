@@ -404,6 +404,8 @@ MonoBehaviour:
     type: 2}
   GiveGuardItemEventChannel: {fileID: 11400000, guid: 1745fab6558d1824eaf430d9482fd46f,
     type: 2}
+  correctItemGivenEventChannel: {fileID: 11400000, guid: 9f60ed34010aa9241b83bd555c21e48c,
+    type: 2}
 --- !u!95 &2674403688427087086
 Animator:
   serializedVersion: 5

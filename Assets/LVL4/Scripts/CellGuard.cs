@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEditor;
 using UnityEngine;
+using UnityEngine.Rendering.Universal;
 
 public class CellGuard : MonoBehaviour
 {
@@ -52,6 +53,8 @@ public class CellGuard : MonoBehaviour
     private InteractWithGuardEventChannel interactWithGuardEventChannel;
     [SerializeField]
     private GiveGuardItemEventChannel GiveGuardItemEventChannel;
+    [SerializeField]
+    private GenericEventChannelSO<CorrectItemGivenEvent> correctItemGivenEventChannel;
     #endregion
 
     #region Private Variables
@@ -174,9 +177,10 @@ public class CellGuard : MonoBehaviour
                                 isItemCorrect = isItemCorrect || evt.heldItem.CompareItemTags(i);
                             }
 
+                            ForwardData(isItemCorrect);
+
                             if (isItemCorrect)
                             {
-
                                 for (int i = items.Count - 1; i >= 0; i--)
                                 {
                                     if (evt.heldItem.CompareItemTags(items[i]))
@@ -190,8 +194,6 @@ public class CellGuard : MonoBehaviour
                                 {
                                     cellGuardState = CellGuardState.AllItemsFound;
                                     DoorOpenedEventChannel.RaiseEvent(new DoorOpenedEvent(GetComponentInParent<DoorController>()));
-
-                                    /* ========================== SEND DATA TO SERVER HERE ==============================*/
 
                                     //GetComponentInParent<DoorController>().toggleDoor();
                                 }
@@ -230,4 +232,16 @@ public class CellGuard : MonoBehaviour
         }
     }
 #endif
+
+    private void ForwardData(bool isItemCorrect)
+    {
+        if (isItemCorrect)
+        {
+            correctItemGivenEventChannel.RaiseEvent(
+                new CorrectItemGivenEvent(
+                    "test",
+                    (int)LVL4_EventType.CorrectItemGivenEvent
+                ));
+        }
+    }
 }

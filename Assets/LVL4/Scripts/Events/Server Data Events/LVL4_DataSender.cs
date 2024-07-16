@@ -12,17 +12,21 @@ public class LVL4_DataSender : MonoBehaviour
     /// </summary>
     [SerializeField]
     private GenericEventChannelSO<LevelCompleteEvent> levelCompleteEventChannel;
+    [SerializeField]
+    private GenericEventChannelSO<CorrectItemGivenEvent> correctItemGivenEventChannel;
     #endregion
 
     #region Unity Methods
     private void OnEnable()
     {
         levelCompleteEventChannel.OnEventRaised += ManageDataEvent;
+        correctItemGivenEventChannel.OnEventRaised += ManageDataEvent;
     }
 
     private void OnDisable()
     {
         levelCompleteEventChannel.OnEventRaised -= ManageDataEvent;
+        correctItemGivenEventChannel.OnEventRaised -= ManageDataEvent;
     }
     #endregion
 
@@ -50,7 +54,15 @@ public class LVL4_DataSender : MonoBehaviour
     {
         if (evt.token == null) { return; }
         
-        Debug.Log("Send LevelCompleteData to server");
+        Debug.Log(evt.token);
+            
+    }
+    
+    private void ManageDataEvent(CorrectItemGivenEvent evt)
+    {
+        if (evt.token == null) { return; }
+        
+        Debug.Log(evt.token);
             
     }
     #endregion

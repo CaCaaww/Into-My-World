@@ -69,8 +69,8 @@ public class finalStageManager : MonoBehaviour
     private void ForwardData() {
         levelCompleteEventChannel.RaiseEvent(
             new LevelCompleteEvent(
-                "Level Complete!",
-                LVL4_EventType.LevelCompleteEvent
+                "Send level complete data to server",
+                (int)LVL4_EventType.LevelCompleteEvent
             ));
     }
     #endregion

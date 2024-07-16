@@ -6,9 +6,9 @@ public class LVL4_LevelCompleteEvent : GenericEventChannelSO<LevelCompleteEvent>
 public struct LevelCompleteEvent
 {
     public string token;
-    public LVL4_EventType eventType;
+    public int eventType;
 
-    public LevelCompleteEvent(string token, LVL4_EventType eventType)
+    public LevelCompleteEvent(string token, int eventType)
     {
         this.token = token;
         this.eventType = eventType;
