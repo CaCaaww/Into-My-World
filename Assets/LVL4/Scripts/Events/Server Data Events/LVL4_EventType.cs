@@ -1,17 +1,13 @@
 public enum LVL4_EventType
 {
-    AllPrisonersFreedEventChannel,
-    CloseMinigameEvent,
-    DoorOpenedEvent,
-    FinalStageCompleteEvent,
-    FoundDropEvent,
-    GameOverEvent,
-    GiveGuardItemEvent,
-    InteractEvent,
-    InteractWithGuardEvent,
+    LevelStartEvent,
+    LevelCompleteEvent,
+    //GiveItemToGuardEvent,
+    CorrectItemGivenEvent,
+    WrongItemGivenEvent
+    MinigameStartEvent,
     MinigameCompleteEvent,
-    MinigameOpenedEvent,
-    OpenNextStageEvent,
-    PickupItemEvent,
-    ToggleDebugEvent
+    //MinigameExitEvent,
+    AllPrisonersFreedEvent,
+    GameOverEvent // There are many different kinds of game overs
 }

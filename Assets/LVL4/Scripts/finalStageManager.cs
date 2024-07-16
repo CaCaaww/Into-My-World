@@ -11,10 +11,13 @@ public class finalStageManager : MonoBehaviour
     [SerializeField] private List<string> stringsForTextBoxes;
     [SerializeField] private List<GameObject> dragableTextBoxes;
     [SerializeField] private List<GameObject> dropableBoxHolders;
+
     [Header("The indexes of the dragable text boxes in the order which they need to be placed in to be correct.\nIe: if the 3rd index dragable has to be the first box in the pattern, then the first number of this list is 3")]
     [SerializeField] private List<int> correctIndexOrder;
+
     [Header("Event Channels")]
     [SerializeField] private GenericEventChannelSO<FinalStageCompleteEvent> finalStageCompleteEventChannel;
+    [SerializeField] private GenericEventChannelSO<LevelCompleteEvent> levelCompleteEventChannel;
     
     private void Start() {
         int index = 0;
@@ -40,7 +43,7 @@ public class finalStageManager : MonoBehaviour
             Debug.Log("You won!!!");
             finalStageCompleteEventChannel.RaiseEvent(new FinalStageCompleteEvent());
 
-            /* ========================== SEND DATA TO SERVER HERE ==============================*/
+            ForwardData();
 
         }
         else {
@@ -61,4 +64,14 @@ public class finalStageManager : MonoBehaviour
     public void removeFromTakenList(GameObject remove) {
         takenList.Remove(remove);
     }
+
+    #region Helper Methods
+    private void ForwardData() {
+        levelCompleteEventChannel.RaiseEvent(
+            new LevelCompleteEvent(
+                "Level Complete!",
+                LVL4_EventType.LevelCompleteEvent
+            ));
+    }
+    #endregion
 }
