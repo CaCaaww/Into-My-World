@@ -239,9 +239,17 @@ public class CellGuard : MonoBehaviour
         {
             correctItemGivenEventChannel.RaiseEvent(
                 new CorrectItemGivenEvent(
-                    "test",
+                    "send correct item given data to server",
                     (int)LVL4_EventType.CorrectItemGivenEvent
                 ));
+        }
+        else
+        {
+            /*wrongItemGivenEventChannel.RaiseEvent(
+                new WrongItemGivenEvent(
+                    "send wrong item given data to server
+                    (int) LVL4_EventType.WrongItemGivenEvent
+                ));*/
         }
     }
 }
