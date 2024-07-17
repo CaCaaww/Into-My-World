@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -14,6 +15,13 @@ public class LVL4_DataSender : MonoBehaviour
     private GenericEventChannelSO<LevelCompleteEvent> levelCompleteEventChannel;
     [SerializeField]
     private GenericEventChannelSO<CorrectItemGivenEvent> correctItemGivenEventChannel;
+    #endregion
+
+    #region Private Variables
+    /// <summary>
+    /// JSON to send
+    /// </summary> 
+    private string json;
     #endregion
 
     #region Unity Methods
@@ -55,7 +63,20 @@ public class LVL4_DataSender : MonoBehaviour
         if (evt.token == null) { return; }
         
         Debug.Log(evt.token);
-            
+
+        // Get the date and time
+        string currentDate = DateTime.Now.ToString("yyyy-mm-dd");
+        string currentTime = DateTime.Now.ToString("HH:mm:ss");
+
+        // make a new object for json
+
+        // LVL4_LevelCompleteEventData = new LVL4_LevelCompleteEventData()
+        // LVL4_LevelCompleteEventData.activationTime = currentTime;
+
+        // Build the JSON
+        //json = JsonUtility.ToJson();
+
+        //Debug.Log("JSON: " + json);
     }
     
     private void ManageDataEvent(CorrectItemGivenEvent evt)

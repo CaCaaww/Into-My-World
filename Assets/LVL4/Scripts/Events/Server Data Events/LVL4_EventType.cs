@@ -6,8 +6,8 @@ public enum LVL4_EventType
     CorrectItemGivenEvent,
     WrongItemGivenEvent,
     MinigameStartEvent,
+    //MinigameQuitEvent,
     MinigameCompleteEvent,
-    //MinigameExitEvent,
     AllPrisonersFreedEvent,
     GameOverEvent // There are many different kinds of game overs
 }
