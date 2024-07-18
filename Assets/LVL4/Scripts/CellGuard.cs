@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using TMPro;
 using UnityEditor;
 using UnityEngine;
@@ -15,6 +16,7 @@ public class CellGuard : MonoBehaviour
         AllItemsFound,
         CorrectItemFound
     }
+    [SerializeField] private GameObject player;
 
     #region Inspector
     [SerializeField, TextArea]
@@ -30,7 +32,7 @@ public class CellGuard : MonoBehaviour
     [SerializeField]
     private List<GameObject> cellGuardModels;
     [SerializeField]
-    private PlayerTransformSO playerTransform;
+    private PlayerDataSO playerData;
     [SerializeField]
     private TMP_Text guardText;
     [SerializeField]
@@ -45,6 +47,8 @@ public class CellGuard : MonoBehaviour
     private float correctItemTextTime;
     [SerializeField]
     private float textAlphaFalloffDistance;
+    [SerializeField, Tooltip("The guard looks at the player if the player is in this range")]
+    private float aggroRange;
 
     [Header("Listening Event Channels")]
     [SerializeField]
@@ -57,6 +61,8 @@ public class CellGuard : MonoBehaviour
     private GenericEventChannelSO<CorrectItemGivenEvent> correctItemGivenEventChannel;
     [SerializeField]
     private GenericEventChannelSO<WrongItemGivenEvent> wrongItemGivenEventChannel;
+    [SerializeField]
+    private GenericEventChannelSO<QuestGivenEvent> questGivenEventChannel;
     #endregion
 
     #region Private Variables
@@ -64,16 +70,23 @@ public class CellGuard : MonoBehaviour
     private MeshRenderer facePlate;
     private float interactionCooldownTimer;
     private List<KeyItem> items;
+    private string[] questItems = new string[3];
+    private GameObject model;
+    //private static bool questAccepted;
+    private bool thisGuardIsQuest;
+    
     #endregion
 
     // Start is called before the first frame update
     void Start()
     {
+        //questAccepted = false;
+        thisGuardIsQuest = false;
         interactWithGuardEventChannel.OnEventRaised += OnInteract;
 
         cellGuardState = CellGuardState.HasNotTalkedToPlayer;
 
-        GameObject model = Instantiate(cellGuardModels[Random.Range(0, cellGuardModels.Count)], this.transform);
+        model = Instantiate(cellGuardModels[Random.Range(0, cellGuardModels.Count)], this.transform);
         foreach (MeshRenderer i in model.GetComponentsInChildren<MeshRenderer>())
         {
             if (i.gameObject.name.Contains("Face_Plate"))
@@ -92,9 +105,15 @@ public class CellGuard : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (Vector3.Distance(model.transform.position, playerData.Transform.position) < aggroRange) {
+            GetComponentInChildren<LVL4_GuardLookAt>().lookAt = true;
+        } else {
+            GetComponentInChildren<LVL4_GuardLookAt>().lookAt = false;
+        }
+
         interactionCooldownTimer += Time.deltaTime;
 
-        float distance = Vector3.Distance(this.transform.position, playerTransform.Position);
+        float distance = Vector3.Distance(this.transform.position, playerData.Transform.position);
         float alpha = 1 - ((distance - textAlphaFalloffDistance / 2) / (textAlphaFalloffDistance / 2));
         alpha = Mathf.Clamp(alpha, 0, 1);
         guardText.alpha = alpha;
@@ -156,7 +175,7 @@ public class CellGuard : MonoBehaviour
     public void OnInteract(InteractWithGuardEvent evt)
     {
         Debug.Log("Cell Guard Interaction");
-        if (evt.cellGuard == this)
+        if (evt.cellGuard == this && (!player.GetComponent<PlayerManager>().isDoingQuest || thisGuardIsQuest))
         {
             if (interactionCooldownTimer >= baseInteractionCooldown && cellGuardState != CellGuardState.IncorrectItem && cellGuardState != CellGuardState.CorrectItemFound)
             {
@@ -165,10 +184,13 @@ public class CellGuard : MonoBehaviour
                 switch (cellGuardState)
                 {
                     case CellGuardState.HasNotTalkedToPlayer:
+                        player.GetComponent<PlayerManager>().isDoingQuest = true;
+                        thisGuardIsQuest = true;
                         cellGuardState = CellGuardState.TalkedToPlayer;
                         break;
                     case CellGuardState.TalkedToPlayer:
                         cellGuardState = CellGuardState.AskingForItems;
+                        questGivenEventChannel.RaiseEvent(new QuestGivenEvent(questItems));
                         break;
                     case CellGuardState.AskingForItems:
                         if (evt.heldItem)
@@ -188,6 +210,19 @@ public class CellGuard : MonoBehaviour
                                     if (evt.heldItem.CompareItemTags(items[i]))
                                     {
                                         items.RemoveAt(i);
+                                        int j = 0;
+                                        for (j = 0; j < items.Count; j++)
+                                        {
+                                            if (items[j] != null)
+                                            {
+                                                questItems[j] = "something " + items[j].itemTags[0] + ", " + items[j].itemTags[1] + ", " + items[j].itemTags[2];
+                                            }
+                                        }
+                                        for (j = j; j < 3; j++)
+                                        {
+                                            questItems[j] = null;
+                                        }
+                                        questGivenEventChannel.RaiseEvent(new QuestGivenEvent(questItems));
                                         cellGuardState = CellGuardState.CorrectItemFound;
                                         break;
                                     }
@@ -195,6 +230,8 @@ public class CellGuard : MonoBehaviour
                                 if (items.Count == 0)
                                 {
                                     cellGuardState = CellGuardState.AllItemsFound;
+                                    player.GetComponent<PlayerManager>().isDoingQuest = false;
+                                    thisGuardIsQuest = false;
                                     DoorOpenedEventChannel.RaiseEvent(new DoorOpenedEvent(GetComponentInParent<DoorController>()));
 
                                     //GetComponentInParent<DoorController>().toggleDoor();
@@ -222,6 +259,11 @@ public class CellGuard : MonoBehaviour
             item2,
             item3
         };
+        for (int i = 0; i < items.Count; i++)
+        {
+            questItems[i] = ("something " + items[i].itemTags[0] + ", " + items[i].itemTags[1] + ", " + items[i].itemTags[2]);
+        }
+
     }
 
 #if UNITY_EDITOR

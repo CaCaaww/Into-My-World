@@ -231,6 +231,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5731078023323081549}
   - component: {fileID: 1253054402046409726}
+  - component: {fileID: 7784203242689858713}
   m_Layer: 11
   m_Name: LVL4_NPC_Soldier_Female_01
   m_TagString: NPC
@@ -277,6 +278,19 @@ CapsuleCollider:
   m_Height: 1.825
   m_Direction: 1
   m_Center: {x: 0, y: 0.9, z: 0}
+--- !u!114 &7784203242689858713
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 897262184509383712}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e441596e99ce34a6689b2a76b06b332e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  lookAt: 0
 --- !u!1 &1258592109638471890
 GameObject:
   m_ObjectHideFlags: 0
@@ -1840,11 +1854,11 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
+  - {fileID: 4817449624247228314}
+  - {fileID: 4269462183416434891}
   - {fileID: 5519268814558518540}
   - {fileID: 3151440078070194764}
   - {fileID: 8676831080168868198}
-  - {fileID: 4269462183416434891}
-  - {fileID: 4817449624247228314}
   m_Father: {fileID: 2848991342133420133}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &4994981912434258033
@@ -1863,7 +1877,7 @@ PrefabInstance:
     - target: {fileID: -8679921383154817045, guid: 1ca94b693f2478ec299d9a1a9d5e72ba,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 1ca94b693f2478ec299d9a1a9d5e72ba,
         type: 3}

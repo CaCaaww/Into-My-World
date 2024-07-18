@@ -35,8 +35,10 @@ public class GuardMaster : MonoBehaviour
     private List<GameObject> guardPrefabs;
     [SerializeField, Tooltip("Face textures for the wandering guard")]
     private Texture2D angryFace, neutralFace;
-    [SerializeField, Tooltip("Player transform")]
-    private PlayerTransformSO playerTransform;
+    [SerializeField, Tooltip("Sprite to display above guard head when player is in aggro range")]
+    private GameObject warningSprite;
+    [SerializeField, Tooltip("Player data")]
+    private PlayerDataSO playerData;
 
     [Header("Listening Event Channels")]
     [SerializeField, Tooltip("Happens when the player is caught")]
@@ -56,6 +58,7 @@ public class GuardMaster : MonoBehaviour
     private Vector3 targetRotation;
     private float stopTime;
     private MeshRenderer facePlate;
+    private Transform guardHead;
     private bool isGameOver = false;
     #endregion
 
@@ -115,6 +118,7 @@ public class GuardMaster : MonoBehaviour
         switch (state)
         {
             case GuardState.Patrolling:
+
                 animator.SetBool("Walking", true);
                 animator.SetBool("Turning", false);
                 facePlate.material.mainTexture = neutralFace;
@@ -125,6 +129,7 @@ public class GuardMaster : MonoBehaviour
                 Vector3 guardPos = new Vector3(guardBody.transform.position.x, 0, guardBody.transform.position.z);
                 Vector3 targetPos = new Vector3(nextPoint.transform.position.x, 0, nextPoint.transform.position.z);
                 Vector3 normalizedDirection = (targetPos - guardPos).normalized;
+                guardBody.transform.rotation = Quaternion.Slerp(guardBody.transform.rotation, Quaternion.LookRotation(normalizedDirection), Time.deltaTime * 5f);
                 if (Vector3.Distance(guardPos, targetPos) <= moveSpeed * Time.deltaTime)
                 {
                     // Finds the next point to move to and removes it from the possible points
@@ -147,13 +152,16 @@ public class GuardMaster : MonoBehaviour
                     guardBody.transform.position = guardBody.transform.position + normalizedDirection * moveSpeed * Time.deltaTime;
                 }
 
-                if (Vector3.Distance(guardBody.transform.position, playerTransform.Position) < aggroRange && guardAggroCooldownTimer >= 0.2f)
+                if (Vector3.Distance(guardBody.transform.position, playerData.Transform.position) < aggroRange && guardAggroCooldownTimer >= 0.2f)
                 {
                     state = GuardState.Searching;
                     prevState = GuardState.Patrolling;
 
                     Debug.Log("Play guard audio");
                     guardBody.GetComponent<AudioSource>().Play();
+
+                    warningSprite.SetActive(true);
+
                 }
                 break;
             case GuardState.Searching:
@@ -161,6 +169,13 @@ public class GuardMaster : MonoBehaviour
                 animator.SetBool("Turning", false);
                 facePlate.material.mainTexture = angryFace;
                 playerAggroTimer += Time.deltaTime;
+
+                Vector3 playerDirection = (playerData.Transform.position - guardBody.transform.position).normalized;
+                Quaternion lookRotation = Quaternion.LookRotation(new Vector3(playerDirection.x, 0, playerDirection.z));
+                guardBody.transform.rotation = Quaternion.Slerp(guardBody.transform.rotation, lookRotation, Time.deltaTime * 5f);
+
+                GetComponentInChildren<LVL4_GuardLookAt>().lookAt = true;
+
                 if (playerAggroTimer >= aggroTime && !isGameOver)
                 {
                     gameOverEventChannel.RaiseEvent();
@@ -168,10 +183,12 @@ public class GuardMaster : MonoBehaviour
                     /* ========================== SEND DATA TO SERVER HERE ==============================*/
                 }
 
-                if (Vector3.Distance(guardBody.transform.position, playerTransform.Position) > aggroRange)
+                if (Vector3.Distance(guardBody.transform.position, playerData.Transform.position) > aggroRange)
                 {
                     state = prevState;
+                    GetComponentInChildren<LVL4_GuardLookAt>().lookAt = false;
                     guardAggroCooldownTimer = 0.0f;
+                    warningSprite.SetActive(false);
                 }
                 break;
             case GuardState.Stopped:
@@ -199,7 +216,7 @@ public class GuardMaster : MonoBehaviour
                     guardStopTimer = 0.0f;
                 }
 
-                if (Vector3.Distance(guardBody.transform.position, playerTransform.Position) < aggroRange && guardAggroCooldownTimer >= 0.2f)
+                if (Vector3.Distance(guardBody.transform.position, playerData.Transform.position) < aggroRange && guardAggroCooldownTimer >= 0.2f)
                 {
                     state = GuardState.Searching;
                     prevState = GuardState.Stopped;
@@ -207,7 +224,7 @@ public class GuardMaster : MonoBehaviour
                     Debug.Log("Play guard audio");
                     guardBody.GetComponent<AudioSource>().Play();
 
-                    // warningSprite.SetActive(true);
+                    warningSprite.SetActive(true);
                 }
                 break;
         }

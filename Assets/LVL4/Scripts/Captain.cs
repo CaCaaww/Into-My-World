@@ -4,8 +4,8 @@ public class Captain : MonoBehaviour
 {
     private enum CaptainState
     {
-        Sitting,
-        Searching
+        Sitting, // Captain is sitting idle
+        Searching // Captain is actively searching for the player
     }
 
     #region Inspector
@@ -14,11 +14,13 @@ public class Captain : MonoBehaviour
     [SerializeField, Tooltip("The time it takes for the captain to cause the player to lose")]
     private float aggroTime;
     [SerializeField]
-    private PlayerTransformSO playerTransform;
+    private PlayerDataSO playerData;
     [SerializeField]
     private GameOverEventChannel gameOverEventChannel;
     [SerializeField, Tooltip("Face textures for the captain")]
     private Texture2D angryFace, neutralFace;
+    [SerializeField, Tooltip("Image to display above head when player is in aggro range")]
+    private GameObject warningSprite;
     #endregion
 
     #region Private Variables
@@ -41,6 +43,7 @@ public class Captain : MonoBehaviour
             }
         }
 
+        // Reset any animation states
         this.gameObject.GetComponent<Animator>().Rebind();
 
         // Set the timer to zero
@@ -56,7 +59,8 @@ public class Captain : MonoBehaviour
                 playerAggroTimer = 0.0f;
                 guardAggroCooldownTimer += Time.deltaTime;
 
-                if (Vector3.Distance(this.transform.position, playerTransform.Position) < aggroRange && guardAggroCooldownTimer >= 0.2f)
+                // Check if player is in aggro range
+                if (Vector3.Distance(this.transform.position, playerData.Transform.position) < aggroRange && guardAggroCooldownTimer >= 0.2f)
                 {
                     state = CaptainState.Searching;
                     prevState = CaptainState.Sitting;
@@ -64,12 +68,14 @@ public class Captain : MonoBehaviour
                     Debug.Log("Play guard audio");
                     this.GetComponent<AudioSource>().Play();
 
-                    // warningSprite.SetActive(true);
+                    warningSprite.SetActive(true);
                 }
                 break;
             case CaptainState.Searching:
                 facePlate.material.mainTexture = angryFace;
+                GetComponentInChildren<LVL4_GuardLookAt>().lookAt = true;
                 playerAggroTimer += Time.deltaTime;
+                // Check if player has been in aggro range too long
                 if (playerAggroTimer >= aggroTime)
                 {
                     gameOverEventChannel.RaiseEvent();
@@ -77,12 +83,14 @@ public class Captain : MonoBehaviour
                     /* ========================== SEND DATA TO SERVER HERE ==============================*/
                 }
 
-                if (Vector3.Distance(this.transform.position, playerTransform.Position) > aggroRange)
+                // Check if player moves out of aggro range
+                if (Vector3.Distance(this.transform.position, playerData.Transform.position) > aggroRange)
                 {
                     state = prevState;
+                    GetComponentInChildren<LVL4_GuardLookAt>().lookAt = false;
                     guardAggroCooldownTimer = 0.0f;
 
-                    // warningSprite.SetActive(false);
+                    warningSprite.SetActive(false);
                 }
                 break;
         }

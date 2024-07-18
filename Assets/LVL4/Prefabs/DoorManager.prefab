@@ -342,6 +342,7 @@ GameObject:
   - component: {fileID: 8750791196440911549}
   - component: {fileID: 2674403688427087086}
   - component: {fileID: 2859588079623237847}
+  - component: {fileID: 2403518409656031125}
   m_Layer: 0
   m_Name: Guard
   m_TagString: JailCellGuard
@@ -377,6 +378,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ec56929d041f143c985566abe4875d6d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  player: {fileID: 0}
   introDialogue: Today my boss has requisitioned three objects that are very important
     to me. If you want me to let you through, you have to retrieve them and bring
     them back to me.
@@ -388,7 +390,7 @@ MonoBehaviour:
   cellGuardModels:
   - {fileID: 897262184509383712, guid: db4bdeeaaa9b8ab68a87bfc000af5630, type: 3}
   - {fileID: 7306503956860966316, guid: eab4cebcbd41a54579ac4b0b3f7a2a8f, type: 3}
-  playerTransform: {fileID: 11400000, guid: f402a5fab4c450c4e960e506545d0fec, type: 2}
+  playerData: {fileID: 11400000, guid: 49dc2c45c93197742b4172cd5a5228a9, type: 2}
   guardText: {fileID: 4251210047682867049}
   textBackground: {fileID: 6414566669720348831}
   angryFace: {fileID: 2800000, guid: dd27650165883338daae4d68c069c51f, type: 3}
@@ -398,15 +400,14 @@ MonoBehaviour:
   angryInteractionCooldown: 15
   correctItemTextTime: 4
   textAlphaFalloffDistance: 10
+  aggroRange: 7
   DoorOpenedEventChannel: {fileID: 11400000, guid: 1a710d723e1216e4b9f9275a58d26aee,
     type: 2}
   interactWithGuardEventChannel: {fileID: 11400000, guid: 52809e3c5134c4ba0928fb3c215aa385,
     type: 2}
   GiveGuardItemEventChannel: {fileID: 11400000, guid: 1745fab6558d1824eaf430d9482fd46f,
     type: 2}
-  correctItemGivenEventChannel: {fileID: 11400000, guid: 9f60ed34010aa9241b83bd555c21e48c,
-    type: 2}
-  wrongItemGivenEventChannel: {fileID: 11400000, guid: b9156e9c1ca60e5439eff6b04289e36a,
+  questGivenEventChannel: {fileID: 11400000, guid: ff39295904512a04b80640b9910a25f0,
     type: 2}
 --- !u!95 &2674403688427087086
 Animator:
@@ -452,6 +453,19 @@ CapsuleCollider:
   m_Height: 2.5
   m_Direction: 1
   m_Center: {x: 0, y: 1, z: 0}
+--- !u!114 &2403518409656031125
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8297761774309047544}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e441596e99ce34a6689b2a76b06b332e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  lookAt: 0
 --- !u!1001 &1404853455562932820
 PrefabInstance:
   m_ObjectHideFlags: 0

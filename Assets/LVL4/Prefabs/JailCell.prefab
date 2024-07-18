@@ -93,6 +93,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3183824032258885289}
   - component: {fileID: 5176415674748942982}
+  - component: {fileID: 5366371390780600502}
   m_Layer: 0
   m_Name: JailCell
   m_TagString: Untagged
@@ -128,11 +129,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bea45e3256445c045b5be6de3d06b898, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  completeCageObject: {fileID: 3424395568342480047}
+  completeCageObject: {fileID: 0}
   miniGames:
   - {fileID: 5900425255920818519, guid: 562dfe69e2b90cc4cadc2135be8aa3d4, type: 3}
   - {fileID: 5266069294543780607, guid: 4dffb11b6cd701a4486c1f83eb70b1fd, type: 3}
   - {fileID: 4598927895350307016, guid: 3dff0db88a3680243b766ec578891b2f, type: 3}
+  sadFace: {fileID: 2800000, guid: bfbfe05dac3e41419b30bd4c08c8b89c, type: 3}
+  happyFace: {fileID: 2800000, guid: 8488082c308b8acde9561a69673ec1fc, type: 3}
+  prisonerModels:
+  - {fileID: 1152307223569671879, guid: bcb9b2a3374d9cfad99bdd4d28b4a8a8, type: 3}
+  - {fileID: 7811720652266302111, guid: ffbcd49048619670789660133bbb156f, type: 3}
   minigameCompleteEventChannel: {fileID: 11400000, guid: 1e52d80abb71ff048ad937dda99daee2,
     type: 2}
   minigameOpenedEventChannel: {fileID: 11400000, guid: 6589e5421f0fc5445b8117c91606b819,
@@ -141,6 +147,27 @@ MonoBehaviour:
     type: 2}
   closeMinigameEventChannel: {fileID: 11400000, guid: 912580ad4f98ff14f8a3679bf0dd64c6,
     type: 2}
+--- !u!95 &5366371390780600502
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 634771758572956239}
+  m_Enabled: 1
+  m_Avatar: {fileID: 9000000, guid: 86e3e43d832748599806ac0b3d3309c6, type: 3}
+  m_Controller: {fileID: 9100000, guid: 6e0fe24bcbe2f874fb1c35889a23e675, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &774832443207042447
 GameObject:
   m_ObjectHideFlags: 0
