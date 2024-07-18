@@ -80,9 +80,9 @@ public class LVL4UIManager : MonoBehaviour
         DOTweenIDs.Add(-1);
         DOTweenIDs.Add(-1);
         DOTweenIDs.Add(-1);
-        questItems[0].SetText("");
-        questItems[1].SetText("");
-        questItems[2].SetText("");
+        questItems[0].text = "";
+        questItems[1].text = "";
+        questItems[2].text = "";
     }
 
     private void Update()
