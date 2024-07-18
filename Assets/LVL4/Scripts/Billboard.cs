@@ -2,8 +2,8 @@ using UnityEngine;
 
 public class Billboard : MonoBehaviour
 {
-    [SerializeField, Tooltip("The GameObject that this object will look at")]
-    private GameObject objectToLookAt;
+    [SerializeField]
+    private PlayerDataSO playerData;
     [SerializeField]
     private bool flip;
     [SerializeField]
@@ -12,7 +12,7 @@ public class Billboard : MonoBehaviour
     void Update()
     {
         // Rotate current GameObject to look at the objectToLookAt
-        this.gameObject.transform.LookAt(objectToLookAt.transform);
+        this.gameObject.transform.LookAt(playerData.Transform.position);
 
         // Rotate the GameObject 180 degrees around the y-axis
         if (flip)

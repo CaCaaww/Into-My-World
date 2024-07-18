@@ -39,6 +39,8 @@ public class CellGuard : MonoBehaviour
     private SpriteRenderer textBackground;
     [SerializeField, Tooltip("Face textures for the cell guard")]
     private Texture2D angryFace, neutralFace, happyFace;
+    [SerializeField, Tooltip("Icons to go above the guard's head")]
+    private GameObject iconX, iconExclamation, iconCheck;
     [SerializeField]
     private float baseInteractionCooldown;
     [SerializeField]
@@ -131,11 +133,27 @@ public class CellGuard : MonoBehaviour
         switch (cellGuardState)
         {
             case CellGuardState.HasNotTalkedToPlayer:
+                if (!player.GetComponent<PlayerManager>().isDoingQuest)
+                {
+                    iconExclamation.SetActive(true);
+                }
+                else
+                {
+                    iconExclamation.SetActive(false);
+                }
+                iconX.SetActive(false);
+                iconCheck.SetActive(false);
                 break;
             case CellGuardState.TalkedToPlayer:
+                iconExclamation.SetActive(false);
+                iconX.SetActive(false);
+                iconCheck.SetActive(false);
                 guardText.text = introDialogue;
                 break;
             case CellGuardState.AskingForItems:
+                iconExclamation.SetActive(false);
+                iconX.SetActive(false);
+                iconCheck.SetActive(false);
                 facePlate.material.mainTexture = neutralFace;
                 string fullItemText = itemCheckDialogue + "\n";
                 for (int i = 0; i < items.Count; i++)
@@ -149,10 +167,16 @@ public class CellGuard : MonoBehaviour
                 guardText.text = fullItemText;
                 break;
             case CellGuardState.AllItemsFound:
+                iconExclamation.SetActive(false);
+                iconX.SetActive(false);
+                iconCheck.SetActive(true);
                 facePlate.material.mainTexture = happyFace;
                 guardText.text = completeDialogue;
                 break;
             case CellGuardState.IncorrectItem:
+                iconExclamation.SetActive(false);
+                iconX.SetActive(true);
+                iconCheck.SetActive(false);
                 facePlate.material.mainTexture = angryFace;
                 guardText.text = angryDialogue;
                 if (interactionCooldownTimer >= angryInteractionCooldown)
@@ -161,6 +185,9 @@ public class CellGuard : MonoBehaviour
                 }
                 break;
             case CellGuardState.CorrectItemFound:
+                iconExclamation.SetActive(false);
+                iconX.SetActive(false);
+                iconCheck.SetActive(false);
                 facePlate.material.mainTexture = happyFace;
                 guardText.text = correctItemDialogue;
                 if (interactionCooldownTimer >= correctItemTextTime)

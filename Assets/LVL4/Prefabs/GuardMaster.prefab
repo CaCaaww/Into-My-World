@@ -513,7 +513,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: abdc115a308b542c6891721f311f80cf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  objectToLookAt: {fileID: 8616685848737228372, guid: c5efc39a8aaf6e64ea40e9ad573e9b47,
-    type: 3}
+  playerData: {fileID: 11400000, guid: 49dc2c45c93197742b4172cd5a5228a9, type: 2}
   flip: 0
   rotateX: 0
