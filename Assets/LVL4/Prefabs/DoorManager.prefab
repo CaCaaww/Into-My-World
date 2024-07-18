@@ -406,6 +406,8 @@ MonoBehaviour:
     type: 2}
   correctItemGivenEventChannel: {fileID: 11400000, guid: 9f60ed34010aa9241b83bd555c21e48c,
     type: 2}
+  wrongItemGivenEventChannel: {fileID: 11400000, guid: b9156e9c1ca60e5439eff6b04289e36a,
+    type: 2}
 --- !u!95 &2674403688427087086
 Animator:
   serializedVersion: 5

@@ -150,6 +150,7 @@ public class MathWarGameController : Minigame
             minigameCompleteEventChannel.RaiseEvent(new MinigameCompleteEvent(this));
 
             /* ========================== SEND DATA TO SERVER HERE ==============================*/
+            ForwardMinigameCompleteData();
 
             return true;
         }

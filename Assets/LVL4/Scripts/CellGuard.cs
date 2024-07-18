@@ -55,6 +55,8 @@ public class CellGuard : MonoBehaviour
     private GiveGuardItemEventChannel GiveGuardItemEventChannel;
     [SerializeField]
     private GenericEventChannelSO<CorrectItemGivenEvent> correctItemGivenEventChannel;
+    [SerializeField]
+    private GenericEventChannelSO<WrongItemGivenEvent> wrongItemGivenEventChannel;
     #endregion
 
     #region Private Variables
@@ -245,11 +247,11 @@ public class CellGuard : MonoBehaviour
         }
         else
         {
-            /*wrongItemGivenEventChannel.RaiseEvent(
+            wrongItemGivenEventChannel.RaiseEvent(
                 new WrongItemGivenEvent(
-                    "send wrong item given data to server
+                    "send wrong item given data to server",
                     (int) LVL4_EventType.WrongItemGivenEvent
-                ));*/
+                ));
         }
     }
 }

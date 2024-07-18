@@ -71,7 +71,7 @@ public class finalStageManager : MonoBehaviour
             new LevelCompleteEvent(
                 "Send level complete data to server",
                 (int)LVL4_EventType.LevelCompleteEvent
-            ));
+        ));
     }
     #endregion
 }

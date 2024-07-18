@@ -485,7 +485,9 @@ public class LVL4_PipesGameController : Minigame
             quitButton.enabled = false;
             minigameCompleteEventChannel.RaiseEvent(new MinigameCompleteEvent(this));
 
-            /* ========================== SEND DATA TO SERVER HERE ==============================*/
+            /* ========================== SEND DATA TO SERVER HERE ============================== */
+            ForwardMinigameCompleteData();
+
 
             return true;
         }

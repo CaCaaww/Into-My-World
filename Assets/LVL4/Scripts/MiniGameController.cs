@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Security.Cryptography;
 using UnityEngine;
+using UnityEngine.Rendering.Universal;
 
 public class MinigameController : MonoBehaviour
 {
@@ -13,6 +14,7 @@ public class MinigameController : MonoBehaviour
     [Header("Listening Event Channels")]
     [SerializeField] protected MinigameCompleteEventChannel minigameCompleteEventChannel;
     [SerializeField] protected MinigameOpenedEventChannel minigameOpenedEventChannel;
+    [SerializeField] protected LVL4_MinigameStartedEventChannel minigameStartedEventChannel;
     [SerializeField] protected CloseMinigameEventChannel closeMinigameEventChannel;
     #endregion
 
@@ -49,7 +51,7 @@ public class MinigameController : MonoBehaviour
         game.gameObject.GetComponent<Canvas>().enabled = true; // sets the canvas to be visible so the game can be seen
         minigameOpenedEventChannel.RaiseEvent(new MinigameOpenedEvent(this));
 
-        /* ========================== SEND DATA TO SERVER HERE ==============================*/
+        ForwardData();
 
         if (!firstTime)
         { // if this is not the first time playing the game, the game is reset to its original state
@@ -62,6 +64,17 @@ public class MinigameController : MonoBehaviour
         { // else it is no longer the first time
             firstTime = false;
         }
+    }
+    #endregion
+
+    #region Helper Methods
+    private void ForwardData()
+    {
+        minigameStartedEventChannel.RaiseEvent(
+            new MinigameStartedEvent(
+                "Send minigame started data to server",
+                (int)LVL4_EventType.MinigameStartEvent
+        ));
     }
     #endregion
 

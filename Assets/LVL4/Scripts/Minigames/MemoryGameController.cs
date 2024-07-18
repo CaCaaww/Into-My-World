@@ -181,7 +181,7 @@ public class MemoryGameController : Minigame
             minigameCompleteEventChannel.RaiseEvent(new MinigameCompleteEvent(this));
             //Debug.Log("It took you " + countGuesses + " many guesses to finish the game");
 
-            /* ========================== SEND DATA TO SERVER HERE ==============================*/
+            ForwardMinigameCompleteData();
             return true;
         }
         return false;
@@ -286,9 +286,4 @@ public class MemoryGameController : Minigame
         firstGuess = secondGuess = false;
     }
     #endregion
-
-
-
-
-
 }

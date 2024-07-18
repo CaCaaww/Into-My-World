@@ -137,6 +137,8 @@ MonoBehaviour:
     type: 2}
   minigameOpenedEventChannel: {fileID: 11400000, guid: 6589e5421f0fc5445b8117c91606b819,
     type: 2}
+  minigameStartedEventChannel: {fileID: 11400000, guid: fdf529859a9f6094893c4364200035bb,
+    type: 2}
   closeMinigameEventChannel: {fileID: 11400000, guid: 912580ad4f98ff14f8a3679bf0dd64c6,
     type: 2}
 --- !u!1 &774832443207042447
