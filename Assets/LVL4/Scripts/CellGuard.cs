@@ -210,7 +210,7 @@ public class CellGuard : MonoBehaviour
                                     if (evt.heldItem.CompareItemTags(items[i]))
                                     {
                                         items.RemoveAt(i);
-                                        int j = 0;
+                                        int j;
                                         for (j = 0; j < items.Count; j++)
                                         {
                                             if (items[j] != null)
@@ -218,7 +218,7 @@ public class CellGuard : MonoBehaviour
                                                 questItems[j] = "something " + items[j].itemTags[0] + ", " + items[j].itemTags[1] + ", " + items[j].itemTags[2];
                                             }
                                         }
-                                        for (j = j; j < 3; j++)
+                                        for (; j < 3; j++)
                                         {
                                             questItems[j] = null;
                                         }
