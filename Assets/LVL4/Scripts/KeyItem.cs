@@ -60,6 +60,7 @@ public class KeyItem : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        GetComponent<LVL4_Outline>().enabled = false;
         if (itemObjectOverride)
         {
             hasOverride = true;

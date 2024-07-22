@@ -114,11 +114,33 @@ public class PlayerManager : MonoBehaviour
         Vector3 cameraPosition = mainCamera.transform.position;
         Vector3 forwardDirection = mainCamera.transform.forward;
         RaycastHit hit;
+
+        if (data.LookingAt)
+        {
+            if (data.LookingAt.GetComponent<LVL4_Outline>())
+            {
+                data.LookingAt.GetComponent<LVL4_Outline>().enabled = false;
+            }
+            else if (data.LookingAt.GetComponentInParent<LVL4_Outline>())
+            {
+                data.LookingAt.GetComponentInParent<LVL4_Outline>().enabled = false;
+            }
+        }
+
         if (Physics.Raycast(cameraPosition, forwardDirection, out hit, 5.0F))
         {
             data.LookingAt = hit.collider.gameObject;
+
+            if (data.LookingAt.GetComponent<LVL4_Outline>() && data.LookingAt.GetComponent<KeyItem>().CanPickUp())
+            {
+                data.LookingAt.GetComponent<LVL4_Outline>().enabled = true;
+            }
+            else if (data.LookingAt.GetComponentInParent<LVL4_Outline>() && data.LookingAt.GetComponentInParent<KeyItem>().CanPickUp())
+            {
+                data.LookingAt.GetComponentInParent<LVL4_Outline>().enabled = true;
+            }
         }
-        else 
+        else
         {
             data.LookingAt = null;
         }
@@ -198,7 +220,7 @@ public class PlayerManager : MonoBehaviour
             possibleGuardIndicies.Add(i);
         }
 
-        for (int i = gamesNeededToComplete-1; i >= 0; i--)
+        for (int i = gamesNeededToComplete - 1; i >= 0; i--)
         {
             int index = Random.Range(0, possibleGuardIndicies.Count);
             activeGuardIndicies.Add(possibleGuardIndicies[index]);
@@ -331,10 +353,14 @@ public class PlayerManager : MonoBehaviour
     {
         InputEnabled(!inputsEnabled);
     }
-    private void OnToggleInventory(ToggleInventoryEvent evt) {
-        if (evt.isOpen) { 
-            InputEnabled(false); 
-        } else {
+    private void OnToggleInventory(ToggleInventoryEvent evt)
+    {
+        if (evt.isOpen)
+        {
+            InputEnabled(false);
+        }
+        else
+        {
             InputEnabled(true);
         }
     }
@@ -353,7 +379,7 @@ public class PlayerManager : MonoBehaviour
         item.ShowItem(false);
     }
 
-    public void OnGameOver() 
+    public void OnGameOver()
     {
         InputEnabled(false);
     }
