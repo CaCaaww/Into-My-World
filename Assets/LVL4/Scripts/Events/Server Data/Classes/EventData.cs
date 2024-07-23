@@ -14,6 +14,6 @@ public class EventData
     /// <summary>
     /// The sent event type
     /// </summary>
-    public int event_type;
+    public int eventType;
     #endregion
 }

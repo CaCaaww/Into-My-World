@@ -120,6 +120,8 @@ MonoBehaviour:
     type: 2}
   closeMinigameEventChannel: {fileID: 11400000, guid: 912580ad4f98ff14f8a3679bf0dd64c6,
     type: 2}
+  minigameCompletedEventChannel: {fileID: 11400000, guid: e08fa6cb75f15e441a877c99ef16cecd,
+    type: 2}
   gameFloorsSO:
   - {fileID: 11400000, guid: aec5926f36549cd48977f4e793b14294, type: 2}
   - {fileID: 11400000, guid: b04348eb4394a4594ba5678ad6e77a32, type: 2}

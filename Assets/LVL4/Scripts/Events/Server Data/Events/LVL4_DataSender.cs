@@ -54,31 +54,10 @@ public class LVL4_DataSender : MonoBehaviour
     }
     #endregion
 
-    #region Helper methods
-    /// <summary>
-    /// Build and send a JSON for a game start event to the remote webapp server
-    /// </summary> 
-    /*private void ForwardLevelCompleteData(args)
-    {
-        // Build the JSON
-        json = JsonUtility.ToJson();
-
-        Debug.Log("JSON: " + json);
-
-        // Set the remote host to the LVL3 action gate URL
-        remoteHost = webAppConsoleData.LVL2ActionGate;
-
-        // Start the coroutine to post the JSON to the webapp server
-        StartCoroutine(PostRequestCO(remoteHost, json));
-    }*/
-    #endregion
-
     #region Event Listener Methods
     private void ManageDataEvent(LevelCompleteEvent evt)
     {
         if (evt.token == null) { return; }
-        
-        Debug.Log(evt.token);
 
         // Get the date and time
         string currentDate = DateTime.Now.ToString("yyyy-mm-dd");
@@ -86,36 +65,86 @@ public class LVL4_DataSender : MonoBehaviour
 
         // make a new object for json
 
-        // LVL4_LevelCompleteEventData = new LVL4_LevelCompleteEventData()
-        // LVL4_LevelCompleteEventData.activationTime = currentTime;
+        LVL4_LevelCompleteEventData eventData = new LVL4_LevelCompleteEventData(
+            evt.token,
+            evt.eventType,
+            currentDate,
+            currentTime
+        );
 
         // Build the JSON
-        //json = JsonUtility.ToJson();
+        json = JsonUtility.ToJson(eventData);
 
-        //Debug.Log("JSON: " + json);
+        Debug.Log("JSON: " + json);
     }
     
     private void ManageDataEvent(CorrectItemGivenEvent evt)
     {
+
         if (evt.token == null) { return; }
-        
-        Debug.Log(evt.token);
-            
+
+        // Get the date and time
+        string currentDate = DateTime.Now.ToString("yyyy-mm-dd");
+        string currentTime = DateTime.Now.ToString("HH:mm:ss");
+
+        // make a new object for json
+        LVL4_CorrectItemGivenEventData eventData = new LVL4_CorrectItemGivenEventData(
+            evt.token,
+            evt.eventType,
+            currentDate,
+            currentTime
+        );
+
+        // Build the JSON
+        json = JsonUtility.ToJson(eventData);
+
+        Debug.Log("JSON: " + json);
+
     }
     
     private void ManageDataEvent(WrongItemGivenEvent evt)
     {
         if (evt.token == null) { return; }
-        
-        Debug.Log(evt.token);
-            
+
+        // Get the date and time
+        string currentDate = DateTime.Now.ToString("yyyy-mm-dd");
+        string currentTime = DateTime.Now.ToString("HH:mm:ss");
+
+        // make a new object for json
+        LVL4_WrongItemGivenEventData eventData = new LVL4_WrongItemGivenEventData(
+            evt.token,
+            evt.eventType,
+            currentDate,
+            currentTime
+        );
+
+        // Build the JSON
+        json = JsonUtility.ToJson(eventData);
+
+        Debug.Log("JSON: " + json);
+
     }
 
     private void ManageDataEvent(MinigameStartedEvent evt)
     {
         if (evt.token == null) { return; }
 
-        Debug.Log(evt.token);
+        // Get the date and time
+        string currentDate = DateTime.Now.ToString("yyyy-mm-dd");
+        string currentTime = DateTime.Now.ToString("HH:mm:ss");
+
+        // make a new object for json
+        LVL4_MinigameStartedEventData eventData = new LVL4_MinigameStartedEventData(
+            evt.token,
+            evt.eventType,
+            currentDate,
+            currentTime
+        );
+
+        // Build the JSON
+        json = JsonUtility.ToJson(eventData);
+
+        Debug.Log("JSON: " + json);
 
     }
 
@@ -123,7 +152,22 @@ public class LVL4_DataSender : MonoBehaviour
     {
         if (evt.token == null) { return; }
 
-        Debug.Log(evt.token);
+        // Get the date and time
+        string currentDate = DateTime.Now.ToString("yyyy-mm-dd");
+        string currentTime = DateTime.Now.ToString("HH:mm:ss");
+
+        // make a new object for json
+        LVL4_MinigameCompletedEventData eventData = new LVL4_MinigameCompletedEventData(
+            evt.token,
+            evt.eventType,
+            currentDate,
+            currentTime
+        );
+
+        // Build the JSON
+        json = JsonUtility.ToJson(eventData);
+
+        Debug.Log("JSON: " + json);
 
     }
 
@@ -131,7 +175,22 @@ public class LVL4_DataSender : MonoBehaviour
     {
         if (evt.token == null) { return; }
 
-        Debug.Log(evt.token);
+        // Get the date and time
+        string currentDate = DateTime.Now.ToString("yyyy-mm-dd");
+        string currentTime = DateTime.Now.ToString("HH:mm:ss");
+
+        // make a new object for json
+        LVL4_AllMinigamesCompletedEventData eventData = new LVL4_AllMinigamesCompletedEventData(
+            evt.token,
+            evt.eventType,
+            currentDate,
+            currentTime
+        );
+
+        // Build the JSON
+        json = JsonUtility.ToJson(eventData);
+
+        Debug.Log("JSON: " + json);
 
     }
     #endregion
