@@ -25,6 +25,7 @@ namespace StarterAssets
         public ToggleDebugEventChannel toggleDebugEventChannel;
 
         [SerializeField] private GenericEventChannelSO<ToggleInventoryEvent> toggleInventoryEventChannel;
+        [SerializeField] private GenericEventChannelSO<ResetEvent> resetEventChannel;
         private bool inventoryOpen = false;
 
 #if ENABLE_INPUT_SYSTEM
@@ -63,6 +64,9 @@ namespace StarterAssets
         public void OnToggleInventory(InputValue value) {
             inventoryOpen = !inventoryOpen;
             toggleInventoryEventChannel.RaiseEvent(new ToggleInventoryEvent(inventoryOpen));
+        }
+        public void OnReset(InputValue value) {
+            resetEventChannel.RaiseEvent(new ResetEvent());
         }
         public delegate void OnClickDelegate();
         public delegate void OnToggleDebugDelegate();
