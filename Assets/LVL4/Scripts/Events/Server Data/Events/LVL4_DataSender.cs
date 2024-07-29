@@ -1,8 +1,8 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Newtonsoft.Json;
 using UnityEngine;
-using UnityEngine.Rendering.Universal.Internal;
 
 public class LVL4_DataSender : MonoBehaviour
 {
@@ -73,7 +73,7 @@ public class LVL4_DataSender : MonoBehaviour
         );
 
         // Build the JSON
-        json = JsonUtility.ToJson(eventData);
+        json = JsonConvert.SerializeObject(eventData);
 
         Debug.Log("JSON: " + json);
     }
@@ -96,7 +96,7 @@ public class LVL4_DataSender : MonoBehaviour
         );
 
         // Build the JSON
-        json = JsonUtility.ToJson(eventData);
+        json = JsonConvert.SerializeObject(eventData);
 
         Debug.Log("JSON: " + json);
 
@@ -119,7 +119,7 @@ public class LVL4_DataSender : MonoBehaviour
         );
 
         // Build the JSON
-        json = JsonUtility.ToJson(eventData);
+        json = JsonConvert.SerializeObject(eventData);
 
         Debug.Log("JSON: " + json);
 
@@ -142,7 +142,7 @@ public class LVL4_DataSender : MonoBehaviour
         );
 
         // Build the JSON
-        json = JsonUtility.ToJson(eventData);
+        json = JsonConvert.SerializeObject(eventData);
 
         Debug.Log("JSON: " + json);
 
@@ -165,7 +165,7 @@ public class LVL4_DataSender : MonoBehaviour
         );
 
         // Build the JSON
-        json = JsonUtility.ToJson(eventData);
+        json = JsonConvert.SerializeObject(eventData);
 
         Debug.Log("JSON: " + json);
 
@@ -188,7 +188,7 @@ public class LVL4_DataSender : MonoBehaviour
         );
 
         // Build the JSON
-        json = JsonUtility.ToJson(eventData);
+        json = JsonConvert.SerializeObject(eventData);
 
         Debug.Log("JSON: " + json);
 
