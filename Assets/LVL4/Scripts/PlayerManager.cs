@@ -1,3 +1,4 @@
+using StarterAssets;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -271,14 +272,9 @@ public class PlayerManager : MonoBehaviour
     
 
     private void OnReset(ResetEvent evt) {
-        playerInput.currentActionMap.Disable();
-        // Debug.Log("Reset");
-        //playerCapsule.transform.localPosition = new Vector3(2.6500001f, 0.345999986f, 20.6900005f);
-        playerInput.gameObject.transform.SetPositionAndRotation(new Vector3(2.6500001f, 0.345999986f, 20.6900005f), Quaternion.Euler(Vector3.zero));
-        //playerInput.gameObject.transform.position = Vector3.zero;
+        playerInput.gameObject.transform.position = new Vector3(2.6500001f, 0.345999986f, 20.6900005f);
+        GetComponentInChildren<FirstPersonController>().ResetPlayer(playerInput.gameObject);
         data.Transform = playerInput.gameObject.transform;
-        // Debug.Log(playerCapsule.transform.position == new Vector3(2.6500001f, 0.345999986f, 20.6900005f));
-        playerInput.currentActionMap.Enable();
     }
     private void OnMinigameComplete(MinigameCompleteEvent evt)
     {

@@ -151,8 +151,12 @@ namespace StarterAssets
 				transform.Rotate(Vector3.up * _rotationVelocity);
 			}
 		}
-
-		private void Move()
+        public void ResetPlayer(GameObject player) {
+			_controller.enabled = false;
+			player.transform.position = (new Vector3(2.6500001f, 0.345999986f, 20.6900005f));
+			_controller.enabled = true;
+        }
+        private void Move()
 		{
 			// set target speed based on move speed, sprint speed and if sprint is pressed
 			float targetSpeed = _input.sprint ? SprintSpeed : MoveSpeed;
