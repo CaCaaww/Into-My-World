@@ -65,7 +65,7 @@ public class LVL4_DataSender : MonoBehaviour
 
         // make a new object for json
 
-        LVL4_LevelCompleteEventData eventData = new LVL4_LevelCompleteEventData(
+        LVL4_LevelCompleteEventData eventData = new (
             evt.token,
             evt.eventType,
             currentDate,
@@ -88,7 +88,7 @@ public class LVL4_DataSender : MonoBehaviour
         string currentTime = DateTime.Now.ToString("HH:mm:ss");
 
         // make a new object for json
-        LVL4_CorrectItemGivenEventData eventData = new LVL4_CorrectItemGivenEventData(
+        LVL4_CorrectItemGivenEventData eventData = new (
             evt.token,
             evt.eventType,
             currentDate,
@@ -111,7 +111,7 @@ public class LVL4_DataSender : MonoBehaviour
         string currentTime = DateTime.Now.ToString("HH:mm:ss");
 
         // make a new object for json
-        LVL4_WrongItemGivenEventData eventData = new LVL4_WrongItemGivenEventData(
+        LVL4_WrongItemGivenEventData eventData = new (
             evt.token,
             evt.eventType,
             currentDate,
@@ -134,7 +134,7 @@ public class LVL4_DataSender : MonoBehaviour
         string currentTime = DateTime.Now.ToString("HH:mm:ss");
 
         // make a new object for json
-        LVL4_MinigameStartedEventData eventData = new LVL4_MinigameStartedEventData(
+        LVL4_MinigameStartedEventData eventData = new (
             evt.token,
             evt.eventType,
             currentDate,
@@ -157,7 +157,7 @@ public class LVL4_DataSender : MonoBehaviour
         string currentTime = DateTime.Now.ToString("HH:mm:ss");
 
         // make a new object for json
-        LVL4_MinigameCompletedEventData eventData = new LVL4_MinigameCompletedEventData(
+        LVL4_MinigameCompletedEventData eventData = new (
             evt.token,
             evt.eventType,
             currentDate,
@@ -180,7 +180,7 @@ public class LVL4_DataSender : MonoBehaviour
         string currentTime = DateTime.Now.ToString("HH:mm:ss");
 
         // make a new object for json
-        LVL4_AllMinigamesCompletedEventData eventData = new LVL4_AllMinigamesCompletedEventData(
+        LVL4_AllMinigamesCompletedEventData eventData = new (
             evt.token,
             evt.eventType,
             currentDate,
