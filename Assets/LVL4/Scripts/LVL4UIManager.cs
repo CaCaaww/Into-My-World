@@ -58,6 +58,8 @@ public class LVL4UIManager : MonoBehaviour
     [SerializeField]
     private GenericEventChannelSO<FinalStageCompleteEvent> finalStageCompleteEventChannel;
     [SerializeField]
+    private GenericEventChannelSO<FinalStageFailedEvent> finalStageFailedEventChannel;
+    [SerializeField]
     private GenericEventChannelSO<ToggleInventoryEvent> toggleInventoryEventChannel;
     [SerializeField]
     private GenericEventChannelSO<QuestGivenEvent> questGivenEventChannel;
@@ -134,6 +136,7 @@ public class LVL4UIManager : MonoBehaviour
         gameOverEventChannel.OnEventRaised += OnGameOver;
         giveGuardItemEventChannel.OnEventRaised += OnGiveGuardItem;
         finalStageCompleteEventChannel.OnEventRaised += OnFinalStageComplete;
+        finalStageFailedEventChannel.OnEventRaised += OnFinalStageFailed;
         toggleInventoryEventChannel.OnEventRaised += OnToggleInventory;
         questGivenEventChannel.OnEventRaised += OnQuestGiven;
     }
@@ -146,6 +149,8 @@ public class LVL4UIManager : MonoBehaviour
         allPrisonersFreedEventChannel.OnEventRaised -= OnAllPrisonersFreed;
         gameOverEventChannel.OnEventRaised -= OnGameOver;
         giveGuardItemEventChannel.OnEventRaised -= OnGiveGuardItem;
+        finalStageCompleteEventChannel.OnEventRaised -= OnFinalStageComplete;
+        finalStageFailedEventChannel.OnEventRaised -= OnFinalStageFailed;
         toggleInventoryEventChannel.OnEventRaised -= OnToggleInventory;
         questGivenEventChannel.OnEventRaised -= OnQuestGiven;
     }
@@ -258,6 +263,13 @@ public class LVL4UIManager : MonoBehaviour
     {
         finalStageGameObject.SetActive(false);
         VictoryScreen.SetActive(true);
+    }
+    private void OnFinalStageFailed(FinalStageFailedEvent evt) 
+    {
+        gameOverPanel.SetActive(true);
+        itemDisplays.SetActive(false);
+        Cursor.visible = true;
+        Cursor.lockState = CursorLockMode.None;
     }
 
     public void OpenNextStageButton()

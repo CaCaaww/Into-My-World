@@ -161,12 +161,13 @@ public class CellGuard : MonoBehaviour
                 string fullItemText = itemCheckDialogue + "\n";
                 for (int i = 0; i < items.Count; i++)
                 {
-                    fullItemText += "something " + items[i].itemTags[0] + ", " + items[i].itemTags[1] + ", " + items[i].itemTags[2];
+                    fullItemText += "something <color=red>" + items[i].itemTags[0] + ", " + items[i].itemTags[1] + ", " + items[i].itemTags[2] + "</color>";
                     if (i != items.Count - 1)
                     {
                         fullItemText += "\n";
                     }
                 }
+                guardText.richText = true;
                 guardText.text = fullItemText;
                 break;
             case CellGuardState.AllItemsFound:
@@ -254,7 +255,7 @@ public class CellGuard : MonoBehaviour
                                         {
                                             if (items[j] != null)
                                             {
-                                                questItems[j] = "something " + items[j].itemTags[0] + ", " + items[j].itemTags[1] + ", " + items[j].itemTags[2];
+                                                questItems[j] = "something" + items[j].itemTags[0] + ", " + items[j].itemTags[1] + ", " + items[j].itemTags[2] + "";
                                             }
                                         }
                                         for (; j < 3; j++)
@@ -287,6 +288,9 @@ public class CellGuard : MonoBehaviour
                         break;
                 }
             }
+        } else {
+            // have guard say that he is busy
+            Debug.Log("You already have a quest!");
         }
     }
 

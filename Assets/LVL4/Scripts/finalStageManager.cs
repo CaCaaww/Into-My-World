@@ -18,6 +18,7 @@ public class finalStageManager : MonoBehaviour
     [Header("Event Channels")]
     [SerializeField] private GenericEventChannelSO<FinalStageCompleteEvent> finalStageCompleteEventChannel;
     [SerializeField] private GenericEventChannelSO<LevelCompleteEvent> levelCompleteEventChannel;
+    [SerializeField] private GenericEventChannelSO<FinalStageFailedEvent> finalStageFailedEventChannel;
     
     private void Start() {
         int index = 0;
@@ -48,6 +49,7 @@ public class finalStageManager : MonoBehaviour
         }
         else {
             Debug.Log("Not Correct");
+            finalStageFailedEventChannel.RaiseEvent(new FinalStageFailedEvent());
         }
     }
     public bool checkNotInTakenList(GameObject checkAgainst) {
