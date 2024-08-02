@@ -1,3 +1,4 @@
+using StarterAssets;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -17,6 +18,7 @@ public class PlayerManager : MonoBehaviour
     private int gamesNeededToComplete;
     [SerializeField]
     private PlayerDataSO data;
+    [SerializeField] private GameObject playerCapsule;
 
     [Header("Listening Event Channels")]
     [SerializeField]
@@ -43,6 +45,8 @@ public class PlayerManager : MonoBehaviour
     private GenericEventChannelSO<ToggleInventoryEvent> toggleInventoryEventChannel;
     [SerializeField]
     private GenericEventChannelSO<AllMinigamesCompletedEvent> allMinigamesCompletedEventChannel;
+    [SerializeField]
+    private GenericEventChannelSO<ResetEvent> resetEventChannel;
     #endregion
 
     #region Private Variables
@@ -87,6 +91,7 @@ public class PlayerManager : MonoBehaviour
         gameOverEventChannel.OnEventRaised += OnGameOver;
 
         //toggleInventoryEventChannel.OnEventRaised += OnToggleInventory;
+        resetEventChannel.OnEventRaised += OnReset;
     }
 
     private void OnDisable()
@@ -106,6 +111,8 @@ public class PlayerManager : MonoBehaviour
         closeGameEventChannel.OnEventRaised -= OnMinigameClosed;
 
         gameOverEventChannel.OnEventRaised -= OnGameOver;
+
+        resetEventChannel.OnEventRaised -= OnReset;
 
         //toggleInventoryEventChannel.OnEventRaised -= OnToggleInventory;
 
@@ -274,6 +281,13 @@ public class PlayerManager : MonoBehaviour
     /// <summary>
     /// Increases minigame complete count on event trigger and possibly triggers event to send to next stage.
     /// </summary>
+    
+
+    private void OnReset(ResetEvent evt) {
+        playerInput.gameObject.transform.position = new Vector3(2.6500001f, 0.345999986f, 20.6900005f);
+        GetComponentInChildren<FirstPersonController>().ResetPlayer(playerInput.gameObject);
+        data.Transform = playerInput.gameObject.transform;
+    }
     private void OnMinigameComplete(MinigameCompleteEvent evt)
     {
         gamesCompleted++;

@@ -76,7 +76,7 @@ public class CellGuard : MonoBehaviour
     private GameObject model;
     //private static bool questAccepted;
     private bool thisGuardIsQuest;
-    
+
     #endregion
 
     // Start is called before the first frame update
@@ -107,9 +107,12 @@ public class CellGuard : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Vector3.Distance(model.transform.position, playerData.Transform.position) < aggroRange) {
+        if (Vector3.Distance(model.transform.position, playerData.Transform.position) < aggroRange)
+        {
             GetComponentInChildren<LVL4_GuardLookAt>().lookAt = true;
-        } else {
+        }
+        else
+        {
             GetComponentInChildren<LVL4_GuardLookAt>().lookAt = false;
         }
 
@@ -175,10 +178,19 @@ public class CellGuard : MonoBehaviour
                 break;
             case CellGuardState.IncorrectItem:
                 iconExclamation.SetActive(false);
-                iconX.SetActive(true);
                 iconCheck.SetActive(false);
                 facePlate.material.mainTexture = angryFace;
                 guardText.text = angryDialogue;
+                if (interactionCooldownTimer >= 4.0f)
+                {
+                    iconX.SetActive(true);
+                    guardText.text = "";
+                }
+                else
+                {
+                    iconX.SetActive(false);
+                }
+
                 if (interactionCooldownTimer >= angryInteractionCooldown)
                 {
                     cellGuardState = CellGuardState.AskingForItems;
@@ -317,7 +329,7 @@ public class CellGuard : MonoBehaviour
             wrongItemGivenEventChannel.RaiseEvent(
                 new WrongItemGivenEvent(
                     "send wrong item given data to server",
-                    (int) LVL4_EventType.WrongItemGivenEvent
+                    (int)LVL4_EventType.WrongItemGivenEvent
                 ));
         }
     }
