@@ -221,6 +221,8 @@ MonoBehaviour:
     type: 2}
   closeMinigameEventChannel: {fileID: 11400000, guid: 912580ad4f98ff14f8a3679bf0dd64c6,
     type: 2}
+  minigameCompletedEventChannel: {fileID: 11400000, guid: e08fa6cb75f15e441a877c99ef16cecd,
+    type: 2}
   thumbUpPrefab: {fileID: 1460846584609454709, guid: e7c9595d1ec35474cb827a7bd6eeac58,
     type: 3}
   thumbDownPrefab: {fileID: 1180951942622440678, guid: e9320925acbb6194288676a9d4d8fcb5,

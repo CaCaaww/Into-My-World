@@ -282,8 +282,6 @@ public class CellGuard : MonoBehaviour
                                 cellGuardState = CellGuardState.IncorrectItem;
                             }
                             GiveGuardItemEventChannel.RaiseEvent(new GiveGuardItemEvent(isItemCorrect));
-
-                            /* ========================== SEND DATA TO SERVER HERE ==============================*/
                         }
                         break;
                 }

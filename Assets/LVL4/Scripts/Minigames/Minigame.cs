@@ -21,7 +21,6 @@ public abstract class Minigame : MonoBehaviour
 
     protected void ForwardMinigameCompleteData()
     {
-        Debug.Log("Got to minigame class");
         minigameCompletedEventChannel.RaiseEvent(
             new MinigameCompletedEvent(
                 "send minigame completed event data to server",

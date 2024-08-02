@@ -2,6 +2,7 @@ using StarterAssets;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.Rendering.Universal;
 
 public class PlayerManager : MonoBehaviour
 {
@@ -42,6 +43,8 @@ public class PlayerManager : MonoBehaviour
     private GameOverEventChannel gameOverEventChannel;
     [SerializeField]
     private GenericEventChannelSO<ToggleInventoryEvent> toggleInventoryEventChannel;
+    [SerializeField]
+    private GenericEventChannelSO<AllMinigamesCompletedEvent> allMinigamesCompletedEventChannel;
     [SerializeField]
     private GenericEventChannelSO<ResetEvent> resetEventChannel;
     #endregion
@@ -242,6 +245,15 @@ public class PlayerManager : MonoBehaviour
             }
         }
     }
+
+    private void ForwardData()
+    {
+        allMinigamesCompletedEventChannel.RaiseEvent(
+            new AllMinigamesCompletedEvent(
+                "send all minigames completed data to server",
+                (int)LVL4_EventType.AllMinigamesCompleteEvent
+        ));
+    }
     #endregion
 
     #region Public Methods
@@ -289,7 +301,7 @@ public class PlayerManager : MonoBehaviour
         {
             allPrisonersFreedEventChannel.RaiseEvent();
 
-            /* ========================== SEND DATA TO SERVER HERE ==============================*/
+            ForwardData();
 
             Cursor.visible = true;
             Cursor.lockState = CursorLockMode.None;
@@ -309,13 +321,11 @@ public class PlayerManager : MonoBehaviour
             if (hit.collider.gameObject.GetComponent<CellGuard>())
             {
                 interactWithGuardEventChannel.RaiseEvent(new InteractWithGuardEvent(hit.collider.gameObject.GetComponent<CellGuard>(), currentlyHeldItem));
-                /* ========================== SEND DATA TO SERVER HERE ==============================*/
             }
             if (hit.collider.gameObject.CompareTag("JailCell"))
             {
                 // We can probably use an event here to lower coupling
                 hit.collider.gameObject.GetComponentInParent<MinigameController>().LockClicked();
-                /* ========================== SEND DATA TO SERVER HERE ==============================*/
             }
 
             if (hit.collider.gameObject.GetComponent<KeyItem>())
@@ -323,7 +333,6 @@ public class PlayerManager : MonoBehaviour
                 if (hit.collider.gameObject.GetComponent<KeyItem>().CanPickUp())
                 {
                     pickupItemEventChannel.RaiseEvent(new PickupItemEvent(hit.collider.gameObject.GetComponent<KeyItem>()));
-                    /* ========================== SEND DATA TO SERVER HERE ==============================*/
                 }
             }
             else if (hit.collider.gameObject.GetComponentInParent<KeyItem>())
@@ -331,7 +340,6 @@ public class PlayerManager : MonoBehaviour
                 if (hit.collider.gameObject.GetComponentInParent<KeyItem>().CanPickUp())
                 {
                     pickupItemEventChannel.RaiseEvent(new PickupItemEvent(hit.collider.gameObject.GetComponentInParent<KeyItem>()));
-                    /* ========================== SEND DATA TO SERVER HERE ==============================*/
                 }
             }
         }
