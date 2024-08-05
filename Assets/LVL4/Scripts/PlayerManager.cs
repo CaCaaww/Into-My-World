@@ -19,6 +19,8 @@ public class PlayerManager : MonoBehaviour
     [SerializeField]
     private PlayerDataSO data;
     [SerializeField] private GameObject playerCapsule;
+    [SerializeField] private List<CellGuard> allCellGuards = new List<CellGuard>();
+    [SerializeField] private List<MinigameController> allJailCells = new List<MinigameController>();
 
     [Header("Listening Event Channels")]
     [SerializeField]
@@ -176,8 +178,10 @@ public class PlayerManager : MonoBehaviour
     {
         List<KeyItem> allItems = new List<KeyItem>();
         allItems.AddRange(Object.FindObjectsOfType<KeyItem>());
-        List<CellGuard> allCellGuards = new List<CellGuard>();
-        allCellGuards.AddRange(Object.FindObjectsOfType<CellGuard>());
+        //List<CellGuard> allCellGuards = new List<CellGuard>();
+        //List<MinigameController> allJailCells = new List<MinigameController>();
+        //allCellGuards.AddRange(Object.FindObjectsOfType<CellGuard>());
+        //allJailCells.AddRange(Object.FindObjectsOfType<MinigameController>());
 
         foreach (CellGuard guard in allCellGuards)
         {
@@ -242,6 +246,7 @@ public class PlayerManager : MonoBehaviour
             if (!activeGuardIndicies.Contains(i))
             {
                 allCellGuards[i].gameObject.SetActive(false);
+                allJailCells[i].gameObject.SetActive(false);
             }
         }
     }
