@@ -14,7 +14,8 @@ public class CellGuard : MonoBehaviour
         AskingForItems,
         IncorrectItem,
         AllItemsFound,
-        CorrectItemFound
+        CorrectItemFound,
+        PlayerIsBusy
     }
     [SerializeField] private GameObject player;
 
@@ -29,6 +30,8 @@ public class CellGuard : MonoBehaviour
     private string angryDialogue;
     [SerializeField, TextArea]
     private string correctItemDialogue;
+    [SerializeField, TextArea]
+    private string playerIsBusyDialogue;
     [SerializeField]
     private List<GameObject> cellGuardModels;
     [SerializeField]
@@ -208,87 +211,93 @@ public class CellGuard : MonoBehaviour
                     cellGuardState = CellGuardState.AskingForItems;
                 }
                 break;
+            case CellGuardState.PlayerIsBusy:
+                iconExclamation.SetActive(false);
+                iconCheck.SetActive(false);
+                iconX.SetActive(false);
+                guardText.text = playerIsBusyDialogue;
+                if (interactionCooldownTimer >= 4.0f) {
+                    iconExclamation.SetActive(true);
+                    guardText.text = "";
+                } 
+
+                if (interactionCooldownTimer >= angryInteractionCooldown) {
+                    cellGuardState = CellGuardState.HasNotTalkedToPlayer;
+                   
+                }
+                break;
         }
         #endregion
     }
 
     public void OnInteract(InteractWithGuardEvent evt)
     {
-        Debug.Log("Cell Guard Interaction");
-        if (evt.cellGuard == this && (!player.GetComponent<PlayerManager>().isDoingQuest || thisGuardIsQuest))
+        //Debug.Log("Cell Guard Interaction");
+        if (evt.cellGuard == this )
         {
-            if (interactionCooldownTimer >= baseInteractionCooldown && cellGuardState != CellGuardState.IncorrectItem && cellGuardState != CellGuardState.CorrectItemFound)
+            if ((!player.GetComponent<PlayerManager>().isDoingQuest || thisGuardIsQuest))
             {
-                interactionCooldownTimer = 0;
+                if (interactionCooldownTimer >= baseInteractionCooldown && cellGuardState != CellGuardState.IncorrectItem && cellGuardState != CellGuardState.CorrectItemFound) {
+                    interactionCooldownTimer = 0;
 
-                switch (cellGuardState)
-                {
-                    case CellGuardState.HasNotTalkedToPlayer:
-                        player.GetComponent<PlayerManager>().isDoingQuest = true;
-                        thisGuardIsQuest = true;
-                        cellGuardState = CellGuardState.TalkedToPlayer;
-                        break;
-                    case CellGuardState.TalkedToPlayer:
-                        cellGuardState = CellGuardState.AskingForItems;
-                        questGivenEventChannel.RaiseEvent(new QuestGivenEvent(questItems));
-                        break;
-                    case CellGuardState.AskingForItems:
-                        if (evt.heldItem)
-                        {
-                            bool isItemCorrect = false;
-                            foreach (KeyItem i in items)
-                            {
-                                isItemCorrect = isItemCorrect || evt.heldItem.CompareItemTags(i);
-                            }
+                    switch (cellGuardState) {
+                        case CellGuardState.HasNotTalkedToPlayer:
+                            player.GetComponent<PlayerManager>().isDoingQuest = true;
+                            thisGuardIsQuest = true;
+                            cellGuardState = CellGuardState.TalkedToPlayer;
+                            break;
+                        case CellGuardState.TalkedToPlayer:
+                            cellGuardState = CellGuardState.AskingForItems;
+                            questGivenEventChannel.RaiseEvent(new QuestGivenEvent(questItems));
+                            break;
+                        case CellGuardState.AskingForItems:
+                            if (evt.heldItem) {
+                                bool isItemCorrect = false;
+                                foreach (KeyItem i in items) {
+                                    isItemCorrect = isItemCorrect || evt.heldItem.CompareItemTags(i);
+                                }
 
-                            ForwardData(isItemCorrect);
+                                ForwardData(isItemCorrect);
 
-                            if (isItemCorrect)
-                            {
-                                for (int i = items.Count - 1; i >= 0; i--)
-                                {
-                                    if (evt.heldItem.CompareItemTags(items[i]))
-                                    {
-                                        items.RemoveAt(i);
-                                        int j;
-                                        for (j = 0; j < items.Count; j++)
-                                        {
-                                            if (items[j] != null)
-                                            {
-                                                questItems[j] = "something" + items[j].itemTags[0] + ", " + items[j].itemTags[1] + ", " + items[j].itemTags[2] + "";
+                                if (isItemCorrect) {
+                                    for (int i = items.Count - 1; i >= 0; i--) {
+                                        if (evt.heldItem.CompareItemTags(items[i])) {
+                                            items.RemoveAt(i);
+                                            int j;
+                                            for (j = 0; j < items.Count; j++) {
+                                                if (items[j] != null) {
+                                                    questItems[j] = "something" + items[j].itemTags[0] + ", " + items[j].itemTags[1] + ", " + items[j].itemTags[2] + "";
+                                                }
                                             }
+                                            for (; j < 3; j++) {
+                                                questItems[j] = null;
+                                            }
+                                            questGivenEventChannel.RaiseEvent(new QuestGivenEvent(questItems));
+                                            cellGuardState = CellGuardState.CorrectItemFound;
+                                            break;
                                         }
-                                        for (; j < 3; j++)
-                                        {
-                                            questItems[j] = null;
-                                        }
-                                        questGivenEventChannel.RaiseEvent(new QuestGivenEvent(questItems));
-                                        cellGuardState = CellGuardState.CorrectItemFound;
-                                        break;
                                     }
-                                }
-                                if (items.Count == 0)
-                                {
-                                    cellGuardState = CellGuardState.AllItemsFound;
-                                    player.GetComponent<PlayerManager>().isDoingQuest = false;
-                                    thisGuardIsQuest = false;
-                                    DoorOpenedEventChannel.RaiseEvent(new DoorOpenedEvent(GetComponentInParent<DoorController>()));
+                                    if (items.Count == 0) {
+                                        cellGuardState = CellGuardState.AllItemsFound;
+                                        player.GetComponent<PlayerManager>().isDoingQuest = false;
+                                        thisGuardIsQuest = false;
+                                        DoorOpenedEventChannel.RaiseEvent(new DoorOpenedEvent(GetComponentInParent<DoorController>()));
 
-                                    //GetComponentInParent<DoorController>().toggleDoor();
+                                        //GetComponentInParent<DoorController>().toggleDoor();
+                                    }
+                                } else {
+                                    cellGuardState = CellGuardState.IncorrectItem;
                                 }
+                                GiveGuardItemEventChannel.RaiseEvent(new GiveGuardItemEvent(isItemCorrect));
                             }
-                            else
-                            {
-                                cellGuardState = CellGuardState.IncorrectItem;
-                            }
-                            GiveGuardItemEventChannel.RaiseEvent(new GiveGuardItemEvent(isItemCorrect));
-                        }
-                        break;
+                            break;
+                    }
                 }
+            } else {
+                interactionCooldownTimer = 0f;
+                cellGuardState = CellGuardState.PlayerIsBusy;
+                Debug.Log("You already have a quest!");
             }
-        } else {
-            // have guard say that he is busy
-            Debug.Log("You already have a quest!");
         }
     }
 
