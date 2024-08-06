@@ -36,17 +36,9 @@ public class MathWarGameButtonController : MonoBehaviour
         }
     }
     public void reviveEnemy() {
-        if (column == 0 ) {
-            Debug.Log("Here " + floor);
-        }
         // makes the enemy active again
         enemy.SetActive(true);
         isDefeated = false;
-        if (column == 0) {
-            Debug.Log("Here " + floor); 
-            Debug.Log(enemy.active);
-            Debug.Log(isDefeated);
-        }
     }
 
     #endregion
