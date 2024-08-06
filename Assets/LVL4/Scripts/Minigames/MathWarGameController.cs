@@ -3,6 +3,7 @@ using System.Drawing.Text;
 using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.Rendering.Universal;
 using UnityEngine.UI;
 
 public class MathWarGameController : Minigame
@@ -29,15 +30,12 @@ public class MathWarGameController : Minigame
     [SerializeField, Tooltip("Floor Object 8")]
     private GameObject floor8;
     [SerializeField]
-    private Button quitButton;
-    [SerializeField]
-    private GameObject backdrop;
-    [SerializeField]
     private GameObject thumb;
     [SerializeField]
     private GameObject continueButton;
 
     //James Trying to fix whatever this mess is
+    [SerializeField] private GenericEventChannelSO<QuitButtonEvent> quitButtonEventChanel;
     [SerializeField] private List<List<GameObject>> columns = new List<List<GameObject>>();
     //This stores all the data of the floors. It is oriented as columns, each containing 3 floors. 
     // in the puzzle it is top-down. So column[0][0] is the top left corner, and column[0][1] is the space below that, and etc...
@@ -78,6 +76,11 @@ public class MathWarGameController : Minigame
         columns.Add(column1);
         columns.Add(column2);
         AddFloors();
+        
+    }
+    public void QuitButtonClicked() {
+        Debug.Log("Quit Button Clicked");
+        quitButtonEventChanel.RaiseEvent(new QuitButtonEvent());
     }
     #endregion
 
@@ -139,11 +142,13 @@ public class MathWarGameController : Minigame
     }
     public override void Restart()
     {
-        // James Fixing stuff
-        for (int i = 0; i < 3; i++) {
-            for (int k = 0; k < 3; k++) {
-                columns[i][k].GetComponentInChildren<MathWarGameButtonController>().isDefeated = false;
-                columns[i][k].GetComponentInChildren<MathWarGameButtonController>().reviveEnemy();
+        // James Fixing 
+        columns[0][0].transform.GetChild(4).gameObject.SetActive(true);
+        columns[0][0].GetComponentInChildren<MathWarGameButtonController>().reviveEnemy();
+        foreach (List<GameObject> column in columns) {
+            foreach (GameObject floor in column) {
+                floor.transform.GetChild(4).gameObject.SetActive(true);
+                floor.GetComponentInChildren<MathWarGameButtonController>().reviveEnemy();
             }
         }
         playerScore = 10;
@@ -175,8 +180,6 @@ public class MathWarGameController : Minigame
         //James fixing 
         // if all enemies in the last column are defeated, then the game is won
         if (enemiesDefeatedInCurrentColumn == 3 && currentColumn == 2) {
-            quitButton.enabled = false;
-            backdrop.SetActive(true);
             thumb.SetActive(true);
             continueButton.SetActive(true);
             minigameCompleteEventChannel.RaiseEvent(new MinigameCompleteEvent(this));

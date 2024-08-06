@@ -31,10 +31,6 @@ public class LVL4_PipesGameController : Minigame
     [SerializeField]
     private GameObject GameCompletePrefab;
 
-    [Tooltip("Backdrop")]
-    [SerializeField]
-    private GameObject backdrop;
-
     [SerializeField]
     private GameObject continueButton;
 
@@ -44,8 +40,7 @@ public class LVL4_PipesGameController : Minigame
     [SerializeField] private GameObject angledPrefab;
     [SerializeField] private GameObject straightPrefab;
     [SerializeField] private GameObject emptyPrefab;
-    [SerializeField]
-    private Button quitButton;
+    [SerializeField] private GenericEventChannelSO<QuitButtonEvent> quitButtonEventChanel;
     #endregion
 
     #region Private variables
@@ -110,6 +105,10 @@ public class LVL4_PipesGameController : Minigame
     #endregion
 
     #region Helper Methods
+    public void QuitButtonClicked() {
+        Debug.Log("Quit Button Clicked");
+        quitButtonEventChanel.RaiseEvent(new QuitButtonEvent());
+    }
     private Side[] getSides(int index)
     { // returns a list of the sides that the pipe touches
         // used to determine the input and output of the pipes
@@ -481,8 +480,6 @@ public class LVL4_PipesGameController : Minigame
             // Instantiate the continue button prefab
             // The index of continue button in the Unity hierarchy
             continueButton.SetActive(true);
-            backdrop.SetActive(true);
-            quitButton.enabled = false;
             minigameCompleteEventChannel.RaiseEvent(new MinigameCompleteEvent(this));
 
             /* ========================== SEND DATA TO SERVER HERE ============================== */

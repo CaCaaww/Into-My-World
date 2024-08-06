@@ -565,7 +565,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -362, y: -17}
+  m_AnchoredPosition: {x: -362.00012, y: -17.00005}
   m_SizeDelta: {x: 300, y: 300}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &8269712779822459559
@@ -674,10 +674,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cf91d68eeba15634ead38e5535a1aec9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  player: {fileID: 0}
+  column: 0
+  floor: 0
+  mathWarGameController: {fileID: 0}
   enemy: {fileID: 8269712779160612337}
-  playerScoreRef: {fileID: 0}
-  enemyScoreRef: {fileID: 8269712780381734663}
+  isDefeated: 0
+  floorValue: 0
 --- !u!1 &8269712780381734659
 GameObject:
   m_ObjectHideFlags: 0

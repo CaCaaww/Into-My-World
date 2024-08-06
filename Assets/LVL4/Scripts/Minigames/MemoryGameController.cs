@@ -35,8 +35,6 @@ public class MemoryGameController : Minigame
     private Transform puzzleField;
     [Tooltip("Beating a minigame shows this backdrop")]
     [SerializeField]
-    private GameObject backdrop;
-    [SerializeField]
     private GameObject continueButton;
 
     [Header("Sprites")]
@@ -52,8 +50,7 @@ public class MemoryGameController : Minigame
     [Tooltip("The relation between sprites and cards")]
     [SerializeField]
     private List<Sprite> relatedSprites = new();
-    [SerializeField]
-    private Button quitButton;
+    [SerializeField] private GenericEventChannelSO<QuitButtonEvent> quitButtonEventChanel;
     #endregion
 
     #region Private Variables
@@ -94,6 +91,10 @@ public class MemoryGameController : Minigame
     #endregion
 
     #region Helper Methods
+    public void QuitButtonClicked() {
+        Debug.Log("Quit Button Clicked");
+        quitButtonEventChanel.RaiseEvent(new QuitButtonEvent());
+    }
     public override void Restart()
     {
         foreach (Button b in buttons)
@@ -176,8 +177,6 @@ public class MemoryGameController : Minigame
             GameObject GameCoplete = Instantiate(GameCopletePrefab);
             GameCoplete.transform.SetParent(canvas, false);
             continueButton.SetActive(true);
-            quitButton.interactable = false;
-            backdrop.SetActive(true);
             minigameCompleteEventChannel.RaiseEvent(new MinigameCompleteEvent(this));
             //Debug.Log("It took you " + countGuesses + " many guesses to finish the game");
 

@@ -3,8 +3,10 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Runtime.Remoting.Messaging;
 using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.TextCore.Text;
+using UnityEngine.UI;
 
 public class MathWarGameButtonController : MonoBehaviour
 {
@@ -26,6 +28,7 @@ public class MathWarGameButtonController : MonoBehaviour
         if (mathWarGameController.interaction(column, floor)) {
             // Disable button
             this.gameObject.SetActive(false);
+            //this.gameObject.GetComponent<Button>().interactable = false;
             // Disable Enemy Sprite
             enemy.SetActive(false);
             // Set Enemy to Defeated
@@ -35,7 +38,7 @@ public class MathWarGameButtonController : MonoBehaviour
     public void reviveEnemy() {
         // makes the enemy active again
         enemy.SetActive(true);
-        this.gameObject.SetActive(true);
+        isDefeated = false;
     }
 
     #endregion
