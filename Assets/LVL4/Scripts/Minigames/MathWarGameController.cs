@@ -143,8 +143,6 @@ public class MathWarGameController : Minigame
     public override void Restart()
     {
         // James Fixing 
-        columns[0][0].transform.GetChild(4).gameObject.SetActive(true);
-        columns[0][0].GetComponentInChildren<MathWarGameButtonController>().reviveEnemy();
         foreach (List<GameObject> column in columns) {
             foreach (GameObject floor in column) {
                 floor.transform.GetChild(4).gameObject.SetActive(true);

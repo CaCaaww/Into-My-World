@@ -45,7 +45,7 @@ public class MinigameController : MonoBehaviour
 
         // picks a random minigame and makes it the current game for the lock
         randNum = RandomNumberGenerator.GetInt32(0, miniGames.Count);
-        game = Instantiate(miniGames[randNum]);
+        game = Instantiate(miniGames[2]);
     }
 
     private void OnEnable()
