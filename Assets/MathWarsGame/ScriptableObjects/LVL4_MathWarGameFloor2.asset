@@ -13,6 +13,6 @@ MonoBehaviour:
   m_Name: LVL4_MathWarGameFloor2
   m_EditorClassIdentifier: 
   stages:
-  - floors: 050000001900000005000000
-  - floors: 190000001e00000096000000
-  - floors: 320000000a0000000f000000
+  - floors: 050000000f00000005000000
+  - floors: 190000001e00000032000000
+  - floors: 960000000a0000000f000000

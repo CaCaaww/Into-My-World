@@ -1,5 +1,7 @@
 using System.Collections.Generic;
+using System.Drawing.Text;
 using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -8,8 +10,6 @@ public class MathWarGameController : Minigame
     #region Inspector
     [SerializeField, Tooltip("Scriptable Object patterns that hold numbers for the Math Game")]
     private List<LVL4_MathWarGameFloorSO> gameFloorsSO;
-    [SerializeField]
-    private Transform gameGrid;
     [SerializeField, Tooltip("Floor Object")]
     private GameObject floor;
     [SerializeField, Tooltip("Floor Object 1")]
@@ -29,12 +29,6 @@ public class MathWarGameController : Minigame
     [SerializeField, Tooltip("Floor Object 8")]
     private GameObject floor8;
     [SerializeField]
-    private List<MathWarGameButtonController> buttons;
-    [SerializeField]
-    private TextMeshProUGUI enemyScoreRef;
-    private List<GameObject> floors = new();
-
-    [SerializeField]
     private Button quitButton;
     [SerializeField]
     private GameObject backdrop;
@@ -42,55 +36,122 @@ public class MathWarGameController : Minigame
     private GameObject thumb;
     [SerializeField]
     private GameObject continueButton;
+
+    //James Trying to fix whatever this mess is
+    [SerializeField] private List<List<GameObject>> columns = new List<List<GameObject>>();
+    //This stores all the data of the floors. It is oriented as columns, each containing 3 floors. 
+    // in the puzzle it is top-down. So column[0][0] is the top left corner, and column[0][1] is the space below that, and etc...
+    [SerializeField] private GameObject player;
+    private int playerScore;
+    public int currentColumn; //the current column of the player
+    private int currentRoomInColumn; // the current floor of the player in the current column
+    public int enemiesDefeatedInCurrentColumn; // the number of enemies defeated in this column
+
     #endregion
 
     #region Public & Private Variables
-
-    public string enemyText;
-    public HashSet<int> aliveEnemies = new();
     private int roomNumber;
     #endregion
 
     #region Unity & Listener 
     void Start()
-    {
-        // enemyText = floor.GetComponentInChildren<TextMeshProUGUI>().ToString();
-        // Debug.Log(enemyText);
-
-        // Add each room with an enemy to the list for easier access
-        floors.Add(floor);
-        floors.Add(floor1);
-        floors.Add(floor2);
-        floors.Add(floor3);
-        floors.Add(floor4);
-        floors.Add(floor5);
-        floors.Add(floor6);
-        floors.Add(floor7);
-        floors.Add(floor8);
-        for (int i = 0; i < 9; i++)
-        {
-            aliveEnemies.Add(i);
-        }
+    {     
+        //James Fixing stuff
+        playerScore = 10;
+        updatePlayerScore();
+        currentColumn = 0;
+        currentRoomInColumn = 0;
+        enemiesDefeatedInCurrentColumn = 0;
+        List<GameObject> column0 = new List<GameObject>();
+        List<GameObject> column1= new List<GameObject>();
+        List<GameObject> column2 = new List<GameObject>();
+        column0.Add(floor);
+        column0.Add(floor1);
+        column0.Add(floor2);
+        column1.Add(floor3);
+        column1.Add(floor4);
+        column1.Add(floor5);
+        column2.Add(floor6);
+        column2.Add(floor7);
+        column2.Add(floor8);
+        columns.Add(column0);
+        columns.Add(column1);
+        columns.Add(column2);
         AddFloors();
     }
     #endregion
 
     #region game methods
+
+    public bool interaction(int columnNum, int floorNum) {
+        // check to make sure that they are in the same 
+        if (columnNum != currentColumn) {
+            // if not in the same column, make sure that they player is able to be moved up
+            if (enemiesDefeatedInCurrentColumn == 3 && columnNum == currentColumn+1) {
+                if (playerScore > getScoreAtLocation(columnNum, floorNum)) {
+                    setPlayerPosition(columnNum, floorNum);
+                    playerScore += getScoreAtLocation(columnNum, floorNum);
+                    updatePlayerScore();
+                    currentColumn = columnNum;
+                    enemiesDefeatedInCurrentColumn = 1;
+                    currentRoomInColumn = floorNum;
+                    return true;
+                } else {
+                    sendPlayerToStart();
+                    return false;
+                }
+            } else {
+                return false;
+            }
+        } else {
+            if (playerScore > getScoreAtLocation(columnNum, floorNum)) {
+                setPlayerPosition(columnNum, floorNum);
+                playerScore += getScoreAtLocation(columnNum, floorNum);
+                updatePlayerScore();
+                enemiesDefeatedInCurrentColumn++;
+                currentRoomInColumn = floorNum;
+                IsFinished();
+                return true;
+            } else {
+                sendPlayerToStart();
+                return false;
+            }
+        }
+
+    }
+    private void setPlayerPosition(int columnNum, int floorNum) {
+        //Debug.Log("Setting Player to Position: " + (columns[columnNum][floorNum].transform.position + Vector3.down * 70f));
+        if (columnNum == 0 && floorNum == 0) {
+            player.transform.position = new Vector3(1490f, 1460f, 0f);
+        } else {
+            player.transform.position = (columns[columnNum][floorNum].transform.position + (Vector3.down * 70f));
+        }
+    }
+    private void sendPlayerToStart() {
+        //Debug.Log("Sending Player to Start");
+        player.transform.position = player.transform.position = new Vector3(300, 300, 0);
+    }
+    private void updatePlayerScore() {
+        player.GetComponentInChildren<TextMeshProUGUI>().text = playerScore.ToString();
+    }
+    private int getScoreAtLocation(int columnNum, int floorNum) {
+        return columns[columnNum][floorNum].GetComponentInChildren<MathWarGameButtonController>().floorValue;
+    }
     public override void Restart()
     {
-        for (int i = 0; i < buttons.Count; i++)
-        {
-            buttons[i].GetComponentInChildren<MathWarGameButtonController>().isDefeated = false;
-            buttons[i].reviveEnemy();
-            buttons[i].setPlayerToStart();
+        // James Fixing stuff
+        for (int i = 0; i < 3; i++) {
+            for (int k = 0; k < 3; k++) {
+                columns[i][k].GetComponentInChildren<MathWarGameButtonController>().isDefeated = false;
+                columns[i][k].GetComponentInChildren<MathWarGameButtonController>().reviveEnemy();
+            }
         }
-        aliveEnemies.Clear();
-        for (int i = 0; i < 9; i++)
-        {
-            aliveEnemies.Add(i);
-        }
-        buttons[0].resetPlayerScore();
-
+        playerScore = 10;
+        updatePlayerScore();
+        currentColumn = 0;
+        currentRoomInColumn = 0;
+        enemiesDefeatedInCurrentColumn = 0;
+        sendPlayerToStart();
         /* ========================== SEND DATA TO SERVER HERE ==============================*/
 
     }
@@ -98,51 +159,22 @@ public class MathWarGameController : Minigame
     // Update is called once per frame
     void AddFloors()
     {
-        // Select a random Scriptable object to use for the minigame data
-        roomNumber = Random.Range(0, 4);
-        // Track items in list for getting items from scriptable objects
-        int floorNumber = 0;
+        //James fixing stuff
+        roomNumber = Random.Range(0, 4); // selecting a random number that will be used to identify a random UI
+        for (int i = 0; i < 3; i++) {
+            for (int k = 0; k < 3; k++) {
+                //Sets the text on the board to what it is supposed to be according to the SO
+                columns[i][k].GetComponentInChildren<MathWarGameButtonController>().floorValue = gameFloorsSO[roomNumber].stages[i].floors[k];
+                columns[i][k].GetComponentInChildren<TextMeshProUGUI>().text = gameFloorsSO[roomNumber].stages[i].floors[k].ToString();
 
-        // Debug.Log("Floors size: " + floors.Count);
-        // Debug.Log("Random room number chosen: " + roomNumber);
-
-        // Column variable for grid layout
-        for (int i = 0; i < 3; i++)
-        {
-            // Row variable for grid layout
-            for (int j = 0; j < 3; j++)
-            {
-                // Debug.Log(gameFloorsSO.Count);
-                // Debug.Log(i);
-                // Debug.Log(j);
-
-                // Get the floor text from list of floors and set to scriptable object data
-                enemyScoreRef = floors[floorNumber].GetComponentInChildren<TextMeshProUGUI>();
-                enemyText = gameFloorsSO[roomNumber].stages[i].floors[j].ToString();
-                enemyScoreRef.text = enemyText;
-                floorNumber++;
             }
-            // GameObject button = Instantiate(floor, gameGrid);
-            // enemyText = "test";
         }
     }
 
-    public override bool IsFinished()
-    {
-
-
-        int defeated = 0;
-        for (int i = 0; i < buttons.Count; i++)
-        {
-            // Debug.Log(buttons[i].GetComponentInChildren<MathWarGameButtonController>().isDefeated);
-            if (buttons[i].GetComponentInChildren<MathWarGameButtonController>().isDefeated == true)
-            {
-                // Increments if an enemy was defeated this turn
-                defeated++;
-            }
-        }
-        if (defeated == floors.Count)
-        {
+    public override bool IsFinished() {
+        //James fixing 
+        // if all enemies in the last column are defeated, then the game is won
+        if (enemiesDefeatedInCurrentColumn == 3 && currentColumn == 2) {
             quitButton.enabled = false;
             backdrop.SetActive(true);
             thumb.SetActive(true);

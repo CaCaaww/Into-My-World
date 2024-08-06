@@ -9,62 +9,33 @@ using UnityEngine.TextCore.Text;
 public class MathWarGameButtonController : MonoBehaviour
 {
     #region Inspector
-    [Header("References")]
-    [SerializeField]
-    private GameObject player;
-    [SerializeField]
-    private GameObject enemy;
-    [SerializeField]
-    private TextMeshProUGUI playerScoreRef;
-    [SerializeField]
-    private TextMeshProUGUI enemyScoreRef;
-    [SerializeField]
-    private MathWarGameController mathWarGameController;
-    public bool isDefeated = false;
-    
 
+    // James Fixing thigns
+    [SerializeField] private int column;
+    [SerializeField] private int floor;
+    [SerializeField] private MathWarGameController mathWarGameController;
+    [SerializeField] private GameObject enemy;
+    public bool isDefeated = false;
+    public int floorValue;
     #endregion
 
     #region Helper Methods
     public void whenClicked()
     {
-        //Player and Enemy Score References
-        int playerScore = int.Parse(playerScoreRef.text);
-        int enemyScore = int.Parse(enemyScoreRef.text);
-        if (playerScore > enemyScore)
-        {
-            //Teleport Player to the button
-            player.transform.position = transform.position + Vector3.down * 70f;
-            //Disable Button
+        // James Fixing
+        if (mathWarGameController.interaction(column, floor)) {
+            // Disable button
             this.gameObject.SetActive(false);
-            //Add playerScore and enemyScore
-            playerScore += enemyScore;
-            //Disable Enemy
+            // Disable Enemy Sprite
             enemy.SetActive(false);
-            //Update playerScore UI
-            playerScoreRef.text = playerScore.ToString();
-            // Marks enemy as defeated to track win or lose
+            // Set Enemy to Defeated
             isDefeated = true;
         }
-        else
-        {
-            //Teleport the player back
-            player.transform.position = new Vector3(300, 300, 0);
-
-        }    
-        mathWarGameController.IsFinished();
-    }
-    public void setPlayerToStart() {
-        player.transform.position = new Vector3(300, 300, 0);
     }
     public void reviveEnemy() {
+        // makes the enemy active again
         enemy.SetActive(true);
         this.gameObject.SetActive(true);
-    }
-    public void resetPlayerScore() {
-        int playerScore = int.Parse(playerScoreRef.text);
-        playerScore = 10;
-        playerScoreRef.text = playerScore.ToString();
     }
 
     #endregion
