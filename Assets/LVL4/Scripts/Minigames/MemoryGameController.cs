@@ -243,6 +243,8 @@ public class MemoryGameController : Minigame
     //Checks if the two pick match
     IEnumerator CheckIfThePuzzlesMatch()
     {
+        Cursor.lockState = CursorLockMode.Locked;
+        Cursor.visible = false;
         yield return waitForHalfSecond;
         //Checks if the first pick and the second match and that is not the same button pressed twice
         if (firstGuessPuzzle == secondGuessPuzzle && firstGuessIndex != secondGuessIndex)
@@ -280,9 +282,11 @@ public class MemoryGameController : Minigame
             yield return waitForOnefSecond;
             Destroy(thumbDown);
         }
-        yield return waitForHalfSecond;
-
+        
         firstGuess = secondGuess = false;
+        
+        Cursor.lockState = CursorLockMode.None;
+        Cursor.visible = true;
     }
     #endregion
 }
