@@ -499,7 +499,6 @@ MonoBehaviour:
     type: 3}
   canvas: {fileID: 1573289631283948232}
   puzzleField: {fileID: 2991617731724182519}
-  continueButton: {fileID: 0}
   cardCover: {fileID: 2104175589, guid: cb3b4ff2b3ddf8742894b43900267995, type: 3}
   puzzleSprites:
   - {fileID: 798162721, guid: 0db30bb4edc1a7140abbbe1341ebb5c9, type: 3}
