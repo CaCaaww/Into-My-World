@@ -29,10 +29,6 @@ public class MathWarGameController : Minigame
     private GameObject floor7;
     [SerializeField, Tooltip("Floor Object 8")]
     private GameObject floor8;
-    [SerializeField]
-    private GameObject thumb;
-    [SerializeField]
-    private GameObject continueButton;
 
     //James Trying to fix whatever this mess is
     [SerializeField] private GenericEventChannelSO<QuitButtonEvent> quitButtonEventChanel;
@@ -178,8 +174,6 @@ public class MathWarGameController : Minigame
         //James fixing 
         // if all enemies in the last column are defeated, then the game is won
         if (enemiesDefeatedInCurrentColumn == 3 && currentColumn == 2) {
-            thumb.SetActive(true);
-            continueButton.SetActive(true);
             minigameCompleteEventChannel.RaiseEvent(new MinigameCompleteEvent(this));
 
             /* ========================== SEND DATA TO SERVER HERE ==============================*/
