@@ -33,9 +33,6 @@ public class MemoryGameController : Minigame
     [Tooltip("The panel")]
     [SerializeField]
     private Transform puzzleField;
-    [Tooltip("Beating a minigame shows this backdrop")]
-    [SerializeField]
-    private GameObject continueButton;
 
     [Header("Sprites")]
     [Tooltip("The back image of the card")]
@@ -176,7 +173,6 @@ public class MemoryGameController : Minigame
         {
             GameObject GameCoplete = Instantiate(GameCopletePrefab);
             GameCoplete.transform.SetParent(canvas, false);
-            continueButton.SetActive(true);
             minigameCompleteEventChannel.RaiseEvent(new MinigameCompleteEvent(this));
             //Debug.Log("It took you " + countGuesses + " many guesses to finish the game");
 

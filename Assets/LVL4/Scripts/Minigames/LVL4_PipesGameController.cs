@@ -31,8 +31,6 @@ public class LVL4_PipesGameController : Minigame
     [SerializeField]
     private GameObject GameCompletePrefab;
 
-    [SerializeField]
-    private GameObject continueButton;
 
     [Tooltip("The canvas")]
     [SerializeField]
@@ -479,7 +477,6 @@ public class LVL4_PipesGameController : Minigame
 
             // Instantiate the continue button prefab
             // The index of continue button in the Unity hierarchy
-            continueButton.SetActive(true);
             minigameCompleteEventChannel.RaiseEvent(new MinigameCompleteEvent(this));
 
             /* ========================== SEND DATA TO SERVER HERE ============================== */
