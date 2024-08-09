@@ -266,7 +266,7 @@ public class CellGuard : MonoBehaviour
                                             int j;
                                             for (j = 0; j < items.Count; j++) {
                                                 if (items[j] != null) {
-                                                    questItems[j] = "something" + items[j].itemTags[0] + ", " + items[j].itemTags[1] + ", " + items[j].itemTags[2] + "";
+                                                    questItems[j] = "something " + items[j].itemTags[0] + ", " + items[j].itemTags[1] + ", " + items[j].itemTags[2] + "";
                                                 }
                                             }
                                             for (; j < 3; j++) {

@@ -390,6 +390,8 @@ MonoBehaviour:
   completeDialogue: Thank you for giving me all of the items.
   angryDialogue: That is not an item I asked for!
   correctItemDialogue: This item is correct. Thank you!
+  playerIsBusyDialogue: I see that you already have a quest, so I won't task you
+    with mine yet. Visit me again when you don't have a quest.
   cellGuardModels:
   - {fileID: 897262184509383712, guid: db4bdeeaaa9b8ab68a87bfc000af5630, type: 3}
   - {fileID: 7306503956860966316, guid: eab4cebcbd41a54579ac4b0b3f7a2a8f, type: 3}
